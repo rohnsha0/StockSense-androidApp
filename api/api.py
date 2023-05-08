@@ -2,12 +2,12 @@ import datetime
 import yfinance as yf
 
 
-startDate= datetime.datetime.now() - datetime.timedelta(days=121)
-endDate= datetime.datetime.now() - datetime.timedelta(days=61)
+startDate= datetime.datetime.now() - datetime.timedelta(days=365*2)
+endDate= datetime.datetime.now()
 
-symbol = '^NSEI'
-data = yf.download(tickers=symbol, interval="30m", start=startDate, end=endDate)
-with open(f'../dataset/{symbol}.csv', mode='a', newline='') as z:
+symbol = 'ITC.NS'
+data = yf.download(tickers=symbol, interval="1d", start=startDate, end=endDate)
+with open(f'../dataset/{symbol}-test.csv', mode='a', newline='') as z:
     data.to_csv(z, header=z.tell() == 0)
 
 print(f"Data retrieved & Updated for symbol: {symbol} at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
