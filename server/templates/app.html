@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Realtime Stock Prediction</title>
+</head>
+<body>
+    <h1>Flask Server Example</h1>
+    <form action="/process_input" method="post">
+        <label for="input">Input:</label>
+        <input type="text" id="input" name="input">
+        <input type="submit" value="Submit">
+    </form>
+    <h2>Output:</h2>
+    <div id="output">{{ output }}</div>
+</body>
+</html>
