@@ -1,0 +1,18 @@
+.navbar{
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+#navbar-title{
+    color: blueviolet;
+    font-weight: bolder;
+}
+
+/* Body Formattings */
+
+#sectionOne{
+    margin-right: 13px;
+    margin-left: 13px;
+    margin-top: 15px;
+}
