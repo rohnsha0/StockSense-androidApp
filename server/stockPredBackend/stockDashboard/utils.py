@@ -5,6 +5,26 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from flask import Response
+import yfinance as yf
+import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
+
+
+def dataRetrieval(symbol):
+    data = yf.download(tickers=symbol, interval="30m", period="1d")
+    with open(file=f'../dataset/{symbol}.csv', mode='a', newline='') as dataUpdated:
+        data.to_csv(dataUpdated, header=dataUpdated.tell() == 0)
+    print('Data retrieved & Updated at', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    return data
+
+
+def automaticUpdation(func):
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func={func}, trigger=IntervalTrigger(minutes=30),
+                      start_date=datetime.datetime.now().replace(hour=9, minute=15, second=0),
+                      end_date=datetime.datetime.now().replace(hour=15, minute=30, second=0), timezone='Asia/Kolkata')
+    scheduler.start()
 
 
 def loadDS(companyName):
@@ -53,7 +73,7 @@ def plotView(companyName, realStockPrice, predictedPrice):
 
 def frontendPlot(companyName, realStockPrice, predictedPrice):
     plotView(companyName, realStockPrice, predictedPrice)
-    buffer= io.BytesIO()
+    buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
     plt.clf()
