@@ -6,18 +6,66 @@
 
 <div id="dashInfos">
     <h2>{{scriptName}}</h2>
-    <p id="sectorP">Sector: {{scriptSector}}</p>
+    <div class="sectorP">
+      <p class="lightTxt">
+        Sector: 
+        <span class="nrmlTxt">
+          {{scriptSector}}
+        </span>
+      </p>
+    </div>
+    <!-- <p id="sectorP">Sector: {{scriptSector}}</p> -->
 </div>
 
 <div class="container text-left" id="sectionTwo">
     <div class="row">
-      <div class="col">
-        lalalal
+      <div class="col" id="ltpp">
+        <h2 id="LTPcontainer">{{LTP}}</h2>
+        <p>
+          {{ change }}
+        </p>
+        <div class="sectorP", id="updatTime">
+          <p class="lightTxt">
+            as on:
+            <span class="nrmlTxt">
+              {{updationTime}}
+            </span>
+          </p>
+        </div>
       </div>
       <div class="col">
-        Column
+        <div class="row">
+          <h3 class="addInfo">
+            {{ high }}<span>/</span>{{ low }}
+          </h3>
+          <p class="captiontext">Day's High/Low</p>
+        </div>
+        <div class="row">
+          <h3 class="addInfo">
+            {{ 52wkHigh }}<span>/</span>{{ 52wkLow }}
+          </h3>
+          <p class="captiontext">52-week High/Low</p>
+        </div>
+      </div>
+      <div class="col container">
+        <div class="row">
+          <div class="col">
+            <p class="addInfo">{{ isin }}</p>
+            <p class="rightSector">ISIN</p>
+          </div>
+          <div class="col">
+            <p class="addInfo">{{PE}}</p>
+            <p class="rightSector">P/E ratio</p>
+          </div>
+          <div class="col">
+            <p class="addInfo">{{ netMargin }}</p>
+            <span class="rightSector">
+              Net Margin
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </div
 
 {% endblock %}

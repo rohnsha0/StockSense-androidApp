@@ -1,10 +1,11 @@
-import io
+import json
+from django.http import JsonResponse
 from tensorflow import keras
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from flask import Response
+import plotly.graph_objects as go
 import yfinance as yf
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -70,14 +71,3 @@ def plotView(companyName, realStockPrice, predictedPrice):
     plt.legend()
     plt.show()
 
-
-def frontendPlot(companyName, realStockPrice, predictedPrice):
-    plotView(companyName, realStockPrice, predictedPrice)
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    plt.clf()
-    return Response(buffer.getvalue(), mimetype='image/png')
-
-
-loadDS('ITC.NS')
