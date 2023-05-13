@@ -23,7 +23,7 @@ def dashboard(request):
     tickerInfo= ticker.info
     tickerHist1y= round(ticker.history(period='1y'), 2)
 
-    #contexts JSON
+    # contexts JSON
     context = {
         'scriptName': scriptName,
         'scriptSector': scriptSector,
@@ -36,6 +36,9 @@ def dashboard(request):
         'isin': ticker.isin,
         'PE': round(tickerInfo['trailingPE'], 2),
         'netMargin': round(tickerInfo['profitMargins'], 2),
+        'divYield': round(tickerInfo['dividendYield'], 2),
+        'marketcap': round((tickerInfo['marketCap']/10000000), 0),
+        'beta': round(tickerInfo['beta'], 2),
         'change': round(ticker1d1m['Close'][-1] - ticker1d1m['Close'][0], 2),
     }
     return render(request, 'stockDashboard/dashboard.html', context)
