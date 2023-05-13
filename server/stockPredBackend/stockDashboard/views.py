@@ -16,21 +16,27 @@ def dashboard(request):
     request.session['inputData'] = inputData
     ticker = yf.Ticker(f'{inputData}')
     scriptName, scriptSector = externals.stockName(inputData)
-    priceChange = round(ticker.history(period='1d', interval='1m')['Close'][-1]) - round(ticker.history(period='1d', interval='1m')['Close'][0])
 
+    # api calls
+    ticker1d= round(ticker.history(period='1d'), 2)
+    ticker1d1m= round(ticker.history(period='1d', interval='1m'), 2)
+    tickerInfo= ticker.info
+    tickerHist1y= round(ticker.history(period='1y'), 2)
+
+    #contexts JSON
     context = {
         'scriptName': scriptName,
         'scriptSector': scriptSector,
-        'LTP': round(ticker.history(period='1d', interval='1m')['Close'].iloc[-1], 2),
-        'high': round(ticker.history(period='1d')['High'].iloc[-1], 2),
-        'low': round(ticker.history(period='1d')['Low'].iloc[-1], 2),
+        'LTP': ticker1d1m['Close'].iloc[-1],
+        'high': ticker1d['High'].iloc[-1],
+        'low': ticker1d['Low'].iloc[-1],
         'updationTime': datetime.datetime.now().strftime('%H:%M:%S'),
-        '52wkHigh': round(ticker.history(period='1y')['High'].max(), 2),
-        '52wkLow': round(ticker.history(period='1y')['Low'].min(), 2),
+        '52wkHigh': tickerHist1y['High'].max(),
+        '52wkLow': tickerHist1y['Low'].min(),
         'isin': ticker.isin,
-        'PE': round(ticker.info['trailingPE'], 2),
-        'netMargin': round(ticker.info['profitMargins'], 2),
-        'change': priceChange
+        'PE': round(tickerInfo['trailingPE'], 2),
+        'netMargin': round(tickerInfo['profitMargins'], 2),
+        'change': round(ticker1d1m['Close'][-1] - ticker1d1m['Close'][0], 2),
     }
     return render(request, 'stockDashboard/dashboard.html', context)
 
