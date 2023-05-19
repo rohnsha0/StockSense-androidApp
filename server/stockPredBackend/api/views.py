@@ -1,16 +1,12 @@
-import json
-
 import numpy as np
 import pandas as pd
-from django.shortcuts import render
 from django.views.generic import View
 from django.http import JsonResponse
 import yfinance as yf
 from datetime import datetime, timedelta
 from sklearn.preprocessing import MinMaxScaler
-import tensorflow as tf
 from tensorflow import keras
-import matplotlib.pyplot as plt
+
 
 class stockDataView(View):
     def get(self, request, symbol):

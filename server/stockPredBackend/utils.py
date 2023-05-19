@@ -1,11 +1,8 @@
-import json
-from django.http import JsonResponse
 from tensorflow import keras
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 import yfinance as yf
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
