@@ -22,12 +22,23 @@ class MainActivity : AppCompatActivity() {
             if (inputSymbol== ""){
                 Toast.makeText(
                     this@MainActivity,
-                    "enter a valid input",
+                    "Enter a valid input",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                inputSymbol= "${inputSearch.text.toString()}.NS"
+                if (inputSymbol.matches(Regex("[a-zA-Z]+"))){
+                    inputSymbol= "${inputSearch.text.toString()}.NS"
 
+                    val intent= Intent(this, stocksInfo::class.java)
+                    intent.putExtra("symbol", inputSymbol)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Your input is not a valid symbol",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
