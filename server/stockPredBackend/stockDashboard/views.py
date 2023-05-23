@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 import yfinance as yf
 import datetime
@@ -16,6 +17,8 @@ def dashboard(request):
     ticker1d1m= round(ticker.history(period='1d', interval='1m'), 2)
     tickerInfo= ticker.info
     tickerHist1y= round(ticker.history(period='1y'), 2)
+    print("sending model api request")
+    predictionAPI = requests.get(f'http://127.0.0.1:8000/api/query/{inputData}').json()
 
     # contexts JSON
     context = {
@@ -34,5 +37,6 @@ def dashboard(request):
         'marketcap': round((tickerInfo['marketCap']/10000000), 0),
         'beta': round(tickerInfo['beta'], 2),
         'change': round(ticker1d1m['Close'][-1] - ticker1d1m['Close'][0], 2),
+        'prediction30M_close': round(predictionAPI['close'], 2)
     }
     return render(request, 'stockDashboard/dashboard.html', context)

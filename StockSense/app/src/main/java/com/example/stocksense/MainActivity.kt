@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             if (inputSymbol== ""){
                 Toast.makeText(
                     this@MainActivity,
-                    "Enter a valid input",
+                    "Field can't be null",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         this@MainActivity,
-                        "Your input is not a valid symbol",
+                        "Enter a valid input",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

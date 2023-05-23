@@ -64,5 +64,5 @@ class stockDataView(View):
         realData = np.reshape(realData, newshape=(realData.shape[0], realData.shape[1], 1))
         prediction = regressor.predict(realData)
         prediction = scaler.inverse_transform(prediction)
-        print(prediction)
-        return JsonResponse({F'prediction for {symbol}': prediction.tolist()})
+        prediction= round(prediction[0][0], 2)
+        return JsonResponse({'close': float(prediction)})
