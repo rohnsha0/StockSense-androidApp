@@ -26,6 +26,7 @@ data class Result(
         val symbol: String,
         val name: String,
         val regularMarketPrice: Number,
+        val previousClose: Number,
         val change: Double,
         val stockVolume: Int
     )
@@ -38,7 +39,6 @@ class stockDataFetcher{
         val responseBody= response.body
         val json = responseBody?.string()
         Log.d("stockDataFetcher","JSON Response: $json")
-
         val gson = Gson()
         val stockDataResponse = gson.fromJson(json, StockDataResponse::class.java)
         return stockDataResponse.chart.result[0].meta
@@ -60,12 +60,16 @@ class stocksInfo : AppCompatActivity() {
 
         val inpSymbol= intent.getStringExtra("symbol").toString()
         val stockName= findViewById<TextView>(R.id.tvName)
+        val stockLTP= findViewById<TextView>(R.id.stockPrice)
+        val stockChange= findViewById<TextView>(R.id.change)
 
         val stockDataFtcher= stockDataFetcher()
         GlobalScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
             launch(Dispatchers.Main){
-                stockName.text= stockDataBody.regularMarketPrice.toString()
+                stockName.text= stockDataBody.symbol
+                stockLTP.text= stockDataBody.regularMarketPrice.toString()
+                stockChange.text= (stockDataBody.regularMarketPrice.toInt()-stockDataBody.previousClose.toInt()).toString()
             }
         }
     }

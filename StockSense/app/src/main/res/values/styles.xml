@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="brandSetups">
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:textColor">#9C27B0</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+</resources>

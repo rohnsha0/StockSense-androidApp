@@ -3,8 +3,7 @@ package com.example.stocksense
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.widget.SearchView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -13,32 +12,33 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val inputSearch= findViewById<EditText>(R.id.inpSearch)
-        val btnSearch= findViewById<Button>(R.id.btnfetch)
-        var inputSymbol= ""
+        val searchView= findViewById<SearchView>(R.id.searchClick)
 
-        btnSearch.setOnClickListener {
-            inputSymbol= inputSearch.text.toString()
-            if (inputSymbol== ""){
-                Toast.makeText(
-                    this@MainActivity,
-                    "Field can't be null",
-                    Toast.LENGTH_SHORT
-                ).show()
+        searchView.background = null
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean{
+                performSearch(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+    }
+    private fun performSearch(query: String?) {
+        if (query.isNullOrEmpty()) {
+            Toast.makeText(this@MainActivity, "Field can't be null", Toast.LENGTH_SHORT).show()
+        } else {
+            if (query.matches(Regex("[a-zA-Z]+"))) {
+                val inputSymbol = "$query.NS"
+
+                val intent = Intent(this, stocksInfo::class.java)
+                intent.putExtra("symbol", inputSymbol)
+                startActivity(intent)
             } else {
-                if (inputSymbol.matches(Regex("[a-zA-Z]+"))){
-                    inputSymbol= "${inputSearch.text.toString()}.NS"
-
-                    val intent= Intent(this, stocksInfo::class.java)
-                    intent.putExtra("symbol", inputSymbol)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Enter a valid input",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                Toast.makeText(this@MainActivity, "Enter a valid input", Toast.LENGTH_SHORT).show()
             }
         }
     }

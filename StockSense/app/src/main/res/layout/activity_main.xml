@@ -4,40 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="335dp"
-        android:layout_height="62dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286">
+        app:layout_constraintVertical_bias="0.0">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inpSearch"
+        <TextView
+            android:id="@+id/topbarBrand"
+            android:text="StockSense."
+            style="@style/brandSetups"/>
+
+        <SearchView
+            android:id="@+id/searchClick"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your symbol"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.408" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search your Symbol"
+            android:queryBackground="@android:color/transparent" />
 
-    <Button
-        android:id="@+id/btnfetch"
-        android:layout_width="95dp"
-        android:layout_height="55dp"
-        android:text="Fetch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.399" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
