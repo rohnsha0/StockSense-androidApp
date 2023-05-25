@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace 'com.example.stocksense'
+    namespace 'com.rohnsha.stocksense'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.stocksense"
+        applicationId "com.rohnsha.stocksense"
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "0.8.28-alpha"
+        versionCode 2
+        versionName "0.8.37b-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
