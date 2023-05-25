@@ -1,4 +1,5 @@
 package com.example.stocksense
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
+import android.view.View
 
 data class StockDataResponse(
     val chart: Chart
@@ -33,15 +35,20 @@ data class Result(
 }
 
 class stockDataFetcher{
-    suspend fun getStockData(symbol: String): Result.Meta{
+    suspend fun getStockData(symbol: String): Result.Meta?{
         val url= "https://query1.finance.yahoo.com/v8/finance/chart/$symbol"
-        val response = OkHttpClient().newCall(Request.Builder().url(url).build()).execute()
-        val responseBody= response.body
-        val json = responseBody?.string()
-        Log.d("stockDataFetcher","JSON Response: $json")
-        val gson = Gson()
-        val stockDataResponse = gson.fromJson(json, StockDataResponse::class.java)
-        return stockDataResponse.chart.result[0].meta
+        try {
+            val response = OkHttpClient().newCall(Request.Builder().url(url).build()).execute()
+            val responseBody= response.body
+            val json = responseBody?.string()
+            Log.d("stockDataFetcher","JSON Response: $json")
+            val gson = Gson()
+            val stockDataResponse = gson.fromJson(json, StockDataResponse::class.java)
+            return stockDataResponse.chart.result[0].meta
+        } catch (e: Exception){
+            Log.e("stockDataFetcher", "Error fetching stock data: ${e.message}")
+            return null
+        }
     }
     private suspend fun makeRequest(url: String): ResponseBody?{
         val client = OkHttpClient()
@@ -59,6 +66,7 @@ class stocksInfo : AppCompatActivity() {
         setContentView(R.layout.activity_stocks_info)
 
         val inpSymbol= intent.getStringExtra("symbol").toString()
+
         val stockName= findViewById<TextView>(R.id.tvName)
         val stockLTP= findViewById<TextView>(R.id.stockPrice)
         val stockChange= findViewById<TextView>(R.id.change)
@@ -67,9 +75,14 @@ class stocksInfo : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
             launch(Dispatchers.Main){
-                stockName.text= stockDataBody.symbol
-                stockLTP.text= stockDataBody.regularMarketPrice.toString()
-                stockChange.text= (stockDataBody.regularMarketPrice.toInt()-stockDataBody.previousClose.toInt()).toString()
+                if (stockDataBody!=null){
+                    stockName.text= stockDataBody.symbol
+                    stockLTP.text= stockDataBody.regularMarketPrice.toString()
+                    stockChange.text= (stockDataBody.regularMarketPrice.toInt()-stockDataBody.previousClose.toInt()).toString()
+                } else {
+                    val errorIntent = Intent(this@stocksInfo, errorPage::class.java)
+                    startActivity(errorIntent)
+                }
             }
         }
     }
