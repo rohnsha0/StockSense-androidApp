@@ -90,6 +90,31 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/updationPane"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/updationnTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:text="Last Updated: " />
+
+            <ImageView
+                android:id="@+id/refreshTag"
+                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:layout_height="18dp"
+                android:contentDescription="refesh"
+                android:src="@drawable/ic_refresh" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/predictionPane"
             android:visibility="gone"
             android:layout_width="match_parent"
