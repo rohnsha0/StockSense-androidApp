@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".splashScreen">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="183dp"
+        android:layout_height="156dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="326dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="326dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ico_updated" />
+
+    <TextView
+        android:id="@+id/splashTexxt"
+        android:textStyle="bold"
+        android:textColor="#CCCCCC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="An OPEN-SOURCED Project"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintVertical_bias="0.947" />
+</androidx.constraintlayout.widget.ConstraintLayout>

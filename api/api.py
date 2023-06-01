@@ -1,11 +1,11 @@
 import datetime
 import yfinance as yf
 
-startDate = datetime.datetime.now() - datetime.timedelta(days=365 * 2)
-endDate = datetime.datetime.now()  # - datetime.timedelta(days=365*2)
+startDate = max
+endDate = datetime.datetime.now()  - datetime.timedelta(days=90)
 
 symbol = 'M&M.NS'
-data = yf.download(tickers=symbol, interval="1d", start=startDate, end=endDate)
+data = yf.download(tickers=symbol, interval="1d", period='max', end=endDate)
 with open(f'../dataset/{symbol}-test.csv', mode='a', newline='') as z:
     data.to_csv(z, header=z.tell() == 0)
 

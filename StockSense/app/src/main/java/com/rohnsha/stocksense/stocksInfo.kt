@@ -1,5 +1,6 @@
 package com.rohnsha.stocksense
 import android.content.Intent
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,8 +9,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -33,10 +37,10 @@ data class Result(
     data class Meta(
         val symbol: String,
         val name: String,
-        val regularMarketPrice: Number,
+        val regularMarketPrice: Float,
         val regularMarketTime: Double,
-        val previousClose: Number,
-        val change: Double,
+        val previousClose: Float,
+        val change: Float,
         val stockVolume: Int
     )
 }
@@ -57,6 +61,7 @@ class stockDataFetcher{
             return null
         }
     }
+
     private suspend fun makeRequest(url: String): ResponseBody?{
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
@@ -75,6 +80,8 @@ class stocksInfo : AppCompatActivity() {
         val inpSymbol= intent.getStringExtra("symbol").toString()
 
         val stockName= findViewById<TextView>(R.id.tvName)
+        stockName.typeface = Typeface.create(stockName.typeface, Typeface.BOLD)
+
         val stockLTP= findViewById<TextView>(R.id.stockPrice)
         val stockChange= findViewById<TextView>(R.id.change)
         val topLay= findViewById<LinearLayout>(R.id.topBarLayout)
@@ -84,9 +91,12 @@ class stocksInfo : AppCompatActivity() {
         val updationPane= findViewById<LinearLayout>(R.id.updationPane)
         val updateLTP= findViewById<ImageView>(R.id.refreshTag)
         val stockMarketTime= findViewById<TextView>(R.id.updationnTime)
+        val backBTN= findViewById<ImageView>(R.id.backBTN)
 
-
-
+        backBTN.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
 
         val stockDataFtcher= stockDataFetcher()
         GlobalScope.launch(Dispatchers.IO){
@@ -100,11 +110,14 @@ class stocksInfo : AppCompatActivity() {
 
                     stockName.text= stockDataBody.symbol
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
-                    stockChange.text= (stockDataBody.regularMarketPrice.toInt()-stockDataBody.previousClose.toInt()).toString()
+                     val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
+                    stockChange.text= String.format("%.2f", change).toFloat().toString()
                     val currentTime = Date()
                     val formatter = SimpleDateFormat("HH:mm:ss")
                     val formattedTime = formatter.format(currentTime)
                     stockMarketTime.text= "Last Updated at: $formattedTime"
+
+                    startPriceUpdateLoop()
 
                     updateLTP.setOnClickListener {
                         updateStockPrice(inpSymbol)
@@ -119,6 +132,18 @@ class stocksInfo : AppCompatActivity() {
         }
     }
 
+    private var priceUpdateJob: Job? = null
+    private fun startPriceUpdateLoop() {
+        val inpSymbol= intent.getStringExtra("symbol").toString()
+        priceUpdateJob?.cancel()
+        priceUpdateJob = CoroutineScope(Dispatchers.Main).launch {
+            while (true) {
+                updateStockPrice(inpSymbol)
+                delay(10000)
+            }
+        }
+    }
+
     private fun updateStockPrice(symbol: String){
         val stockDataFtcher= stockDataFetcher()
         val stockMarketTime= findViewById<TextView>(R.id.updationnTime)
@@ -127,7 +152,7 @@ class stocksInfo : AppCompatActivity() {
             val stockDataBody= stockDataFtcher.getStockData(symbol)
             launch(Dispatchers.Main){
                 if(stockDataBody!=null){
-                    stockLTP.text= stockDataBody.regularMarketPrice.toString()
+                    stockLTP.text= "₹" + stockDataBody.regularMarketPrice.toString()
                     val currentTime = Date()
                     val formatter = SimpleDateFormat("HH:mm:ss")
                     val formattedTime = formatter.format(currentTime)
@@ -148,5 +173,15 @@ class stocksInfo : AppCompatActivity() {
             val length = prediction?.length
         }
         return prediction
+    }
+
+    override fun onPause() {
+        super.onPause()
+        priceUpdateJob?.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        priceUpdateJob?.cancel()
     }
 }

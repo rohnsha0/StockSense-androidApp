@@ -21,6 +21,7 @@
         <TextView
             android:id="@+id/topbarBrand"
             android:text="StockSense."
+            android:fontFamily="@font/titilliumweb_semi_bold"
             style="@style/brandSetups"/>
 
         <SearchView

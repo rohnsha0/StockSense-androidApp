@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#E69C27B0"
     tools:context=".stocksInfo">
 
     <LinearLayout
@@ -14,10 +15,10 @@
 
         <LinearLayout
             android:id="@+id/errorLayout"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/errorImageView"
@@ -37,9 +38,9 @@
 
             <TextView
                 android:id="@+id/errorMSG"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Oops there was an issue" />
         </LinearLayout>
 
@@ -50,51 +51,94 @@
             android:gravity="center"
             android:paddingTop="250dp"
             android:text="Loading...."
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/topBarLayout"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="75dp">
-            <TextView
-                android:id="@+id/tvName"
-                android:text="stockPrice"
-                android:textAlignment="inherit"
-                style="@style/brandSetups"/>
+            android:layout_height="54dp"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/backBTN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_back" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/brandSetups"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:gravity="center"
+                    android:paddingStart="0dp"
+                    android:paddingTop="0dp"
+                    android:text="stockPrice"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/LTPLayout"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/stockPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="64dp"
-                android:paddingStart="15dp"
-                android:paddingTop="10dp"
-                android:textStyle="bold"
-                android:text="LTP"/>
-            <TextView
-                android:id="@+id/change"
-                android:paddingStart="8dp"
-                android:paddingBottom="15dp"
+            android:layout_height="438dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="22dp"
-                android:gravity="bottom"
-                android:text="change"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/stockPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titillium_web_bold"
+                    android:paddingTop="5dp"
+                    android:text="LTP"
+                    android:textColor="@color/white"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    android:text="change"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="@+id/stockPrice"
+                    app:layout_constraintStart_toStartOf="@+id/stockPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/updationPane"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/updationnTime"
@@ -106,8 +150,8 @@
             <ImageView
                 android:id="@+id/refreshTag"
                 android:layout_width="wrap_content"
-                android:layout_gravity="left"
                 android:layout_height="18dp"
+                android:layout_gravity="left"
                 android:contentDescription="refesh"
                 android:src="@drawable/ic_refresh" />
 
@@ -115,54 +159,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/predictionPane"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"></LinearLayout>
-
+            android:layout_height="450dp"
+            android:background="@drawable/dashboard_white_bg"
+            android:orientation="vertical"
+            android:layout_weight="1">
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

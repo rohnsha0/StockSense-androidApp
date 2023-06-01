@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
+import android.window.SplashScreen
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, stocksInfo::class.java)
                 intent.putExtra("symbol", inputSymbol)
                 startActivity(intent)
-
             } else {
                 Toast.makeText(this@MainActivity, "Enter a valid input", Toast.LENGTH_SHORT).show()
             }
