@@ -89,6 +89,7 @@ class stocksInfo : AppCompatActivity() {
         val loadingTxt= findViewById<TextView>(R.id.loadingView)
         val errorTxt= findViewById<LinearLayout>(R.id.errorLayout)
         val updationPane= findViewById<LinearLayout>(R.id.updationPane)
+        val bgMain= findViewById<LinearLayout>(R.id.background_main_dash)
         val updateLTP= findViewById<ImageView>(R.id.refreshTag)
         val stockMarketTime= findViewById<TextView>(R.id.updationnTime)
         val backBTN= findViewById<ImageView>(R.id.backBTN)
@@ -106,6 +107,7 @@ class stocksInfo : AppCompatActivity() {
                     topLay.visibility= View.VISIBLE
                     ltpLay.visibility= View.VISIBLE
                     updationPane.visibility= View.VISIBLE
+                    bgMain.visibility= View.VISIBLE
                     loadingTxt.visibility= View.GONE
 
                     stockName.text= stockDataBody.symbol

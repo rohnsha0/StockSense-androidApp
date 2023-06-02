@@ -48,16 +48,18 @@
             android:id="@+id/loadingView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="@font/titilliumweb_semi_bold"
             android:gravity="center"
             android:paddingTop="250dp"
             android:text="Loading...."
-            android:visibility="gone" />
+            android:textColor="@color/white"
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/topBarLayout"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -98,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="438dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -129,41 +131,133 @@
                     app:layout_constraintEnd_toEndOf="@+id/stockPrice"
                     app:layout_constraintStart_toStartOf="@+id/stockPrice"
                     app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
+
+                <LinearLayout
+                    android:id="@+id/updationPane"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/updationnTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tag_bg"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:paddingStart="9dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="9dp"
+                        android:paddingBottom="3dp"
+                        android:text="Last Updated: "
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/refreshTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_gravity="left"
+                        android:contentDescription="refesh"
+                        android:src="@drawable/ic_refresh"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/updationPane"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/updationnTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:text="Last Updated: " />
-
-            <ImageView
-                android:id="@+id/refreshTag"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_gravity="left"
-                android:contentDescription="refesh"
-                android:src="@drawable/ic_refresh" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:id="@+id/background_main_dash"
             android:layout_width="match_parent"
             android:layout_height="450dp"
+            android:layout_weight="1"
             android:background="@drawable/dashboard_white_bg"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp">
+
+                    <View
+                        android:id="@+id/predictionView"
+                        android:layout_width="100dp"
+                        android:layout_height="49dp"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/dash_btn"
+                        android:elevation="2dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="37dp"
+                        android:layout_height="33dp"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/predictionView"
+                        app:layout_constraintEnd_toEndOf="@+id/predictionView"
+                        app:layout_constraintStart_toStartOf="@+id/predictionView"
+                        app:layout_constraintTop_toTopOf="@+id/predictionView"
+                        app:srcCompat="@drawable/prediction_btn" />
+
+                    <TextView
+                        android:id="@+id/btnPrediction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Predictions"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/predictionView"
+                        app:layout_constraintStart_toStartOf="@+id/predictionView"
+                        app:layout_constraintTop_toBottomOf="@+id/predictionView" />
+
+                    <View
+                        android:id="@+id/technicalView"
+                        android:layout_width="100dp"
+                        android:layout_height="49dp"
+                        android:background="@drawable/dash_btn"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/predictionView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/predictionView"
+                        app:layout_constraintTop_toTopOf="@+id/predictionView" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="37dp"
+                        android:layout_height="33dp"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/technicalView"
+                        app:layout_constraintEnd_toEndOf="@+id/technicalView"
+                        app:layout_constraintStart_toStartOf="@+id/technicalView"
+                        app:layout_constraintTop_toTopOf="@+id/technicalView"
+                        app:srcCompat="@drawable/trend_down" />
+
+                    <TextView
+                        android:id="@+id/btnTechnical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Technicals"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/technicalView"
+                        app:layout_constraintStart_toStartOf="@+id/technicalView"
+                        app:layout_constraintTop_toBottomOf="@+id/technicalView" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
