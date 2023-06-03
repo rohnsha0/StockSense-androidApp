@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import android.window.SplashScreen
+import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,6 +18,7 @@ import okhttp3.Request
 import okhttp3.ResponseBody
 import java.io.File
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

@@ -80,8 +80,6 @@ class stocksInfo : AppCompatActivity() {
         val inpSymbol= intent.getStringExtra("symbol").toString()
 
         val stockName= findViewById<TextView>(R.id.tvName)
-        stockName.typeface = Typeface.create(stockName.typeface, Typeface.BOLD)
-
         val stockLTP= findViewById<TextView>(R.id.stockPrice)
         val stockChange= findViewById<TextView>(R.id.change)
         val topLay= findViewById<LinearLayout>(R.id.topBarLayout)
@@ -93,6 +91,11 @@ class stocksInfo : AppCompatActivity() {
         val updateLTP= findViewById<ImageView>(R.id.refreshTag)
         val stockMarketTime= findViewById<TextView>(R.id.updationnTime)
         val backBTN= findViewById<ImageView>(R.id.backBTN)
+        val predView= findViewById<View>(R.id.predictionView)
+
+        predView.setOnClickListener {
+            startActivity(Intent(this, prediction::class.java))
+        }
 
         backBTN.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))

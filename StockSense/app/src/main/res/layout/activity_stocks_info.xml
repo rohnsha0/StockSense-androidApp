@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:scrollbars="none"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#E69C27B0"
+    android:background="#347AF0"
     tools:context=".stocksInfo">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -53,13 +54,21 @@
             android:paddingTop="250dp"
             android:text="Loading...."
             android:textColor="@color/white"
-            android:visibility="visible" />
+            android:visibility="gone"
+            app:flow_verticalAlign="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/topBarLayout"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:visibility="gone">
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -67,6 +76,7 @@
 
                 <ImageView
                     android:id="@+id/backBTN"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -100,7 +110,10 @@
             android:layout_width="match_parent"
             android:layout_height="438dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topBarLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -179,17 +192,17 @@
             android:layout_weight="1"
             android:background="@drawable/dashboard_white_bg"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/LTPLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="20dp">
+                    android:layout_height="wrap_content">
 
                     <View
                         android:id="@+id/predictionView"
@@ -256,10 +269,56 @@
                         app:layout_constraintEnd_toEndOf="@+id/technicalView"
                         app:layout_constraintStart_toStartOf="@+id/technicalView"
                         app:layout_constraintTop_toBottomOf="@+id/technicalView" />
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Predictions"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.505"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:icon="@drawable/prediction_btn" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:id="@+id/predBTN"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp"
+                        android:background="@drawable/pred_btn"
+                        android:text="Predictions"
+                        android:elevation="5dp"
+                        android:visibility="gone"
+                        app:icon="@drawable/prediction_btn"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Recent Closures"
+                        android:textSize="15sp"
+                        android:layout_marginStart="25dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
