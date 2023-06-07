@@ -4,10 +4,69 @@
         <item name="android:paddingStart">15dp</item>
         <item name="android:paddingTop">18dp</item>
         <item name="android:textColor">#9C27B0</item>
-        <item name="android:textSize">30dp</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_height">75dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="upTrendTxt">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="fontFamily">@font/titilliumweb_semi_bold</item>
+        <item name="android:textColor">#4CAF50</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="trendDate">
+        <item name="fontFamily">@font/titilliumweb_regular</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginTop">-3dp</item>
+    </style>
+
+    <style name="iconDash">
+        <item name="android:layout_width">24sp</item>
+        <item name="android:layout_height">24sp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:src">@drawable/baseline_trending_up_24</item>
+        <item name="background">@drawable/icon_round_bg</item>
+    </style>
+
+    <style name="priceDash">
+        <item name="fontFamily">@font/titilliumweb_semi_bold</item>
+        <item name="android:layout_marginStart">60dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">28dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="downTrend">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="fontFamily">@font/titilliumweb_semi_bold</item>
+        <item name="android:textColor">#F44336</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="predTitle">
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:textColor">#B5BBC9</item>
+        <item name="fontFamily">@font/titilliumweb_semi_bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="predSubTitle">
+        <item name="android:layout_marginTop">-1dp</item>
+        <item name="fontFamily">@font/titilliumweb_regular</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="predButton" parent="Widget.AppCompat.Button">
+        <item name="background">@color/dash_bg</item>
     </style>
 </resources>

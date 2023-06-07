@@ -1,4 +1,5 @@
 package com.rohnsha.stocksense
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +8,10 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +77,7 @@ class stockDataFetcher{
 
 class stocksInfo : AppCompatActivity() {
     private lateinit var stockName: TextView
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stocks_info)
@@ -84,7 +89,7 @@ class stocksInfo : AppCompatActivity() {
         val stockChange= findViewById<TextView>(R.id.change)
         val topLay= findViewById<LinearLayout>(R.id.topBarLayout)
         val ltpLay= findViewById<LinearLayout>(R.id.LTPLayout)
-        val loadingTxt= findViewById<TextView>(R.id.loadingView)
+        val loadingTxt= findViewById<ConstraintLayout>(R.id.loadingView)
         val errorTxt= findViewById<LinearLayout>(R.id.errorLayout)
         val updationPane= findViewById<LinearLayout>(R.id.updationPane)
         val bgMain= findViewById<LinearLayout>(R.id.background_main_dash)
@@ -92,9 +97,12 @@ class stocksInfo : AppCompatActivity() {
         val stockMarketTime= findViewById<TextView>(R.id.updationnTime)
         val backBTN= findViewById<ImageView>(R.id.backBTN)
         val predView= findViewById<View>(R.id.predictionView)
+        val mainContainer= findViewById<ScrollView>(R.id.scrollContainer)
 
         predView.setOnClickListener {
-            startActivity(Intent(this, prediction::class.java))
+            val intent= Intent(this, prediction::class.java)
+            intent.putExtra("symbolStock", inpSymbol)
+            startActivity(intent)
         }
 
         backBTN.setOnClickListener {
@@ -112,6 +120,7 @@ class stocksInfo : AppCompatActivity() {
                     updationPane.visibility= View.VISIBLE
                     bgMain.visibility= View.VISIBLE
                     loadingTxt.visibility= View.GONE
+                    mainContainer.setBackgroundColor(ContextCompat.getColor(this@stocksInfo, R.color.dash_bg))
 
                     stockName.text= stockDataBody.symbol
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
