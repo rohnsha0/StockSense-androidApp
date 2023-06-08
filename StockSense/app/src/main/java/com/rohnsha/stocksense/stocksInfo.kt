@@ -10,8 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -98,6 +100,12 @@ class stocksInfo : AppCompatActivity() {
         val backBTN= findViewById<ImageView>(R.id.backBTN)
         val predView= findViewById<View>(R.id.predictionView)
         val mainContainer= findViewById<ScrollView>(R.id.scrollContainer)
+        val toolbar= findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarDash)
+        val toolbarTitle= findViewById<TextView>(R.id.dashTitle)
+        val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.hide()
 
         predView.setOnClickListener {
             val intent= Intent(this, prediction::class.java)
@@ -115,14 +123,15 @@ class stocksInfo : AppCompatActivity() {
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
             launch(Dispatchers.Main){
                 if (stockDataBody!=null){
-                    topLay.visibility= View.VISIBLE
+                    appbarLay.visibility= View.VISIBLE
+                    supportActionBar?.show()
                     ltpLay.visibility= View.VISIBLE
                     updationPane.visibility= View.VISIBLE
                     bgMain.visibility= View.VISIBLE
                     loadingTxt.visibility= View.GONE
                     mainContainer.setBackgroundColor(ContextCompat.getColor(this@stocksInfo, R.color.dash_bg))
 
-                    stockName.text= stockDataBody.symbol
+                    toolbarTitle.text= stockDataBody.symbol
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
                      val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
                     stockChange.text= String.format("%.2f", change).toFloat().toString()

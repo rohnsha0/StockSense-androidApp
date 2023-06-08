@@ -15,11 +15,20 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".homepage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".prediction"
             android:exported="false" />
         <activity
             android:name=".splashScreen"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".stocksInfo"
             android:exported="false" />
@@ -29,6 +38,7 @@
             android:theme="@style/Theme.StockSense">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

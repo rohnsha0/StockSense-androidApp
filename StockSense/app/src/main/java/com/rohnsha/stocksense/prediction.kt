@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
 import com.rohnsha.stocksense.ml.ITCxNS
 import com.rohnsha.stocksense.pred_object.predAPIservice
@@ -42,6 +44,10 @@ class prediction : AppCompatActivity() {
         val iconPredBG= findViewById<ImageView>(R.id.blueCircle)
         val loadingView= findViewById<ConstraintLayout>(R.id.loadingContainer)
         val errorView= findViewById<ConstraintLayout>(R.id.errorViewPred)
+        val toolbar= findViewById<Toolbar>(R.id.toolBarPred)
+        val appbarLay= findViewById<AppBarLayout>(R.id.appbarPred)
+
+        setSupportActionBar(toolbar)
 
         GlobalScope.launch(Dispatchers.Main){
             val dynnamicURL= "https://web-production-c587.up.railway.app/query/$symbol"
@@ -52,8 +58,9 @@ class prediction : AppCompatActivity() {
                 Log.d("responseServer", modelStr.toString())
 
                 if (modelStr.toDouble() != 0.0){
+                    appbarLay.visibility= View.VISIBLE
                     mainContainenr.visibility= View.VISIBLE
-                    topBar.visibility= View.VISIBLE
+                    // topBar.visibility= View.VISIBLE
                     iconPred.visibility= View.VISIBLE
                     iconPredBG.visibility= View.VISIBLE
                     loadingView.visibility= View.GONE

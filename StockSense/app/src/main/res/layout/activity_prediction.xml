@@ -7,6 +7,44 @@
     android:background="@color/bg_main"
     tools:context=".prediction">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarPred"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBarPred"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Prediction Details"
+                    android:textSize="26sp"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/errorViewPred"
         android:layout_width="match_parent"
@@ -91,32 +129,32 @@
     <ImageView
         android:id="@+id/blueCircle"
         android:layout_width="60dp"
-        android:visibility="gone"
         android:layout_height="60dp"
         android:layout_marginTop="108dp"
         android:background="@drawable/round_blue"
         android:elevation="2dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iconPredSVG"
-        android:visibility="gone"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:elevation="2dp"
         android:src="@drawable/outline_online_prediction_24"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/blueCircle"
         app:layout_constraintEnd_toEndOf="@+id/blueCircle"
         app:layout_constraintStart_toStartOf="@id/blueCircle"
-        app:layout_constraintTop_toTopOf="@id/blueCircle"
-        app:layout_constraintBottom_toBottomOf="@id/blueCircle"/>
+        app:layout_constraintTop_toTopOf="@id/blueCircle" />
 
     <LinearLayout
         android:id="@+id/titleBlock"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -148,12 +186,12 @@
 
     <LinearLayout
         android:id="@+id/mainContent"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="138dp"
         android:background="@drawable/dashboard_white_bg"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -180,9 +218,9 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-1dp"
                 android:fontFamily="@font/titilliumweb_regular"
                 android:text="August 15, 2023"
-                android:layout_marginTop="-1dp"
                 android:textSize="19sp"
                 app:layout_constraintStart_toStartOf="@+id/date"
                 app:layout_constraintTop_toBottomOf="@+id/date" />
@@ -204,8 +242,8 @@
                 style="@style/predTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Predicted Close"
                 android:layout_marginTop="14.5dp"
+                android:text="Predicted Close"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -272,8 +310,8 @@
                 style="@style/predTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Model Capped upto: Date"
                 android:layout_marginTop="15dp"
+                android:text="Model Capped upto: Date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dashed2" />
 
@@ -287,13 +325,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/modelDate" />
 
             <Button
+                style="@style/predButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/titilliumweb_semi_bold"
                 android:text="Back to Stock Info"
                 android:textSize="19sp"
-                style="@style/predButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cappedDate" />
@@ -301,11 +339,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
                 android:fontFamily="@font/titilliumweb_semi_bold"
                 android:text="Day Predictions"
-                android:textSize="19sp"
-                android:layout_marginTop="38dp"
                 android:textColor="@color/dash_bg"
+                android:textSize="19sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
