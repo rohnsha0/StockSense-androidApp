@@ -29,6 +29,7 @@
                     android:layout_marginEnd="12dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="@string/app_name"
+                    android:textColor="@color/purple"
                     android:textSize="26sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -42,18 +43,22 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/welcomeMSG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
-            android:textSize="15sp"
-            android:textAlignment="center"
             android:fontFamily="@font/titilliumweb_regular"
             android:text="This is the place you can find predictions for your\ndecided. Let's go through your first prediction"
+            android:textAlignment="center"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,13 +81,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="103dp"
+            android:backgroundTint="@color/dash_bg"
+            android:fontFamily="@font/titilliumweb_semi_bold"
             android:text="Search Your Query"
             android:textSize="19sp"
-            android:fontFamily="@font/titilliumweb_semi_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:layout_gravity="bottom"
+            app:fabCradleMargin="0dp"
+            app:fabCradleVerticalOffset="0dp"
+            app:fabCradleRoundedCornerRadius="0dp"
+            android:backgroundTint="@color/bg_main"
+            android:id="@+id/botton_appbar">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                app:elevation="0dp"
+                android:layout_marginEnd="16dp"
+                app:menu="@menu/primary_nav"
+                app:itemIconTint="#B5BBC9"/>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/searchBTNNav"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:src="@drawable/baseline_youtube_searched_for_24"
+            android:padding="14dp"
+            android:backgroundTint="@color/dash_bg"
+            app:layout_anchor="@id/botton_appbar"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

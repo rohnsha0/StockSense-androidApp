@@ -4,9 +4,20 @@
         <item name="android:fontFamily">@font/titilliumweb_regular</item>
         <item name="android:statusBarColor">#347AF0</item>
         <item name="buttonStyle">@style/predButton</item>
+        <item name="floatingActionButtonStyle">@style/FABCustom</item>
+        <item name="android:colorAccent">@color/black</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.StockSense" parent="Base.Theme.StockSense" />
+    
+    <style name="FABCustom" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/FAB</item>
+    </style>
+
+    <style name="FAB" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

@@ -11,8 +11,8 @@ android {
         applicationId "com.rohnsha.stocksense"
         minSdk 21
         targetSdk 33
-        versionCode 10
-        versionName "0.9.5.24"
+        versionCode 11
+        versionName "0.9.5.31"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

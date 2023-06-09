@@ -27,20 +27,12 @@
             android:name=".prediction"
             android:exported="false" />
         <activity
-            android:name=".splashScreen"
-            android:exported="false" />
-        <activity
             android:name=".stocksInfo"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.StockSense">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
