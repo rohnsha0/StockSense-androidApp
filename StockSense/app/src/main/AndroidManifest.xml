@@ -15,6 +15,12 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".register"
+            android:exported="false" />
+        <activity
+            android:name=".login"
+            android:exported="false" />
+        <activity
             android:name=".homepage"
             android:exported="true">
             <intent-filter>
@@ -32,8 +38,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.StockSense">
-        </activity>
+            android:theme="@style/Theme.StockSense" />
     </application>
 
 </manifest>

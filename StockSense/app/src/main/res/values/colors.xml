@@ -4,5 +4,6 @@
     <color name="bg_main">#EDF1F9</color>
     <color name="dash_bg">#347AF0</color>
     <color name="black">#FF000000</color>
+    <color name="formAccentLight">#B5BBC9</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

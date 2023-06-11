@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "598694808642",
+    "project_id": "stocksense-rohnsha0",
+    "storage_bucket": "stocksense-rohnsha0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598694808642:android:ac2336b6ccdb0abcdef1db",
+        "android_client_info": {
+          "package_name": "com.rohnsha.stocksense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598694808642-3g5qbaghia56kftog7ked3c54tkiihps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfm-zSpUXXsKPh5nR5mS5G4VkbUDSQSh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598694808642-3g5qbaghia56kftog7ked3c54tkiihps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

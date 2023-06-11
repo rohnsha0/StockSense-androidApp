@@ -1,28 +1,49 @@
 package com.rohnsha.stocksense
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationBarView
+import com.rohnsha.stocksense.databinding.ActivityHomepageBinding
+import com.rohnsha.stocksense.databinding.ActivityMainBinding
 
 class homepage : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+
+    private lateinit var binding: ActivityHomepageBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_homepage)
+        binding = ActivityHomepageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(home())
 
-        val buttonSearch= findViewById<Button>(R.id.button2search)
-        val FABSearch= findViewById<FloatingActionButton>(R.id.searchBTNNav)
+        binding.bottomNav.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.homeNav -> replaceFragment(home())
+                R.id.watchList -> replaceFragment(watchListFRAG())
 
-        buttonSearch.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+                else ->{
+
+                }
+            }
+            true
         }
+
+        val FABSearch = binding.searchBTNNav
 
         FABSearch.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.main_content, fragment)
+        fragmentTransaction.commit()
     }
 }
