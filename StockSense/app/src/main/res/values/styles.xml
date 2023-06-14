@@ -69,4 +69,10 @@
     <style name="predButton" parent="Widget.AppCompat.Button">
         <item name="background">@color/dash_bg</item>
     </style>
+
+    <style name="SearchViewCustom" parent="Widget.AppCompat.SearchView">
+        <!-- Change the text color here -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
 </resources>

@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/homePagw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Homepage"
@@ -36,9 +36,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Button"
+        android:text="Login"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/homePagw" />
+
+    <Button
+        android:id="@+id/btnSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="sign-out"
+        app:layout_constraintEnd_toEndOf="@+id/homePagw"
+        app:layout_constraintStart_toStartOf="@+id/homePagw"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <Button
+        android:id="@+id/dltUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete User Profile"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignOut"
+        app:layout_constraintStart_toStartOf="@+id/btnSignOut"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignOut" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

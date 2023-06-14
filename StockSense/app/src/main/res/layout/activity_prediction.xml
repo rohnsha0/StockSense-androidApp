@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +191,7 @@
         android:layout_marginTop="138dp"
         android:background="@drawable/dashboard_white_bg"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +261,7 @@
                 style="@style/predTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Predicted High"
+                android:text="Predicted Trend"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/closeVal" />
 
@@ -270,7 +270,7 @@
                 style="@style/predSubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0000"
+                android:text="Up-trend"
                 app:layout_constraintStart_toStartOf="@+id/predHigh"
                 app:layout_constraintTop_toBottomOf="@+id/predHigh" />
 
