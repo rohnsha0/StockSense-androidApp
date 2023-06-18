@@ -74,7 +74,6 @@ class home : Fragment() {
 
         val btnLogin = view.findViewById<Button>(R.id.btnLogin)
         val btnSignOut= view.findViewById<Button>(R.id.btnSignOut)
-        val textView= view.findViewById<TextView>(R.id.homePagw)
         val dltProfile= view.findViewById<Button>(R.id.dltUser)
         checkLoginState()
 
@@ -105,11 +104,11 @@ class home : Fragment() {
     }
 
     private fun checkLoginState(){
-        val textView= view?.findViewById<TextView>(R.id.homePagw)
+        val textView= view?.findViewById<TextView>(R.id.homePage)
         if (auth.currentUser==null){
             startActivity(Intent(requireContext(), login::class.java))
         } else{
-            textView?.text= "Hello, ${auth.currentUser?.displayName}"
+            textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon..."
         }
     }
 }

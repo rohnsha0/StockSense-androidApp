@@ -12,8 +12,8 @@ android {
         applicationId "com.rohnsha.stocksense"
         minSdk 21
         targetSdk 33
-        versionCode 13
-        versionName "0.9.6.12"
+        versionCode 14
+        versionName "0.9.6.27-b"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,9 +34,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         viewBinding true
         mlModelBinding true

@@ -263,7 +263,7 @@
             android:layout_height="610dp"
             android:background="@drawable/dashboard_white_bg"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/LTPLayout">
 
             <LinearLayout

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/searhc_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,7 +20,6 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg_main"
             android:paddingStart="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,8 +33,11 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
                     android:iconifiedByDefault="false"
+                    android:backgroundTint="@color/white"
                     style="@style/SearchViewCustom"
+                    android:foregroundTint="@color/white"
                     android:queryBackground="@android:color/transparent"
                     android:queryHint="Search your Symbol"
                     app:layout_constraintBottom_toBottomOf="parent"

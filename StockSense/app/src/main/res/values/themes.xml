@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.StockSense" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/titilliumweb_regular</item>
-        <item name="android:statusBarColor">#347AF0</item>
+        <item name="android:statusBarColor">#000000</item>
         <item name="buttonStyle">@style/predButton</item>
         <item name="floatingActionButtonStyle">@style/FABCustom</item>
-        <item name="colorPrimary">@color/dash_bg</item>
+        <item name="colorPrimary">@color/black</item>
         <item name="android:colorAccent">@color/black</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
