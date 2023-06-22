@@ -16,11 +16,11 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:visibility="gone"
             android:id="@+id/appbarLayDash"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -40,12 +40,12 @@
                         android:id="@+id/dashTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
                         android:fontFamily="@font/titilliumweb_semi_bold"
                         android:text="LTP"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="26sp"
-                        android:layout_marginEnd="12dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
@@ -260,10 +260,10 @@
         <LinearLayout
             android:id="@+id/background_main_dash"
             android:layout_width="match_parent"
-            android:layout_height="610dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/dashboard_white_bg"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/LTPLayout">
 
             <LinearLayout
@@ -369,6 +369,20 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/bannerAdSI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    app:adSize="BANNER"
+                    app:adUnitId="@string/bannerID"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lowVal" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -413,7 +427,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="₹452"
+                        android:text="@string/na"
                         app:layout_constraintBottom_toBottomOf="@+id/recentClosure1"
                         app:layout_constraintStart_toStartOf="@+id/recentClosure1"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure1" />
@@ -424,7 +438,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-3dp"
                         android:elevation="2dp"
-                        android:text="3.21"
+                        android:text="+-0"
                         app:layout_constraintStart_toStartOf="@+id/trendPrice1"
                         app:layout_constraintTop_toBottomOf="@+id/trendPrice1" />
 
@@ -434,7 +448,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Uptrend"
+                        android:text="POSITIVE"
                         app:layout_constraintEnd_toEndOf="@+id/recentClosure1"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure1" />
 
@@ -474,7 +488,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="₹452"
+                        android:text="@string/na"
                         app:layout_constraintBottom_toBottomOf="@+id/recentClosure2"
                         app:layout_constraintStart_toStartOf="@+id/recentClosure2"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure2" />
@@ -485,7 +499,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-3dp"
                         android:elevation="2dp"
-                        android:text="3.21"
+                        android:text="+-0"
                         app:layout_constraintStart_toStartOf="@+id/trendPrice2"
                         app:layout_constraintTop_toBottomOf="@+id/trendPrice2" />
 
@@ -495,7 +509,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Uptrend"
+                        android:text="POSITIVE"
                         app:layout_constraintEnd_toEndOf="@+id/recentClosure2"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure2" />
 
@@ -536,7 +550,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="₹452"
+                        android:text="@string/na"
                         app:layout_constraintBottom_toBottomOf="@+id/recentClosure3"
                         app:layout_constraintStart_toStartOf="@+id/recentClosure3"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure3" />
@@ -547,7 +561,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-3dp"
                         android:elevation="2dp"
-                        android:text="3.21"
+                        android:text="+-0"
                         app:layout_constraintStart_toStartOf="@+id/trendPrice3"
                         app:layout_constraintTop_toBottomOf="@+id/trendPrice3" />
 
@@ -557,7 +571,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Downtrend"
+                        android:text="NEGATIVE"
                         app:layout_constraintEnd_toEndOf="@+id/recentClosure3"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure3" />
 
@@ -597,7 +611,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="₹452"
+                        android:text="@string/na"
                         app:layout_constraintBottom_toBottomOf="@+id/recentClosure4"
                         app:layout_constraintStart_toStartOf="@+id/recentClosure4"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure4" />
@@ -608,7 +622,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-3dp"
                         android:elevation="2dp"
-                        android:text="3.21"
+                        android:text="+-0"
                         app:layout_constraintStart_toStartOf="@+id/trendPrice4"
                         app:layout_constraintTop_toBottomOf="@+id/trendPrice4" />
 
@@ -618,7 +632,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Uptrend"
+                        android:text="POSITIVE"
                         app:layout_constraintEnd_toEndOf="@+id/recentClosure4"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure4" />
 
@@ -659,7 +673,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="₹452"
+                        android:text="@string/na"
                         app:layout_constraintBottom_toBottomOf="@+id/recentClosure5"
                         app:layout_constraintStart_toStartOf="@+id/recentClosure5"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure5" />
@@ -670,7 +684,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-3dp"
                         android:elevation="2dp"
-                        android:text="3.21"
+                        android:text="+-0"
                         app:layout_constraintStart_toStartOf="@+id/trendPrice5"
                         app:layout_constraintTop_toBottomOf="@+id/trendPrice5" />
 
@@ -680,7 +694,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Downtrend"
+                        android:text="NEGATIVE"
                         app:layout_constraintEnd_toEndOf="@+id/recentClosure5"
                         app:layout_constraintTop_toTopOf="@+id/recentClosure5" />
 
@@ -694,18 +708,34 @@
                         app:layout_constraintEnd_toEndOf="@+id/trendTxt5"
                         app:layout_constraintTop_toBottomOf="@+id/trendTxt5" />
 
+                    <com.google.android.gms.ads.AdView
+                        android:id="@+id/bannerAdSI2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        app:adSize="BANNER"
+                        app:adUnitId="@string/bannerID"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recentClosure5" />
+
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="19dp"
+                        android:layout_marginBottom="20dp"
                         android:fontFamily="@font/titilliumweb_semi_bold"
                         android:text="See All Closures"
                         android:textColor="#347AF0"
                         android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recentClosure5" />
+                        app:layout_constraintTop_toBottomOf="@+id/bannerAdSI2" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

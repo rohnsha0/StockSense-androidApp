@@ -5,6 +5,9 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
+    <string name="bannerID">ca-app-pub-3940256099942544/6300978111</string> <!-- Test AdMob Banner -->
+    <string name="bannerIDreal">ca-app-pub-9534797608454346/1360206480</string> <!-- Real AdMob Banner -->
+    <string name="na">n/a</string>
     <string name="previous">Previous</string>
 
     <string name="lorem_ipsum">

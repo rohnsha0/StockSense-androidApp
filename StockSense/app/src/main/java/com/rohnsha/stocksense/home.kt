@@ -108,7 +108,7 @@ class home : Fragment() {
         if (auth.currentUser==null){
             startActivity(Intent(requireContext(), login::class.java))
         } else{
-            textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon..."
+            textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon...\n\nNote: Only NIFTY50 stocks are available\nfor prediction\n(We're working on adding more!)"
         }
     }
 }

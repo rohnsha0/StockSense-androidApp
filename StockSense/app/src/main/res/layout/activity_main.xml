@@ -31,7 +31,6 @@
                     android:id="@+id/searchClick"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:iconifiedByDefault="false"
@@ -44,6 +43,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*Only Nifty stocks are available (as of now)"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    app:layout_constraintEnd_toEndOf="@+id/searchClick"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/searchClick" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

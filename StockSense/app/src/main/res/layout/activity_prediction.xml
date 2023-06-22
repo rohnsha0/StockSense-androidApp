@@ -29,10 +29,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="Prediction Details"
                     android:textSize="26sp"
-                    android:layout_marginEnd="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +87,19 @@
             app:layout_constraintEnd_toEndOf="@+id/modelError1"
             app:layout_constraintStart_toStartOf="@+id/modelError1"
             app:layout_constraintTop_toBottomOf="@+id/modelError1" />
+
+        <TextView
+            android:id="@+id/noticeError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/titilliumweb_semi_bold"
+            android:gravity="center"
+            android:text="Note: Only NIFTY50 stocks are available\nfor prediction\n"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/modelError2"
+            app:layout_constraintStart_toStartOf="@+id/modelError2"
+            app:layout_constraintTop_toBottomOf="@+id/modelError2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -191,165 +204,296 @@
         android:layout_marginTop="138dp"
         android:background="@drawable/dashboard_white_bg"
         android:orientation="vertical"
+        android:scrollbars="none"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:background="@drawable/dashboard_white_bg"
+            android:orientation="vertical"
+            android:scrollbars="none"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="85dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:text="Date"
-                android:textColor="#B5BBC9"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-1dp"
-                android:fontFamily="@font/titilliumweb_regular"
-                android:text="August 15, 2023"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@+id/date"
-                app:layout_constraintTop_toBottomOf="@+id/date" />
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Date"
+                    android:textColor="#B5BBC9"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="15.5dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/dashed"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                <TextView
+                    android:id="@+id/dateVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/titilliumweb_regular"
+                    android:text="August 15, 2023"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="@+id/date"
+                    app:layout_constraintTop_toBottomOf="@+id/date" />
 
-            <TextView
-                android:id="@+id/predictedClose"
-                style="@style/predTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14.5dp"
-                android:text="Predicted Close"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                <TextView
+                    android:id="@+id/market"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Market"
+                    android:textColor="#B5BBC9"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="@+id/currentPrice"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/closeVal"
-                style="@style/predSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0000"
-                app:layout_constraintStart_toStartOf="@+id/predictedClose"
-                app:layout_constraintTop_toBottomOf="@+id/predictedClose" />
+                <TextView
+                    android:id="@+id/marketVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/titilliumweb_regular"
+                    android:text="NSE"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="@+id/market"
+                    app:layout_constraintTop_toBottomOf="@+id/market" />
 
-            <TextView
-                android:id="@+id/predHigh"
-                style="@style/predTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Predicted Trend"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/closeVal" />
+                <TextView
+                    android:id="@+id/currentPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14.5dp"
+                    android:layout_marginEnd="80dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Current Price"
+                    android:textColor="#B5BBC9"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
 
-            <TextView
-                android:id="@+id/highVal"
-                style="@style/predSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Up-trend"
-                app:layout_constraintStart_toStartOf="@+id/predHigh"
-                app:layout_constraintTop_toBottomOf="@+id/predHigh" />
+                <TextView
+                    android:id="@+id/currentPriceValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/titilliumweb_regular"
+                    android:text="0000"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="@+id/currentPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/currentPrice" />
 
-            <TextView
-                android:id="@+id/predLow"
-                style="@style/predTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Predicted Low"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/highVal" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="15.5dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dashed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dateVal" />
 
-            <TextView
-                android:id="@+id/lowVal"
-                style="@style/predSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0000"
-                app:layout_constraintStart_toStartOf="@+id/predLow"
-                app:layout_constraintTop_toBottomOf="@+id/predLow" />
+                <TextView
+                    android:id="@+id/predictedClose"
+                    style="@style/predTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14.5dp"
+                    android:text="Predicted Close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
 
-            <View
-                android:id="@+id/dashed2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/dashed"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lowVal" />
+                <TextView
+                    android:id="@+id/closeVal"
+                    style="@style/predSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0000"
+                    app:layout_constraintStart_toStartOf="@+id/predictedClose"
+                    app:layout_constraintTop_toBottomOf="@+id/predictedClose" />
+
+                <TextView
+                    android:id="@+id/predHigh"
+                    style="@style/predTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Predicted Trend"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/closeVal" />
+
+                <TextView
+                    android:id="@+id/highVal"
+                    style="@style/predSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Neutral"
+                    app:layout_constraintStart_toStartOf="@+id/predHigh"
+                    app:layout_constraintTop_toBottomOf="@+id/predHigh" />
+
+                <TextView
+                    android:id="@+id/predLow"
+                    style="@style/predTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remarks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/highVal" />
+
+                <TextView
+                    android:id="@+id/lowVal"
+                    style="@style/predSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="n/a"
+                    app:layout_constraintStart_toStartOf="@+id/predLow"
+                    app:layout_constraintTop_toBottomOf="@+id/predLow" />
+
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/bannerAdPred"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    app:adSize="BANNER"
+                    app:adUnitId="@string/bannerID"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lowVal" />
+
+                <View
+                    android:id="@+id/dashed2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dashed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bannerAdPred" />
 
 
-            <TextView
-                android:id="@+id/modelDate"
-                style="@style/predTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Model Capped upto: Date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dashed2" />
+                <TextView
+                    android:id="@+id/techUsed"
+                    style="@style/predTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Model: Tech used"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dashed2" />
 
-            <TextView
-                android:id="@+id/cappedDate"
-                style="@style/predSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="january 26, 2023"
-                app:layout_constraintStart_toStartOf="@+id/modelDate"
-                app:layout_constraintTop_toBottomOf="@+id/modelDate" />
+                <TextView
+                    android:id="@+id/techUsedVal"
+                    style="@style/predSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLength="15"
+                    android:text="LSTM (DL)"
+                    app:layout_constraintStart_toStartOf="@+id/techUsed"
+                    app:layout_constraintTop_toBottomOf="@+id/techUsed" />
 
-            <Button
-                style="@style/predButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:text="Back to Stock Info"
-                android:textSize="19sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cappedDate" />
+                <TextView
+                    android:id="@+id/stockSymbolTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14.5dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Model: Symbol"
+                    android:textColor="#B5BBC9"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="@+id/currentPriceValue"
+                    app:layout_constraintTop_toBottomOf="@+id/dashed2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:text="Day Predictions"
-                android:textColor="@color/dash_bg"
-                android:textSize="19sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/stockSymbolVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/titilliumweb_regular"
+                    android:text="symbol"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="@+id/stockSymbolTV"
+                    app:layout_constraintTop_toBottomOf="@+id/stockSymbolTV" />
+
+                <TextView
+                    android:id="@+id/modelDate"
+                    style="@style/predTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Model: Data Range"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/techUsedVal" />
+
+                <TextView
+                    android:id="@+id/modelDateVal"
+                    style="@style/predSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2002 - January 26, 2023"
+                    app:layout_constraintStart_toStartOf="@+id/modelDate"
+                    app:layout_constraintTop_toBottomOf="@+id/modelDate" />
+
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/bannerAdPred2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    app:adSize="BANNER"
+                    app:adUnitId="@string/bannerID"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/modelDateVal" />
+
+                <Button
+                    android:id="@+id/predIntentBTN"
+                    style="@style/predButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Back to Homepage"
+                    android:textSize="19sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bannerAdPred2" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/predTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:text="Day Predictions"
+        android:textColor="@color/dash_bg"
+        android:visibility="gone"
+        android:textSize="19sp"
+        android:layout_marginTop="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blueCircle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

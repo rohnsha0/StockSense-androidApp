@@ -1,7 +1,7 @@
 package com.rohnsha.stocksense
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +10,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toolbar
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +31,6 @@ import okhttp3.ResponseBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 data class StockDataResponse(
     val chart: Chart
@@ -79,6 +82,9 @@ class stockDataFetcher{
 
 class stocksInfo : AppCompatActivity() {
     private lateinit var stockName: TextView
+    lateinit var adViewBanner: AdView
+    lateinit var adViewBanner2: AdView
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,15 +109,54 @@ class stocksInfo : AppCompatActivity() {
         val toolbar= findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarDash)
         val toolbarTitle= findViewById<TextView>(R.id.dashTitle)
         val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)
+        adViewBanner= findViewById(R.id.bannerAdSI)
+        adViewBanner2= findViewById(R.id.bannerAdSI2)
+
+        var adClickCount = 0
+
+        val adRequest= AdRequest.Builder().build()
+        adViewBanner.loadAd(adRequest)
+        adViewBanner.adListener = object: AdListener() {
+            override fun onAdClicked() {
+                super.onAdClicked()
+                adClickCount= clickProcess(adClickCount)
+            }
+            override fun onAdFailedToLoad(adError : LoadAdError) {
+                super.onAdFailedToLoad(adError)
+                adViewBanner.loadAd(adRequest)
+            }
+            override fun onAdLoaded() {
+                if (checkAdStatus()){
+                    adViewBanner.visibility= View.VISIBLE
+                }else{
+                    adViewBanner.visibility= View.GONE
+                }
+            }
+        }
+
+        adViewBanner2.loadAd(adRequest)
+        adViewBanner2.adListener = object: AdListener() {
+            override fun onAdClicked() {
+                super.onAdClicked()
+                adClickCount= clickProcess(adClickCount)
+            }
+            override fun onAdFailedToLoad(adError : LoadAdError) {
+                super.onAdFailedToLoad(adError)
+                adViewBanner2.loadAd(adRequest)
+            }
+            override fun onAdLoaded() {
+                if (checkAdStatus()){
+                    adViewBanner2.visibility= View.VISIBLE
+                }else{
+                    adViewBanner2.visibility= View.GONE
+                }
+            }
+        }
 
         setSupportActionBar(toolbar)
         supportActionBar?.hide()
 
-        predView.setOnClickListener {
-            val intent= Intent(this, prediction::class.java)
-            intent.putExtra("symbolStock", inpSymbol)
-            startActivity(intent)
-        }
+
 
         backBTN.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -131,7 +176,15 @@ class stocksInfo : AppCompatActivity() {
                     loadingTxt.visibility= View.GONE
                     mainContainer.setBackgroundColor(ContextCompat.getColor(this@stocksInfo, R.color.dash_bg))
 
+                    predView.setOnClickListener {
+                        val intent= Intent(this@stocksInfo, prediction::class.java)
+                        intent.putExtra("symbolStock", inpSymbol)
+                        intent.putExtra("ltp", stockDataBody.regularMarketPrice.toString())
+                        startActivity(intent)
+                    }
+
                     toolbarTitle.text= stockDataBody.symbol
+
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
                      val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
                     stockChange.text= String.format("%.2f", change).toFloat().toString()
@@ -196,6 +249,53 @@ class stocksInfo : AppCompatActivity() {
             val length = prediction?.length
         }
         return prediction
+    }
+
+    private fun getLastAdClickTimeMillis(): Long {
+        val sharedPreferences = this.getSharedPreferences("AdClickSIBanner", Context.MODE_PRIVATE)
+        return sharedPreferences.getLong("lastAdClickTimeMillisSI", 0)
+    }
+
+    private fun clickProcess(clickCount: Int): Int{
+        var adClickCount= clickCount
+        val adClickTimeLimitMillis = 2 * 60 * 60 * 1000
+        adClickCount++
+        if (adClickCount >= 5) {
+            val currentTimeMillis = System.currentTimeMillis()
+            val lastAdClickTimeMillis = getLastAdClickTimeMillis()
+            if (currentTimeMillis - lastAdClickTimeMillis <= adClickTimeLimitMillis) {
+                adViewBanner.visibility = View.GONE
+                Toast.makeText(this@stocksInfo, "You're abusing app usage policy. It might lead to account suspension!", Toast.LENGTH_LONG).show()
+                adClickCount= 0
+            }
+        }
+        updateLastAdClickTimeMillis(System.currentTimeMillis())
+        return adClickCount
+    }
+    private fun updateLastAdClickTimeMillis(currentTimeMillis: Long) {
+        val currentTimeMillis = System.currentTimeMillis()
+        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
+        val sharedPreferences = this.getSharedPreferences("AdClickSIBanner", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putLong("lastAdClickTimeMillisSI", currentTimeMillis)
+        editor.apply()
+
+        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisSI", 0)
+        if (currentTimeMillis - lastAdClickTimeMillis > adReEnableTimeMillis) {
+            adViewBanner.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkAdStatus(): Boolean {
+        val currentTimeMillis = System.currentTimeMillis()
+        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
+        val sharedPreferences = this.getSharedPreferences("AdClickSIBanner", Context.MODE_PRIVATE)
+
+        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisSI", 0)
+        if (currentTimeMillis - lastAdClickTimeMillis < adReEnableTimeMillis) {
+            return false
+        }
+        return true
     }
 
     override fun onPause() {
