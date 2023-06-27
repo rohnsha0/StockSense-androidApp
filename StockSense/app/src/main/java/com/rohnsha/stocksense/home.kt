@@ -98,7 +98,7 @@ class home : Fragment() {
             btnSignOut.visibility =View.GONE
             dltProfile.visibility = View.GONE
             btnLogin.setOnClickListener {
-                startActivity(Intent(requireActivity(), login::class.java))
+                startActivity(Intent(requireActivity(), welcome_screen::class.java))
             }
         }
     }
@@ -106,7 +106,8 @@ class home : Fragment() {
     private fun checkLoginState(){
         val textView= view?.findViewById<TextView>(R.id.homePage)
         if (auth.currentUser==null){
-            startActivity(Intent(requireContext(), login::class.java))
+            startActivity(Intent(requireContext(), welcome_screen::class.java))
+            requireActivity().finish()
         } else{
             textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon...\n\nNote: Only NIFTY50 stocks are available\nfor prediction\n(We're working on adding more!)"
         }

@@ -3,18 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ico_updated_blue"
+        android:icon="@mipmap/ico_blue_chart"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ico_updated_round"
+        android:roundIcon="@mipmap/ico_blue_chart"
         android:supportsRtl="true"
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
+        <activity
+            android:name=".welcome_screen"
+            android:exported="false" />
         <activity
             android:name=".register"
             android:exported="false" />
@@ -43,7 +46,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9534797608454346~3682984043"/>
+            android:value="ca-app-pub-9534797608454346~3682984043" />
     </application>
 
 </manifest>

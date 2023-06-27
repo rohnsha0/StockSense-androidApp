@@ -72,6 +72,7 @@ class prediction : AppCompatActivity() {
 
         predIntent.setOnClickListener {
             startActivity(Intent(this, homepage::class.java))
+            finish()
         }
 
         var adClickCount = 0
@@ -218,7 +219,7 @@ class prediction : AppCompatActivity() {
             remarks.text= "Stock outperforming predictions"
         } else if (priceDifference<0){
             trend.text= "Downtrend"
-            remarks.text= "Bullish stock performance"
+            remarks.text= "Bearish stock performance"
         } else {
             trend.text= "Neutral"
             remarks.text= "Not a strong upward force stock is performing as expected"

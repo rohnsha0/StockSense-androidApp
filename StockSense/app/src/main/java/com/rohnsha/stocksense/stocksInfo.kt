@@ -13,10 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +34,8 @@ import okhttp3.ResponseBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+
 
 data class StockDataResponse(
     val chart: Chart
@@ -84,6 +89,7 @@ class stocksInfo : AppCompatActivity() {
     private lateinit var stockName: TextView
     lateinit var adViewBanner: AdView
     lateinit var adViewBanner2: AdView
+    private var mInterstitialAd: InterstitialAd?=null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,6 +121,52 @@ class stocksInfo : AppCompatActivity() {
         var adClickCount = 0
 
         val adRequest= AdRequest.Builder().build()
+
+        InterstitialAd.load(this,"ca-app-pub-9534797608454346/1015649609", adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                adError?.toString()?.let { Log.d("TAG", it) }
+                mInterstitialAd = null
+                InterstitialAd.load(this@stocksInfo,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        adError?.toString()?.let { Log.d("TAG", it) }
+                        mInterstitialAd = null
+                    }
+
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        Log.d("TAG", "Ad was loaded.")
+                        mInterstitialAd = interstitialAd
+                    }
+                })
+            }
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("TAG", "Ad was loaded.")
+                mInterstitialAd = interstitialAd
+            }
+        })
+
+        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d("tag", "Ad was clicked.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                Log.d("TAG", "Ad dismissed fullscreen content.")
+                mInterstitialAd = null
+            }
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d("TAG", "Ad recorded an impression.")
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d("TAG", "Ad showed fullscreen content.")
+            }
+        }
+
         adViewBanner.loadAd(adRequest)
         adViewBanner.adListener = object: AdListener() {
             override fun onAdClicked() {
@@ -181,6 +233,11 @@ class stocksInfo : AppCompatActivity() {
                         intent.putExtra("symbolStock", inpSymbol)
                         intent.putExtra("ltp", stockDataBody.regularMarketPrice.toString())
                         startActivity(intent)
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd?.show(this@stocksInfo)
+                        } else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+                        }
                     }
 
                     toolbarTitle.text= stockDataBody.symbol

@@ -2,11 +2,24 @@ package com.rohnsha.stocksense
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.ResponseBody
+import watchlistDC
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,12 +74,30 @@ class watchListFRAG : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val recyclerView= view.findViewById<RecyclerView>(R.id.rvWatchlist)
 
+        var wtchlist= mutableListOf(
+            watchlistDC("ITC.NS", "ITC Ltd."),
+            watchlistDC("INFY.NS", "Infosys Ltd."),
+            watchlistDC("KOTAKBANK.NS", "Kotak Mahindra Bank Ltd."),
+            watchlistDC("ASIANPAINT.NS", "Asian Paints Ltd."),
+            watchlistDC("BAJAJFINSV.NS", "Bajaj Finserv Ltd."),
+            watchlistDC("CIPLA.NS", "Cipla Ltd."),
+            watchlistDC("HCLTECH.NS", "HCL Technologies Ltd."),
+            watchlistDC("HDFC.NS", "HDFC Bank Ltd."),
+            watchlistDC("APOLLOHOSP.NS", "Apollo Hospitals Enterprise Ltd."),
+            watchlistDC("GRASIM.NS", "Grasim Industries Ltd.")
+        )
+
+        val adapter= watchlistAdapter(wtchlist)
+        recyclerView.adapter= adapter
+        recyclerView.layoutManager= LinearLayoutManager(requireContext())
+
+        Log.d("watchlistsTF", wtchlist.isEmpty().toString())
         val buttonSearch = view.findViewById<Button>(R.id.button2search)
 
         buttonSearch.setOnClickListener {
             startActivity(Intent(requireActivity(), MainActivity::class.java))
         }
-
     }
 }

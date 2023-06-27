@@ -5,16 +5,76 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/recentClosure2"
+        android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="23dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/dash_btn"
         android:elevation="2dp"
+        android:layout_marginBottom="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logoSymbol"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:background="@drawable/logo_bg"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="13dp"
+        android:elevation="2dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@id/view"/>
+
+    <TextView
+        android:id="@+id/sName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:text="Stock Name"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:textSize="15sp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintStart_toEndOf="@+id/logoSymbol"/>
+
+    <TextView
+        android:id="@+id/symbolTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:text="symbol"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/sName"/>
+
+    <TextView
+        android:id="@+id/rvLtp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="18dp"
+        android:elevation="2dp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:text="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="POSITIVE"
+        android:elevation="2dp"
+        android:textColor="#4CAF50"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/rvLtp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

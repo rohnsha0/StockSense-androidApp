@@ -81,4 +81,8 @@
         <item name="android:textColor">@color/default_text_color</item>
     </style>
 
+    <style name="NavBarActive" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">#0D111D30</item>
+    </style>
+
 </resources>
