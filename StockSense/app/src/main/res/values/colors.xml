@@ -6,5 +6,6 @@
     <color name="formAccentLight">#B5BBC9</color>
     <color name="viewsDash">#EDF1F9</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="lightgrey">#B5BBC9</color>
     <color name="default_text_color">@color/black</color>
 </resources>
