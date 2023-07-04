@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
 import watchlistDC
 
 
@@ -108,26 +109,6 @@ class watchListFRAG : Fragment() {
 
         buttonSearch.setOnClickListener {
             startActivity(Intent(requireActivity(), MainActivity::class.java))
-        }
-    }
-
-    private fun saveWatchlistData() {
-        val gson = Gson()
-        val watchlistJson = gson.toJson(wtchlist)
-
-        sharedPreferences.edit().putString(WATCHLIST_KEY, watchlistJson).apply()
-    }
-
-    private fun loadWatchlistData() {
-        val watchlistJson = sharedPreferences.getString(WATCHLIST_KEY, null)
-
-        if (!watchlistJson.isNullOrEmpty()) {
-            val gson = Gson()
-            val type = object : TypeToken<List<watchlistDC>>() {}.type
-            wtchlist = gson.fromJson(watchlistJson, type)
-
-            // Update the RecyclerView with the loaded watchlist data
-            adapter.notifyDataSetChanged()
         }
     }
 

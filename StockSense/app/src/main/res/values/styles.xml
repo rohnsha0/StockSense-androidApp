@@ -82,7 +82,7 @@
     </style>
 
     <style name="NavBarActive" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">#0D111D30</item>
+        <item name="android:color">#494B51</item>
     </style>
 
 </resources>

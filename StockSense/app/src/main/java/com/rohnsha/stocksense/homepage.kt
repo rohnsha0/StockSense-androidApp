@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.rohnsha.stocksense.databinding.ActivityHomepageBinding
 import com.rohnsha.stocksense.databinding.ActivityMainBinding
 
@@ -17,13 +18,17 @@ class homepage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityHomepageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(home())
 
+        binding.bottomNav.background= null
+
         binding.bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.homeNav -> replaceFragment(home())
+                R.id.searchNav -> replaceFragment(searchFragment())
                 R.id.watchList -> replaceFragment(watchListFRAG())
 
                 else ->{

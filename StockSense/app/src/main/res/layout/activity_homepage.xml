@@ -13,17 +13,17 @@
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="81dp"
         android:scrollbars="none">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coOrdNav"
-        android:background="@android:color/transparent"
-        android:backgroundTint="@android:color/transparent"
+        android:background="@color/bg_main"
+        android:backgroundTint="@color/bg_main"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="81dp"
         android:layout_alignParentBottom="true">
 
         <com.google.android.material.bottomappbar.BottomAppBar
@@ -32,9 +32,7 @@
             android:layout_height="81dp"
             android:layout_gravity="bottom"
             android:backgroundTint="@color/bg_main"
-            app:fabCradleMargin="-2dp"
-            app:fabCradleRoundedCornerRadius="0dp"
-            app:fabCradleVerticalOffset="0dp">
+            android:layout_margin="0dp">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav"
@@ -42,8 +40,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:background="@color/bg_main"
-                app:elevation="0dp"
-                app:itemIconTint="#B5BBC9"
+                app:itemBackground="@color/bg_main"
+                app:itemIconTint="@color/dash_bg"
+                app:itemTextColor="@color/dash_bg"
                 app:itemActiveIndicatorStyle="@style/NavBarActive"
                 app:menu="@menu/primary_nav"/>
 
@@ -54,8 +53,9 @@
             android:layout_width="58dp"
             android:layout_height="58dp"
             app:elevation="0dp"
+            android:visibility="gone"
             android:background="@android:color/transparent"
-            android:backgroundTint="@color/dash_bg"
+            android:backgroundTint="@color/bg_main"
             android:padding="14dp"
             android:src="@drawable/baseline_search_24"
             app:layout_anchor="@id/botton_appbar" />

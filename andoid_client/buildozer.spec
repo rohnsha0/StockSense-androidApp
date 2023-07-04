@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = StockSense: realtime stock prediction
 
 # (str) Package name
-package.name = myapp
+package.name = stockSense
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.rs
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+version = 0.19
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy, numpy, pandas, tensorflow, kivymd, yfinance, scikit-learn
+requirements = python3,kivy, numpy, pandas, yfinance, datetime, tensorflow, sklearn, kivymd
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -101,19 +101,19 @@ android.permissions = android.permission.INTERNET, (name=android.permission.WRIT
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-#android.api = 31
+# android.api = 28
 
 # (int) Minimum API your APK / AAB will support.
 android.minapi = 21
 
 # (int) Android SDK version to use
-#android.sdk = 20
+android.sdk = 20
 
 # (str) Android NDK version to use
-#android.ndk = 23b
+android.ndk = 23b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
-#android.ndk_api = 21
+android.ndk_api = 21
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True

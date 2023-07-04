@@ -3,12 +3,9 @@ package com.rohnsha.stocksense
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
-import android.window.SplashScreen
-import androidx.activity.viewModels
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,9 +17,10 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseMessaging.getInstance().subscribeToTopic("app_info")
         setContentView(R.layout.activity_main)
 
-        val searchView= findViewById<SearchView>(R.id.searchClick)
+        val searchView= findViewById<SearchView>(R.id.searchClickFrag)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean{

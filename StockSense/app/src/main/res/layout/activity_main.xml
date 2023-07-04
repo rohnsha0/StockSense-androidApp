@@ -28,7 +28,7 @@
                 android:layout_marginStart="0dp">
 
                 <SearchView
-                    android:id="@+id/searchClick"
+                    android:id="@+id/searchClickFrag"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginEnd="16dp"
@@ -51,9 +51,9 @@
                     android:textSize="12sp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
-                    app:layout_constraintEnd_toEndOf="@+id/searchClick"
+                    app:layout_constraintEnd_toEndOf="@+id/searchClickFrag"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchClick" />
+                    app:layout_constraintTop_toBottomOf="@+id/searchClickFrag" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
