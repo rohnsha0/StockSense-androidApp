@@ -3,6 +3,10 @@
     <item android:id="@+id/homeNav"
         android:title="Home"
         android:icon="@drawable/ic_home" />
-    <item android:id="@+id/searchNav" android:title="Search" android:icon="@drawable/baseline_search_24"/>
-    <item android:id="@+id/watchList" android:title="Watchlist" android:icon="@drawable/ic_track"/>
+    <item android:id="@+id/searchNav"
+        android:title="Search"
+        android:icon="@drawable/baseline_search_24"/>
+    <item android:id="@+id/watchList"
+        android:title="Watchlist"
+        android:icon="@drawable/ic_track"/>
 </menu>

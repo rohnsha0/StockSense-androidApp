@@ -3,16 +3,15 @@ package com.rohnsha.stocksense
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.ads.AdListener
@@ -20,20 +19,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.material.appbar.AppBarLayout
-import com.google.gson.Gson
-import com.rohnsha.stocksense.ml.ITCxNS
 import com.rohnsha.stocksense.pred_object.predAPIservice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.Interpreter
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import org.tensorflow.lite.support.tensorbuffer.TensorBufferFloat
-import java.lang.Exception
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -118,38 +108,42 @@ class prediction : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        GlobalScope.launch(Dispatchers.Main){
-            val dynnamicURL= "https://web-production-c587.up.railway.app/query/$symbol"
+        GlobalScope.launch(Dispatchers.IO){
+            val dynnamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/prediction/$symbol"
 
             try {
                 val response= predAPIservice.getModelData(dynnamicURL)
                 val modelStr= response.predicted_close
                 Log.d("responseServer", modelStr.toString())
 
-                if (modelStr.toDouble() != 0.0){
-                    appbarLay.visibility= View.VISIBLE
-                    mainContainenr.visibility= View.VISIBLE
-                    // topBar.visibility= View.VISIBLE
-                    iconPred.visibility= View.VISIBLE
-                    iconPredBG.visibility= View.VISIBLE
-                    predTitle.visibility= View.VISIBLE
-                    loadingView.visibility= View.GONE
-                    dateValue.text= systemDate()
-                    val predCloseVal= String.format("%.2f", modelStr).toFloat()
-                    predClose.text= predCloseVal.toString()
-                    stockLTPInfo.text= stockLTP
-                    symbolStock.text= symbol.substringBefore('.')
-                    trendRemarks(predCloseVal, stockLTP.toFloat())
-                    Log.e("response", modelStr.toString())
-                    Log.d("resultsMinus", (stockLTP.toFloat()- predCloseVal).toString())
-                } else {
-                    loadingView.visibility= View.GONE
-                    errorView.visibility= View.VISIBLE
+                withContext(Dispatchers.Main){
+                    if (modelStr.toDouble() != 0.0){
+                        appbarLay.visibility= View.VISIBLE
+                        mainContainenr.visibility= View.VISIBLE
+                        // topBar.visibility= View.VISIBLE
+                        iconPred.visibility= View.VISIBLE
+                        iconPredBG.visibility= View.VISIBLE
+                        predTitle.visibility= View.VISIBLE
+                        loadingView.visibility= View.GONE
+                        dateValue.text= systemDate()
+                        val predCloseVal= String.format("%.2f", modelStr).toFloat()
+                        predClose.text= predCloseVal.toString()
+                        stockLTPInfo.text= stockLTP
+                        symbolStock.text= symbol.substringBefore('.')
+                        trendRemarks(predCloseVal, stockLTP.toFloat())
+                        Log.e("response", modelStr.toString())
+                        Log.d("resultsMinus", (stockLTP.toFloat()- predCloseVal).toString())
+                    } else {
+                        loadingView.visibility= View.GONE
+                        errorView.visibility= View.VISIBLE
+                    }
                 }
             } catch (e:Exception){
-                loadingView.visibility= View.GONE
-                errorView.visibility= View.VISIBLE
-                Log.e("error", "something went wrong")
+                withContext(Dispatchers.Main){
+                    loadingView.visibility= View.GONE
+                    errorView.visibility= View.VISIBLE
+                    Log.e("error", "something went wrong")
+                }
             }
         }
     }

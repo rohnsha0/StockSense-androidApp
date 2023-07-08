@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -35,6 +34,8 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.rohnsha.stocksense.object_stockInfo.stocksInfoAPIservice
+import kotlinx.coroutines.withContext
 
 
 data class StockDataResponse(
@@ -86,10 +87,10 @@ class stockDataFetcher{
 
 
 class stocksInfo : AppCompatActivity() {
-    private lateinit var stockName: TextView
     lateinit var adViewBanner: AdView
     lateinit var adViewBanner2: AdView
     private var mInterstitialAd: InterstitialAd?=null
+    lateinit var stockInfoBrnd: String
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,6 +118,7 @@ class stocksInfo : AppCompatActivity() {
         val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)
         adViewBanner= findViewById(R.id.bannerAdSI)
         adViewBanner2= findViewById(R.id.bannerAdSI2)
+
 
         var adClickCount = 0
 
@@ -218,8 +220,19 @@ class stocksInfo : AppCompatActivity() {
         val stockDataFtcher= stockDataFetcher()
         GlobalScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
+            val dynamicUrl= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/query/${inpSymbol.uppercase()}"
+            try {
+                val stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
+                stockInfoBrnd= stocksInfoResponse.stock_name
+            } catch (e: Exception){
+                stockInfoBrnd= inpSymbol.substringBefore('.').uppercase()
+                Log.e("errorName", e.toString())
+                withContext(Dispatchers.Main){
+                    Toast.makeText(this@stocksInfo, e.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
             launch(Dispatchers.Main){
-                if (stockDataBody!=null){
+                if (stockDataBody!=null && stockInfoBrnd.isNotEmpty()){
                     appbarLay.visibility= View.VISIBLE
                     supportActionBar?.show()
                     ltpLay.visibility= View.VISIBLE
@@ -227,6 +240,8 @@ class stocksInfo : AppCompatActivity() {
                     bgMain.visibility= View.VISIBLE
                     loadingTxt.visibility= View.GONE
                     mainContainer.setBackgroundColor(ContextCompat.getColor(this@stocksInfo, R.color.dash_bg))
+
+                    toolbarTitle.text= stockInfoBrnd
 
                     predView.setOnClickListener {
                         val intent= Intent(this@stocksInfo, prediction::class.java)
@@ -239,8 +254,6 @@ class stocksInfo : AppCompatActivity() {
                             Log.d("TAG", "The interstitial ad wasn't ready yet.")
                         }
                     }
-
-                    toolbarTitle.text= stockDataBody.symbol
 
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
                      val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
@@ -353,6 +366,19 @@ class stocksInfo : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun changePrevious(currentDay: Double, previousDay: Double): Double {
+        return (currentDay-previousDay)
+    }
+
+    private fun statusPrevious(change: Double): String{
+        if (change>0){
+            return "POSITIVE"
+        } else if (change<0){
+            return "NEGATIVE"
+        }
+        return "NEUTRAL"
     }
 
     override fun onPause() {
