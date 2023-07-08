@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class search_history_model(application: Application): AndroidViewModel(application) {
 
@@ -21,6 +22,12 @@ class search_history_model(application: Application): AndroidViewModel(applicati
     fun addHistory(searchHistory: search_history){
         viewModelScope.launch(Dispatchers.IO){
             searchRepo.addHistory(searchHistory)
+        }
+    }
+
+    suspend fun countDBquery(): Int{
+        return withContext(Dispatchers.IO){
+            searchRepo.countDB()
         }
     }
 

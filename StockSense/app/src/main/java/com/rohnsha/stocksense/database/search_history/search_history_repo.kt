@@ -9,4 +9,8 @@ class search_history_repo(private val searchDAO: searchDAO) {
     suspend fun addHistory(searchHistory: search_history){
         searchDAO.addSearchHistory(searchHistory)
     }
+
+    suspend fun countDB(): Int{
+        return searchDAO.getDBcount()
+    }
 }

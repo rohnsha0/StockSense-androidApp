@@ -14,4 +14,7 @@ interface searchDAO {
 
     @Query("SELECT * FROM search_history_table ORDER BY id DESC")
     fun readSearchHistory(): LiveData<List<search_history>>
+
+    @Query("SELECT COUNT(id) FROM search_history_table")
+    fun getDBcount(): Int
 }

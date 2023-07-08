@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,6 +79,7 @@ class searchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val searchView= view.findViewById<SearchView>(R.id.searchClickFrag)
+        val initBoiler= view.findViewById<ConstraintLayout>(R.id.searchInit)
         mSearchHistoryModel= ViewModelProvider(this)[search_history_model::class.java]
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -104,6 +106,19 @@ class searchFragment : Fragment() {
         mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner, Observer { history ->
             adapterSearch.setSearchHistory(history)
         })
+
+
+
+
+        GlobalScope.launch(Dispatchers.IO){
+            if (mSearchHistoryModel.countDBquery()<=0){
+                initBoiler.visibility= View.VISIBLE
+                recyclerViewSearch.visibility= View.GONE
+            } else {
+                initBoiler.visibility= View.GONE
+                recyclerViewSearch.visibility= View.VISIBLE
+            }
+        }
     }
 
     suspend fun addHistoryToDB(query: String?){
