@@ -14,6 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.rohnsha.stocksense.database.search_history.searchDAO
 import com.rohnsha.stocksense.database.search_history.searchHistoryAdapter
 import com.rohnsha.stocksense.database.search_history.search_history
@@ -38,6 +44,7 @@ class searchFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var mSearchHistoryModel: search_history_model
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,17 +86,33 @@ class searchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val searchView= view.findViewById<SearchView>(R.id.searchClickFrag)
+        val recyclerViewSearch= view.findViewById<RecyclerView>(R.id.searchHistoryRV)
         val initBoiler= view.findViewById<ConstraintLayout>(R.id.searchInit)
+        val loadingSearch= view.findViewById<ConstraintLayout>(R.id.loadingSearch)
         mSearchHistoryModel= ViewModelProvider(this)[search_history_model::class.java]
+
+
+        GlobalScope.launch(Dispatchers.IO){
+            if (mSearchHistoryModel.countDBquery()<=0){
+                withContext(Dispatchers.Main){
+                    loadingSearch.visibility= View.GONE
+                    initBoiler.visibility= View.VISIBLE
+                    recyclerViewSearch.visibility= View.GONE
+                }
+            } else {
+                withContext(Dispatchers.Main){
+                    loadingSearch.visibility= View.GONE
+                    initBoiler.visibility= View.GONE
+                    recyclerViewSearch.visibility= View.VISIBLE
+                }
+            }
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 performSearch(query)
                 GlobalScope.launch(Dispatchers.IO){
                     addHistoryToDB(query)
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(requireContext(), "successfully added", Toast.LENGTH_SHORT).show()
-                    }
                 }
                 return false
             }
@@ -99,7 +122,6 @@ class searchFragment : Fragment() {
             }
         })
 
-        val recyclerViewSearch= view.findViewById<RecyclerView>(R.id.searchHistoryRV)
         val adapterSearch= searchHistoryAdapter()
         recyclerViewSearch.adapter= adapterSearch
         recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
@@ -107,16 +129,48 @@ class searchFragment : Fragment() {
             adapterSearch.setSearchHistory(history)
         })
 
+        var adRequest = AdRequest.Builder().build()
 
+        val adID= requireContext().getString(R.string.interstitialID)
+        InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                adError?.toString()?.let { Log.d("erroredAd", it) }
+                mInterstitialAd = null
+                InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        adError?.toString()?.let { Log.d("erroredAd", it) }
+                        mInterstitialAd = null
+                    }
 
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        Log.d("adLoaded", "Ad was loaded.")
+                        mInterstitialAd = interstitialAd
+                    }
+                })
+            }
 
-        GlobalScope.launch(Dispatchers.IO){
-            if (mSearchHistoryModel.countDBquery()<=0){
-                initBoiler.visibility= View.VISIBLE
-                recyclerViewSearch.visibility= View.GONE
-            } else {
-                initBoiler.visibility= View.GONE
-                recyclerViewSearch.visibility= View.VISIBLE
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("adLoaded", "Ad was loaded.")
+                mInterstitialAd = interstitialAd
+            }
+        })
+        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d("TAG", "Ad was clicked.")
+            }
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                Log.d("TAG", "Ad dismissed fullscreen content.")
+                mInterstitialAd = null
+            }
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d("TAG", "Ad recorded an impression.")
+            }
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d("TAG", "Ad showed fullscreen content.")
             }
         }
     }
@@ -138,6 +192,11 @@ class searchFragment : Fragment() {
                 val intent = Intent(requireContext(), stocksInfo::class.java)
                 intent.putExtra("symbol", inputSymbol)
                 startActivity(intent)
+                if (mInterstitialAd != null) {
+                    mInterstitialAd?.show(requireActivity())
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.")
+                }
             }
         }
         return true

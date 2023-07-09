@@ -12,11 +12,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import com.rohnsha.stocksense.watchlist_db.watchlistsAdapter
+import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import watchlistDC
 
 
@@ -36,6 +40,7 @@ class watchListFRAG : Fragment() {
     private val WATCHLIST_PREFS = "watchlist_prefs"
     private val WATCHLIST_KEY = "watchlist_data"
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var mWatchlistModel: watchlistsVM
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -81,12 +86,14 @@ class watchListFRAG : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val floatingBtnAdd= view.findViewById<FloatingActionButton>(R.id.floatingADD)
         val recyclerView= view.findViewById<RecyclerView>(R.id.rvWatchlist)
+        mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
 
-        var wtchlist= mutableListOf<watchlistDC>()
-
-        val adapter= watchlistAdapter(wtchlist)
+        val adapter= watchlistsAdapter()
         recyclerView.adapter= adapter
         recyclerView.layoutManager= LinearLayoutManager(requireContext())
+        mWatchlistModel.readWatchlists.observe(viewLifecycleOwner, Observer { stocks ->
+            adapter.setWatchlists(stocks)
+        })
 
         floatingBtnAdd.setOnClickListener {
             val viewInputSymbol: View= layoutInflater.inflate(R.layout.items_add, null)
@@ -96,15 +103,12 @@ class watchListFRAG : Fragment() {
             val btnAdd= viewInputSymbol.findViewById<Button>(R.id.addBtn)
             val lsit= watchlistDC(symboltoADD, "ABC Ltd.")
             btnAdd.setOnClickListener {
-                wtchlist.add(lsit)
-                adapter.notifyItemInserted(wtchlist.size-1)
                 dialogInp.dismiss()
                 Toast.makeText(requireContext(), "this is success", Toast.LENGTH_SHORT).show()
             }
             dialogInp.show()
         }
 
-        Log.d("watchlistsTF", wtchlist.isEmpty().toString())
         val buttonSearch = view.findViewById<Button>(R.id.button2search)
 
         buttonSearch.setOnClickListener {

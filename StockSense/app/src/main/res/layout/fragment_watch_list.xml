@@ -45,11 +45,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/appBar">
 
         <TextView
             android:id="@+id/welcomeMSG"
@@ -59,38 +60,38 @@
             android:text="This is the place you can find predictions for your\ndecided. Let's go through your first prediction"
             android:textAlignment="center"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView"
             android:layout_width="276dp"
             android:layout_height="232dp"
+            android:layout_marginTop="138dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeMSG"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/add_to_watchlistcart"
             tools:layout_editor_absoluteX="58dp"
-            tools:layout_editor_absoluteY="253dp"
-            android:layout_marginTop="138dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcomeMSG"/>
+            tools:layout_editor_absoluteY="253dp" />
 
         <Button
             android:id="@+id/button2search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="103dp"
             android:backgroundTint="@color/dash_bg"
             android:fontFamily="@font/titilliumweb_semi_bold"
             android:text="Search Your Query"
             android:textSize="19sp"
-            tools:layout_editor_absoluteX="97dp"
-            tools:layout_editor_absoluteY="588dp"
-            android:layout_marginTop="103dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"
+            tools:layout_editor_absoluteX="97dp"
+            tools:layout_editor_absoluteY="588dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,8 +99,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="28dp"
-        android:paddingTop="30dp"
         android:background="@drawable/dashboard_white_bg"
+        android:paddingTop="30dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,28 +111,28 @@
             android:id="@+id/assetsTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Symbols"
             android:layout_marginStart="36dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="Symbols"
             app:layout_constraintBottom_toTopOf="@+id/spacer"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/priceTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price"
             android:layout_marginEnd="40dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="Price"
             app:layout_constraintBottom_toTopOf="@+id/spacer"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Space
             android:id="@+id/spacer"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/assetsTV"
-            app:layout_constraintBottom_toTopOf="@id/rvWatchlist"/>
+            app:layout_constraintBottom_toTopOf="@id/rvWatchlist"
+            app:layout_constraintTop_toBottomOf="@+id/assetsTV" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvWatchlist"
@@ -148,6 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="21dp"
+        android:visibility="gone"
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

@@ -19,7 +19,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.material.appbar.AppBarLayout
-import com.rohnsha.stocksense.pred_object.predAPIservice
+import com.rohnsha.stocksense.prediction_api.pred_object.predAPIservice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

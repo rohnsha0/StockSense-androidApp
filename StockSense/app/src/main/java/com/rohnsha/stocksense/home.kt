@@ -1,6 +1,8 @@
 package com.rohnsha.stocksense
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,8 +11,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.rohnsha.stocksense.database.search_history.search_history_model
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +34,7 @@ class home : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private lateinit var mSearchHistoryModel: search_history_model
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +117,19 @@ class home : Fragment() {
             requireActivity().finish()
         } else{
             textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon...\n\nNote: Only NIFTY50 stocks are available\nfor prediction\n(We're working on adding more!)"
+        }
+    }
+
+    private fun checkUpdateSearchHistory(){
+        GlobalScope.launch(Dispatchers.IO) {
+            val sharedPreferences = requireContext().getSharedPreferences("visibilityPref", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+
+            if (mSearchHistoryModel.countDBquery()<=0){
+                editor.putBoolean("boilerTemp", true)
+            } else{
+                editor.putBoolean("boilerTemp", false)
+            }
         }
     }
 }

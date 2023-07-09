@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -34,7 +35,9 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.rohnsha.stocksense.object_stockInfo.stocksInfoAPIservice
+import com.rohnsha.stocksense.stock_infoAPI.object_stockInfo.stocksInfoAPIservice
+import com.rohnsha.stocksense.watchlist_db.watchlists
+import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.withContext
 
 
@@ -91,6 +94,7 @@ class stocksInfo : AppCompatActivity() {
     lateinit var adViewBanner2: AdView
     private var mInterstitialAd: InterstitialAd?=null
     lateinit var stockInfoBrnd: String
+    private lateinit var mWatchlistModel: watchlistsVM
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,12 +116,14 @@ class stocksInfo : AppCompatActivity() {
         val stockMarketTime= findViewById<TextView>(R.id.updationnTime)
         val backBTN= findViewById<ImageView>(R.id.backBTN)
         val predView= findViewById<View>(R.id.predictionView)
+        val tecchView= findViewById<View>(R.id.technicalView)
         val mainContainer= findViewById<ScrollView>(R.id.scrollContainer)
         val toolbar= findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarDash)
         val toolbarTitle= findViewById<TextView>(R.id.dashTitle)
         val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)
         adViewBanner= findViewById(R.id.bannerAdSI)
         adViewBanner2= findViewById(R.id.bannerAdSI2)
+        mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
 
 
         var adClickCount = 0
@@ -128,7 +134,7 @@ class stocksInfo : AppCompatActivity() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError?.toString()?.let { Log.d("TAG", it) }
                 mInterstitialAd = null
-                InterstitialAd.load(this@stocksInfo,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+                InterstitialAd.load(this@stocksInfo,"ca-app-pub-9534797608454346/1015649609", adRequest, object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
                         adError?.toString()?.let { Log.d("TAG", it) }
                         mInterstitialAd = null
@@ -255,7 +261,7 @@ class stocksInfo : AppCompatActivity() {
                         }
                     }
 
-                    stockLTP.text= stockDataBody.regularMarketPrice.toString()
+                    stockLTP.text= "₹" + stockDataBody.regularMarketPrice.toString()
                      val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
                     stockChange.text= String.format("%.2f", change).toFloat().toString()
                     val currentTime = Date()
@@ -264,6 +270,12 @@ class stocksInfo : AppCompatActivity() {
                     stockMarketTime.text= "Last Updated at: $formattedTime"
 
                     startPriceUpdateLoop()
+
+                    tecchView.setOnClickListener {
+                        val stockData= watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble()))
+                        mWatchlistModel.addWatchlists(stockData)
+                        Toast.makeText(this@stocksInfo, "Successfully watchlisted!", Toast.LENGTH_SHORT).show()
+                    }
 
                     updateLTP.setOnClickListener {
                         updateStockPrice(inpSymbol)
@@ -276,6 +288,15 @@ class stocksInfo : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun changeStatus(change: Double): String{
+        if (change>0){
+            return "POSITIVE"
+        } else if (change<0){
+            return "NEGATIVE"
+        }
+        return "NEUTRAL"
     }
 
     private var priceUpdateJob: Job? = null
