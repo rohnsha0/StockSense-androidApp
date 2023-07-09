@@ -11,7 +11,9 @@ import com.rohnsha.stocksense.R
 import com.rohnsha.stocksense.stocksInfo
 import android.content.Context
 import android.util.Log
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
@@ -20,7 +22,7 @@ class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHist
 
     private var searchHistoryList= emptyList<search_history>()
     private var mInterstitialAd: InterstitialAd? = null
-    private final var TAG = "MainActivity"
+    private final var TAG = "searchHistoryAD"
 
     class searchHistoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -65,6 +67,25 @@ class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHist
                     mInterstitialAd = interstitialAd
                 }
             })
+            mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                override fun onAdClicked() {
+                    // Called when a click is recorded for an ad.
+                    Log.d(TAG, "Ad was clicked.")
+                }
+                override fun onAdDismissedFullScreenContent() {
+                    // Called when ad is dismissed.
+                    Log.d(TAG, "Ad dismissed fullscreen content.")
+                    mInterstitialAd = null
+                }
+                override fun onAdImpression() {
+                    // Called when an impression is recorded for an ad.
+                    Log.d(TAG, "Ad recorded an impression.")
+                }
+                override fun onAdShowedFullScreenContent() {
+                    // Called when ad is shown.
+                    Log.d(TAG, "Ad showed fullscreen content.")
+                }
+            }
 
             setOnClickListener {
                 val intent= Intent(context, stocksInfo::class.java)

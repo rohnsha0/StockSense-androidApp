@@ -117,6 +117,7 @@ class stocksInfo : AppCompatActivity() {
         val backBTN= findViewById<ImageView>(R.id.backBTN)
         val predView= findViewById<View>(R.id.predictionView)
         val tecchView= findViewById<View>(R.id.technicalView)
+        val watchlistView= findViewById<View>(R.id.watchlistView)
         val mainContainer= findViewById<ScrollView>(R.id.scrollContainer)
         val toolbar= findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarDash)
         val toolbarTitle= findViewById<TextView>(R.id.dashTitle)
@@ -271,7 +272,7 @@ class stocksInfo : AppCompatActivity() {
 
                     startPriceUpdateLoop()
 
-                    tecchView.setOnClickListener {
+                    watchlistView.setOnClickListener {
                         val stockData= watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble()))
                         mWatchlistModel.addWatchlists(stockData)
                         Toast.makeText(this@stocksInfo, "Successfully watchlisted!", Toast.LENGTH_SHORT).show()

@@ -272,14 +272,14 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
 
                     <View
                         android:id="@+id/predictionView"
                         android:layout_width="100dp"
                         android:layout_height="49dp"
-                        android:layout_marginStart="60dp"
                         android:layout_marginTop="25dp"
                         android:background="@drawable/dash_btn"
                         android:elevation="2dp"
@@ -312,10 +312,10 @@
                         android:id="@+id/technicalView"
                         android:layout_width="100dp"
                         android:layout_height="49dp"
+                        android:layout_marginStart="25dp"
                         android:background="@drawable/dash_btn"
                         android:elevation="2dp"
                         app:layout_constraintBottom_toBottomOf="@+id/predictionView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/predictionView"
                         app:layout_constraintTop_toTopOf="@+id/predictionView" />
 
@@ -340,6 +340,40 @@
                         app:layout_constraintEnd_toEndOf="@+id/technicalView"
                         app:layout_constraintStart_toStartOf="@+id/technicalView"
                         app:layout_constraintTop_toBottomOf="@+id/technicalView" />
+
+                    <View
+                        android:id="@+id/watchlistView"
+                        android:layout_width="75dp"
+                        android:layout_height="49dp"
+                        android:layout_marginStart="25dp"
+                        android:background="@drawable/dash_btn"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/predictionView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/technicalView"
+                        app:layout_constraintTop_toTopOf="@+id/predictionView" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="37dp"
+                        android:layout_height="33dp"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/watchlistView"
+                        app:layout_constraintEnd_toEndOf="@+id/watchlistView"
+                        app:layout_constraintStart_toStartOf="@+id/watchlistView"
+                        app:layout_constraintTop_toTopOf="@+id/watchlistView"
+                        app:srcCompat="@drawable/baseline_bookmark_add_24" />
+
+                    <TextView
+                        android:id="@+id/btnWatchlist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Watchlist"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/watchlistView"
+                        app:layout_constraintStart_toStartOf="@+id/watchlistView"
+                        app:layout_constraintTop_toBottomOf="@+id/watchlistView" />
 
                     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                         android:layout_width="wrap_content"
