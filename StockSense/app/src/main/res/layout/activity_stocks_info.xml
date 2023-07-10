@@ -354,7 +354,7 @@
                         app:layout_constraintTop_toTopOf="@+id/predictionView" />
 
                     <ImageView
-                        android:id="@+id/imageView3"
+                        android:id="@+id/watchlistIcon"
                         android:layout_width="37dp"
                         android:layout_height="33dp"
                         android:elevation="2dp"
@@ -492,7 +492,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Aug 19, 2023"
+                        android:text="T-1 Day"
                         app:layout_constraintEnd_toEndOf="@+id/trendTxt1"
                         app:layout_constraintTop_toBottomOf="@+id/trendTxt1" />
 
@@ -553,7 +553,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Aug 18, 2023"
+                        android:text="T-2 Day"
                         app:layout_constraintEnd_toEndOf="@+id/trendTxt2"
                         app:layout_constraintTop_toBottomOf="@+id/trendTxt2" />
 
@@ -615,7 +615,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Aug 17, 2023"
+                        android:text="T-3 Day"
                         app:layout_constraintEnd_toEndOf="@+id/trendTxt3"
                         app:layout_constraintTop_toBottomOf="@+id/trendTxt3" />
 
@@ -676,7 +676,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Aug 16, 2023"
+                        android:text="T-4 Day"
                         app:layout_constraintEnd_toEndOf="@+id/trendTxt4"
                         app:layout_constraintTop_toBottomOf="@+id/trendTxt4" />
 
@@ -738,7 +738,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Aug 15, 2023"
+                        android:text="T-5 Day"
                         app:layout_constraintEnd_toEndOf="@+id/trendTxt5"
                         app:layout_constraintTop_toBottomOf="@+id/trendTxt5" />
 

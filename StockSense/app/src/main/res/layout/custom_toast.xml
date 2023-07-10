@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp"
+    android:layout_gravity="center_horizontal"
+    android:id="@+id/toastRoot"
+    android:background="@drawable/toasst_background"
+    android:layout_marginTop="17dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/toastLogo"
+        android:layout_width="24dp"
+        android:padding="2dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/white"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/logo_bg"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/toastMSG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is Toast Message"
+        android:textColor="@color/white"
+        android:layout_marginStart="12sp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        app:layout_constraintStart_toEndOf="@id/toastLogo"
+        app:layout_constraintTop_toTopOf="@id/toastLogo"
+        app:layout_constraintBottom_toBottomOf="@id/toastLogo"/>
+
+    <ImageView
+        android:id="@+id/toastCancel"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/baseline_clear_24"
+        app:layout_constraintBottom_toBottomOf="@id/toastLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/toastMSG"
+        app:layout_constraintTop_toTopOf="@id/toastLogo"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

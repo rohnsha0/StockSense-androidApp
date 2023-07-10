@@ -10,4 +10,12 @@ class watchlistsRepo(private val watchlistsDAO: watchlistsDAO) {
         watchlistsDAO.addWatchlists(watchlists)
     }
 
+    suspend fun deleteWatchlists(watchlists: List<watchlists>){
+        watchlistsDAO.deleteWatchlist(watchlists)
+    }
+
+    suspend fun searchWatchlists(symbol: String): List<watchlists>{
+        return watchlistsDAO.searchWatchlistsDB(symbol)
+    }
+
 }

@@ -2,6 +2,7 @@ package com.rohnsha.stocksense
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -124,9 +125,12 @@ class stocksInfo : AppCompatActivity() {
         val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)
         adViewBanner= findViewById(R.id.bannerAdSI)
         adViewBanner2= findViewById(R.id.bannerAdSI2)
+        val watchlistViewTXT= findViewById<TextView>(R.id.btnWatchlist)
+        val watchlistIcon= findViewById<ImageView>(R.id.watchlistIcon)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
 
 
+        var wlBtnClickCount = 0
         var adClickCount = 0
 
         val adRequest= AdRequest.Builder().build()
@@ -230,7 +234,10 @@ class stocksInfo : AppCompatActivity() {
             val dynamicUrl= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/query/${inpSymbol.uppercase()}"
             try {
                 val stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
-                stockInfoBrnd= stocksInfoResponse.stock_name
+                withContext(Dispatchers.Main){
+                    stockInfoBrnd= stocksInfoResponse.stock_name
+                    previousCloses(stocksInfoResponse.t1,stocksInfoResponse.t2, stocksInfoResponse.t3, stocksInfoResponse.t4, stocksInfoResponse.t5, stocksInfoResponse.t6)
+                }
             } catch (e: Exception){
                 stockInfoBrnd= inpSymbol.substringBefore('.').uppercase()
                 Log.e("errorName", e.toString())
@@ -238,6 +245,9 @@ class stocksInfo : AppCompatActivity() {
                     Toast.makeText(this@stocksInfo, e.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
+
+            Log.d("searchingDB", mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase()).isEmpty().toString())
+
             launch(Dispatchers.Main){
                 if (stockDataBody!=null && stockInfoBrnd.isNotEmpty()){
                     appbarLay.visibility= View.VISIBLE
@@ -272,10 +282,42 @@ class stocksInfo : AppCompatActivity() {
 
                     startPriceUpdateLoop()
 
-                    watchlistView.setOnClickListener {
-                        val stockData= watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble()))
-                        mWatchlistModel.addWatchlists(stockData)
-                        Toast.makeText(this@stocksInfo, "Successfully watchlisted!", Toast.LENGTH_SHORT).show()
+                    withContext(Dispatchers.IO){
+                        if (!mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase()).isEmpty()){
+                            val data= mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase())
+                            withContext(Dispatchers.Main){
+                                watchlistViewTXT.text= "Watchlisted"
+                                watchlistIcon.setImageResource(R.drawable.baseline_bookmark_remove_24)
+                                watchlistView.setOnClickListener {
+                                    if (wlBtnClickCount==0){
+                                        mWatchlistModel.deleteUser(data)
+                                        customToast.makeText(this@stocksInfo, "Successfully removed from Watchlists", 3).show()
+                                        watchlistViewTXT.text= "Watchlist"
+                                        watchlistIcon.setImageResource(R.drawable.baseline_bookmark_24)
+                                        wlBtnClickCount++
+                                    } else{
+                                        customToast.makeText(this@stocksInfo, "Already removed from Watchlists", 2).show()
+                                    }
+                                }
+                            }
+                        } else {
+                            withContext(Dispatchers.Main){
+                                watchlistView.setOnClickListener {
+                                    if (wlBtnClickCount==0){
+                                        val stockData= watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble()))
+                                        mWatchlistModel.addWatchlists(stockData)
+                                        // Toast.makeText(this@stocksInfo, "Successfully watchlisted!", Toast.LENGTH_SHORT).show()
+                                        customToast.makeText(this@stocksInfo, "Successfully added to Watchlists", 1).show()
+                                        watchlistViewTXT.text= "Watchlisted"
+                                        watchlistIcon.setImageResource(R.drawable.baseline_bookmark_24)
+                                        wlBtnClickCount++
+                                    } else{
+                                        customToast.makeText(this@stocksInfo, "Already added to Watchlists", 2).show()
+                                    }
+
+                                }
+                            }
+                        }
                     }
 
                     updateLTP.setOnClickListener {
@@ -394,13 +436,43 @@ class stocksInfo : AppCompatActivity() {
         return (currentDay-previousDay)
     }
 
-    private fun statusPrevious(change: Double): String{
+    private fun previousCloses(t1: Double, t2: Double, t3: Double, t4: Double, t5: Double, t6: Double){
+        findViewById<TextView>(R.id.trendPrice1).text= String.format("%.2f", t1)
+        findViewById<TextView>(R.id.trendPrice2).text= String.format("%.2f", t2)
+        findViewById<TextView>(R.id.trendPrice3).text= String.format("%.2f", t3)
+        findViewById<TextView>(R.id.trendPrice4).text= String.format("%.2f", t4)
+        findViewById<TextView>(R.id.trendPrice5).text= String.format("%.2f", t5)
+
+        findViewById<TextView>(R.id.trendChange).text= changePrice(t1, t2)
+        findViewById<TextView>(R.id.trendChange2).text= changePrice(t2, t3)
+        findViewById<TextView>(R.id.trendChange3).text= changePrice(t3, t4)
+        findViewById<TextView>(R.id.trendChange4).text= changePrice(t4, t5)
+        findViewById<TextView>(R.id.trendChange5).text= changePrice(t5, t6)
+
+        statusPrevious(t1, t2, R.id.trendTxt1)
+        statusPrevious(t2, t3, R.id.trendTxt2)
+        statusPrevious(t3, t4, R.id.trendTxt3)
+        statusPrevious(t4, t5, R.id.trendTxt4)
+        statusPrevious(t5, t6, R.id.trendTxt5)
+    }
+
+    private fun statusPrevious(t1: Double, t2: Double, id: Int){
+        val id= findViewById<TextView>(id)
+        val change= changePrice(t1, t2).toDouble()
         if (change>0){
-            return "POSITIVE"
+            id.setTextColor(Color.GREEN)
+            id.text= "POSITIVE"
         } else if (change<0){
-            return "NEGATIVE"
+            id.setTextColor(Color.RED)
+            id.text= "NEGATIVE"
+        } else{
+            id.setTextColor(Color.GRAY)
+            id.text=  "NEUTRAL"
         }
-        return "NEUTRAL"
+    }
+
+    private fun changePrice(t1: Double, t2: Double): String{
+        return String.format("%.2f", t1-t2)
     }
 
     override fun onPause() {
