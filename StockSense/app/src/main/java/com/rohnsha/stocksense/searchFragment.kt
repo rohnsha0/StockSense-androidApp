@@ -183,11 +183,13 @@ class searchFragment : Fragment() {
 
     private fun performSearch(query: String?): Boolean {
         if (query.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Field can't be null", Toast.LENGTH_SHORT).show()
+            customToast.makeText(requireContext(), "Field can't be null", 2).show()
             return false
         } else {
-            if (query.matches(Regex("[-+]?\\d+(\\.\\d+)?"))) {
-                Toast.makeText(requireContext(), "Enter a valid input", Toast.LENGTH_SHORT).show()
+            if (query.matches(Regex("[0-9]+"))) {
+                customToast.makeText(requireContext(), "Symbol cannot be numbers", 2).show()
+            } else if (query.matches(Regex("\\s"))){
+                customToast.makeText(requireContext(), "Symbols cannot have spaces", 2).show()
             } else {
                 val inputSymbol = "$query.NS"
                 val intent = Intent(requireContext(), stocksInfo::class.java)

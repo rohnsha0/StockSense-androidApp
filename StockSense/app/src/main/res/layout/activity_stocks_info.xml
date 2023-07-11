@@ -57,12 +57,28 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/errorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/errorAnim"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="240dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/errorMSG"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/error"
+                tools:ignore="MissingConstraints" />
 
             <ImageView
                 android:id="@+id/errorImageView"
@@ -74,6 +90,7 @@
                 android:layout_marginBottom="8dp"
                 android:contentDescription="Error"
                 android:src="@drawable/ic_error"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/errorMSG"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +101,11 @@
                 android:id="@+id/errorMSG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/titilliumweb_semi_bold"
                 android:gravity="center"
-                android:text="Oops there was an issue" />
-        </LinearLayout>
+                android:text="We were unable to fetch stocks info based on your input\n1. Check your symbol \n2. Check your internet connection\n3. Try again later"
+                app:layout_constraintTop_toBottomOf="@id/errorAnim" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loadingView"

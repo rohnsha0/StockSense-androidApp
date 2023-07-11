@@ -110,7 +110,7 @@ class stocksInfo : AppCompatActivity() {
         val topLay= findViewById<LinearLayout>(R.id.topBarLayout)
         val ltpLay= findViewById<LinearLayout>(R.id.LTPLayout)
         val loadingTxt= findViewById<ConstraintLayout>(R.id.loadingView)
-        val errorTxt= findViewById<LinearLayout>(R.id.errorLayout)
+        val errorTxt= findViewById<ConstraintLayout>(R.id.errorLayout)
         val updationPane= findViewById<LinearLayout>(R.id.updationPane)
         val bgMain= findViewById<LinearLayout>(R.id.background_main_dash)
         val updateLTP= findViewById<ImageView>(R.id.refreshTag)
@@ -241,9 +241,6 @@ class stocksInfo : AppCompatActivity() {
             } catch (e: Exception){
                 stockInfoBrnd= inpSymbol.substringBefore('.').uppercase()
                 Log.e("errorName", e.toString())
-                withContext(Dispatchers.Main){
-                    Toast.makeText(this@stocksInfo, e.toString(), Toast.LENGTH_SHORT).show()
-                }
             }
 
             Log.d("searchingDB", mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase()).isEmpty().toString())
