@@ -231,7 +231,7 @@ class stocksInfo : AppCompatActivity() {
         val stockDataFtcher= stockDataFetcher()
         GlobalScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
-            val dynamicUrl= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/query/${inpSymbol.uppercase()}"
+            val dynamicUrl= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws//query/${inpSymbol.uppercase()}"
             try {
                 val stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
                 withContext(Dispatchers.Main){

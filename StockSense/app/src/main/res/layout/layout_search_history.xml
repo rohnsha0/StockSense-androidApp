@@ -9,14 +9,41 @@
         android:id="@+id/logoHistory"
         android:layout_width="34dp"
         android:layout_height="34dp"
+        android:padding="6dp"
         android:background="@drawable/logo_bg"
         android:layout_marginTop="9dp"
+        android:src="@drawable/baseline_history_24"
         android:layout_marginStart="24dp"
         android:elevation="2dp"
         android:layout_marginBottom="9dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:padding="9dp"
+        android:src="@drawable/baseline_open_in_new_24"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintTop_toTopOf="@id/logoHistory"
+        app:layout_constraintBottom_toBottomOf="@id/logoHistory"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/textSearchIcom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S"
+        android:visibility="gone"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/titillium_web_bold"
+        android:elevation="2dp"
+        app:layout_constraintTop_toTopOf="@id/logoHistory"
+        app:layout_constraintBottom_toBottomOf="@id/logoHistory"
+        app:layout_constraintStart_toStartOf="@id/logoHistory"
+        app:layout_constraintEnd_toEndOf="@id/logoHistory"/>
 
     <TextView
         android:id="@+id/tvHistory"

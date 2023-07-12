@@ -41,6 +41,7 @@ class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHist
 
         holder.itemView.apply {
             findViewById<TextView>(R.id.tvHistory).text= currentSearchItem.search_history
+            //findViewById<TextView>(R.id.textSearchIcom).text= currentSearchItem.search_history?.substring(0, 1)
 
             var adRequest = AdRequest.Builder().build()
             val adID= context.getString(R.string.interstitialID)

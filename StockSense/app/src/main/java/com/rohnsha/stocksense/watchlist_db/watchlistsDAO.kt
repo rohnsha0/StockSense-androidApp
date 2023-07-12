@@ -19,6 +19,21 @@ interface watchlistsDAO {
     @Query("SELECT * FROM watchlists_table ORDER BY symbol ASC")
     fun readWatchlists(): LiveData<List<watchlists>>
 
+    @Query("SELECT * FROM watchlists_table ORDER BY symbol DESC")
+    fun readWatchlistsDesc(): LiveData<List<watchlists>>
+
+    @Query("SELECT * FROM watchlists_table ORDER BY ltp ASC")
+    fun sortLTPAsc(): LiveData<List<watchlists>>
+
+    @Query("SELECT * FROM watchlists_table ORDER BY ltp DESC")
+    fun sortLTPDesc(): LiveData<List<watchlists>>
+
+    @Query("SELECT * FROM watchlists_table ORDER BY status ASC")
+    fun sortStatusAsc(): LiveData<List<watchlists>>
+
+    @Query("SELECT * FROM watchlists_table ORDER BY status DESC")
+    fun sortStatusDesc(): LiveData<List<watchlists>>
+
     @Query("SELECT * FROM watchlists_table WHERE symbol LIKE :inpSymbol")
     fun searchWatchlistsDB(inpSymbol: String): List<watchlists>
 

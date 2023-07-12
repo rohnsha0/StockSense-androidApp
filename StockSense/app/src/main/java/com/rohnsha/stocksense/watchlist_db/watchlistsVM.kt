@@ -11,12 +11,22 @@ import kotlinx.coroutines.withContext
 class watchlistsVM(application: Application): AndroidViewModel(application) {
 
     val readWatchlists: LiveData<List<watchlists>>
+    val readWatchlistsDesc: LiveData<List<watchlists>>
+    var sortLTPAsc: LiveData<List<watchlists>>
+    var sortLTPDesc: LiveData<List<watchlists>>
+    var sortStatusAsc: LiveData<List<watchlists>>
+    var sortStatusDesc: LiveData<List<watchlists>>
     private val watchlistsRepo: watchlistsRepo
 
     init {
         val watchlistsDAO= watchlistsDB.getWatchlistsDB(application).watchlists_dao()
         watchlistsRepo= watchlistsRepo(watchlistsDAO)
         readWatchlists= watchlistsDAO.readWatchlists()
+        readWatchlistsDesc= watchlistsDAO.readWatchlistsDesc()
+        sortLTPAsc= watchlistsDAO.sortLTPAsc()
+        sortLTPDesc= watchlistsDAO.sortLTPDesc()
+        sortStatusAsc= watchlistsDAO.sortStatusAsc()
+        sortStatusDesc= watchlistsDAO.sortStatusDesc()
     }
 
     fun addWatchlists(watchlists: watchlists){
