@@ -269,7 +269,7 @@ class stocksInfo : AppCompatActivity() {
                         }
                     }
 
-                    stockLTP.text= "₹" + stockDataBody.regularMarketPrice.toString()
+                    stockLTP.text= stockDataBody.regularMarketPrice.toString()
                      val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
                     stockChange.text= String.format("%.2f", change).toFloat().toString()
                     val currentTime = Date()
@@ -359,7 +359,7 @@ class stocksInfo : AppCompatActivity() {
             val stockDataBody= stockDataFtcher.getStockData(symbol)
             launch(Dispatchers.Main){
                 if(stockDataBody!=null){
-                    stockLTP.text= "₹" + stockDataBody.regularMarketPrice.toString()
+                    stockLTP.text= stockDataBody.regularMarketPrice.toString()
                     val currentTime = Date()
                     val formatter = SimpleDateFormat("HH:mm:ss")
                     val formattedTime = formatter.format(currentTime)

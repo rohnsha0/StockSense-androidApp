@@ -2,12 +2,14 @@ package com.rohnsha.stocksense
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -191,7 +193,7 @@ class searchFragment : Fragment() {
             } else if (query.matches(Regex("\\s"))){
                 customToast.makeText(requireContext(), "Symbols cannot have spaces", 2).show()
             } else {
-                val inputSymbol = "$query.NS"
+                val inputSymbol = searchIndex(query)
                 val intent = Intent(requireContext(), stocksInfo::class.java)
                 intent.putExtra("symbol", inputSymbol)
                 startActivity(intent)
@@ -203,5 +205,21 @@ class searchFragment : Fragment() {
             }
         }
         return true
+    }
+
+    private fun searchIndex(stockSymbol: String): String{
+        val rbNSE= view?.findViewById<RadioButton>(R.id.rbNSE)
+        val rbBSE= view?.findViewById<RadioButton>(R.id.rbBSE)
+        val rbManual= view?.findViewById<RadioButton>(R.id.rbManual)
+        var symbol= stockSymbol
+
+        if (rbNSE!!.isChecked){
+            symbol= "$stockSymbol.NS"
+        } else if (rbBSE!!.isChecked){
+            symbol= "$stockSymbol.BO"
+        } else if (rbManual!!.isChecked){
+            symbol= stockSymbol
+        }
+        return symbol
     }
 }

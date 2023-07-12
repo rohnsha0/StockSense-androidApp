@@ -25,18 +25,20 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginStart="0dp">
 
                 <SearchView
                     android:id="@+id/searchClickFrag"
+                    style="@style/SearchViewCustom"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginTop="-12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
-                    android:iconifiedByDefault="false"
                     android:backgroundTint="@color/white"
-                    style="@style/SearchViewCustom"
                     android:foregroundTint="@color/white"
+                    android:iconifiedByDefault="false"
                     android:queryBackground="@android:color/transparent"
                     android:queryHint="Search your Symbol"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -44,16 +46,87 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="*Only Nifty stocks are available (as of now)"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/titilliumweb_semi_bold"
-                    app:layout_constraintEnd_toEndOf="@+id/searchClickFrag"
+                    app:layout_constraintTop_toBottomOf="@id/searchClickFrag"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchClickFrag" />
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/searchCategoryHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Searching in: "
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <RadioGroup
+                        android:id="@+id/verticalRadioSearch"
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@+id/searchCategoryHint"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <RadioButton
+                            android:id="@+id/rbNSE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:paddingEnd="14dp"
+                            android:paddingStart="14dp"
+                            android:text="NSE"
+                            android:background="@drawable/vertical_radio"
+                            android:fontFamily="@font/titilliumweb_semi_bold"
+                            android:checked="true"
+                            android:button="@null"/>
+
+                        <RadioButton
+                            android:id="@+id/rbBSE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:paddingEnd="14dp"
+                            android:paddingStart="14dp"
+                            android:background="@drawable/vertical_radio"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:fontFamily="@font/titilliumweb_semi_bold"
+                            android:checked="false"
+                            android:layout_marginStart="8dp"
+                            android:text="BSE"
+                            android:button="@null"/>
+
+                        <RadioButton
+                            android:id="@+id/rbManual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:paddingEnd="14dp"
+                            android:paddingStart="14dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:text="Manual"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/vertical_radio"
+                            android:fontFamily="@font/titilliumweb_semi_bold"
+                            android:button="@null"/>
+
+                    </RadioGroup>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/baseline_help_24"
+                        app:layout_constraintStart_toEndOf="@id/verticalRadioSearch"
+                        app:layout_constraintTop_toTopOf="@id/verticalRadioSearch"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

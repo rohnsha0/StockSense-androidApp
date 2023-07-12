@@ -84,5 +84,13 @@
     <style name="NavBarActive" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#0D111D30</item>
     </style>
+    
+    <style name="textAppearanceRadio" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textAppearance">@style/CustomRadioButtonTextAppearance</item>
+    </style>
 
+    <style name="CustomRadioButtonTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/titilliumweb_semi_bold</item>
+    </style>
+    
 </resources>

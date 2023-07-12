@@ -35,6 +35,7 @@ class homepage : AppCompatActivity() {
                 R.id.homeNav -> replaceFragment(home())
                 R.id.searchNav -> replaceFragment(searchFragment())
                 R.id.watchList -> replaceFragment(watchListFRAG())
+                R.id.more -> replaceFragment(moreFragment())
 
                 else ->{
 

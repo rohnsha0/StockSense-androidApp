@@ -9,4 +9,7 @@
     <item android:id="@+id/watchList"
         android:title="Watchlist"
         android:icon="@drawable/ic_track"/>
+    <item android:id="@+id/more"
+        android:title="More"
+        android:icon="@drawable/baseline_more_horiz_24"/>
 </menu>
