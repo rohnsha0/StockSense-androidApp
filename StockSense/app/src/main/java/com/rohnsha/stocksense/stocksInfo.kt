@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.db.williamchart.view.LineChartView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -128,6 +129,7 @@ class stocksInfo : AppCompatActivity() {
         val watchlistViewTXT= findViewById<TextView>(R.id.btnWatchlist)
         val watchlistIcon= findViewById<ImageView>(R.id.watchlistIcon)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
+        val lineChart= findViewById<LineChartView>(R.id.lineChart)
 
 
         var wlBtnClickCount = 0
@@ -237,6 +239,16 @@ class stocksInfo : AppCompatActivity() {
                 withContext(Dispatchers.Main){
                     stockInfoBrnd= stocksInfoResponse.stock_name
                     previousCloses(stocksInfoResponse.t1,stocksInfoResponse.t2, stocksInfoResponse.t3, stocksInfoResponse.t4, stocksInfoResponse.t5, stocksInfoResponse.t6)
+                    val chartSet= listOf(
+                        "T-6" to stocksInfoResponse.t6.toFloat(),
+                        "T-5" to stocksInfoResponse.t5.toFloat(),
+                        "T-4" to stocksInfoResponse.t4.toFloat(),
+                        "T-3" to stocksInfoResponse.t3.toFloat(),
+                        "T-2" to stocksInfoResponse.t2.toFloat(),
+                        "T-1" to stocksInfoResponse.t1.toFloat(),
+                        "T" to stockDataBody!!.regularMarketPrice
+                    )
+                    lineChart.animate(chartSet)
                 }
             } catch (e: Exception){
                 stockInfoBrnd= inpSymbol.substringBefore('.').uppercase()

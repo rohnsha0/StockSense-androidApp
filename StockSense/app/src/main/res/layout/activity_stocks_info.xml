@@ -221,6 +221,23 @@
                     app:layout_constraintStart_toStartOf="@+id/stockPrice"
                     app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
 
+                <com.db.williamchart.view.LineChartView
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="165dp"
+                    android:layout_marginTop="50dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:chart_axis="none"
+                    app:chart_gridEffect="dotted"
+                    app:chart_lineColor="@color/white"
+                    app:chart_lineThickness="3dp"
+                    app:chart_smoothLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/change" />
+
+
                 <LinearLayout
                     android:id="@+id/updationPane"
                     android:layout_width="wrap_content"
@@ -257,7 +274,7 @@
                         android:paddingTop="3dp"
                         android:paddingEnd="9dp"
                         android:paddingBottom="3dp"
-                        android:text="60D trendline"
+                        android:text="7D trendline"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
