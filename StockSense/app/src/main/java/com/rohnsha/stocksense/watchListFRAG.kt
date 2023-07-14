@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
 import com.rohnsha.stocksense.watchlist_db.watchlistsAdapter
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 

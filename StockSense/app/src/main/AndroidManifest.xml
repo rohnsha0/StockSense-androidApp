@@ -16,6 +16,12 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".logout_account"
+            android:exported="false" />
+        <activity
+            android:name=".profile"
+            android:exported="false" />
+        <activity
             android:name=".welcome_screen"
             android:exported="false" />
         <activity

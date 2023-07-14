@@ -7,7 +7,21 @@
     android:background="@color/bg_main"
     tools:context=".moreFragment">
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:padding="20dp"
+        android:layout_marginBottom="-50dp"
+        android:background="@drawable/round_blue"
+        app:layout_constraintBottom_toTopOf="@id/containerMore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/baseline_person_24"
+        android:elevation="2dp"
+        app:tint="@color/viewsDash" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerMore"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="81dp"
@@ -15,6 +29,253 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:id="@+id/tvNameMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/titilliumweb_semi_bold"
+            android:text="Name"
+            android:textSize="19sp"
+            android:layout_marginTop="62dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/containerMore"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewProfile"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tvNameMore"
+            android:background="@drawable/dash_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal Details"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="@id/viewProfile"
+                app:layout_constraintTop_toTopOf="@id/viewProfile"
+                app:layout_constraintBottom_toBottomOf="@id/viewProfile"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:padding="2dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintEnd_toEndOf="@id/viewProfile"
+                app:layout_constraintTop_toTopOf="@id/viewProfile"
+                app:layout_constraintBottom_toBottomOf="@id/viewProfile"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewProfileEmail"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@id/viewProfile"
+            android:background="@drawable/dash_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/changeMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/viewProfileEmail"
+                android:text="Change"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="19dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email id verification"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="@id/viewProfileEmail"
+                app:layout_constraintTop_toTopOf="@id/viewProfileEmail"
+                app:layout_constraintBottom_toBottomOf="@id/viewProfileEmail"/>
+
+            <ImageView
+                android:id="@+id/emailVerifyBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:padding="2dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintEnd_toEndOf="@id/viewProfileEmail"
+                app:layout_constraintTop_toTopOf="@id/viewProfileEmail"
+                app:layout_constraintBottom_toBottomOf="@id/viewProfileEmail"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvManageApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage Application"
+                app:layout_constraintTop_toBottomOf="@id/viewProfileEmail"
+                android:layout_marginTop="23dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                app:layout_constraintStart_toStartOf="@id/viewProfileEmail"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/accountDelete"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tvManageApp"
+            android:background="@drawable/dash_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout and Account Deletion"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="@id/accountDelete"
+                app:layout_constraintTop_toTopOf="@id/accountDelete"
+                app:layout_constraintBottom_toBottomOf="@id/accountDelete"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:padding="2dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintEnd_toEndOf="@id/accountDelete"
+                app:layout_constraintTop_toTopOf="@id/accountDelete"
+                app:layout_constraintBottom_toBottomOf="@id/accountDelete"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewPrivacy"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@id/accountDelete"
+            android:background="@drawable/dash_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Data Usage and Handling"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="@id/viewPrivacy"
+                app:layout_constraintTop_toTopOf="@id/viewPrivacy"
+                app:layout_constraintBottom_toBottomOf="@id/viewPrivacy"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:padding="2dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintEnd_toEndOf="@id/viewPrivacy"
+                app:layout_constraintTop_toTopOf="@id/viewPrivacy"
+                app:layout_constraintBottom_toBottomOf="@id/viewPrivacy"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewStatus"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@id/viewPrivacy"
+            android:background="@drawable/dash_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service Status"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="@id/viewStatus"
+                app:layout_constraintTop_toTopOf="@id/viewStatus"
+                app:layout_constraintBottom_toBottomOf="@id/viewStatus"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:padding="2dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintEnd_toEndOf="@id/viewStatus"
+                app:layout_constraintTop_toTopOf="@id/viewStatus"
+                app:layout_constraintBottom_toBottomOf="@id/viewStatus"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewHelp"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintTop_toBottomOf="@id/viewStatus"
+            android:background="@drawable/dash_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Help and Support"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/titilliumweb_semi_bold"
+                android:textSize="19sp"
+                app:layout_constraintStart_toStartOf="@id/viewHelp"
+                app:layout_constraintTop_toTopOf="@id/viewHelp"
+                app:layout_constraintBottom_toBottomOf="@id/viewHelp"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:padding="2dp"
+                android:src="@drawable/baseline_arrow_forward_24"
+                app:layout_constraintEnd_toEndOf="@id/viewHelp"
+                app:layout_constraintTop_toTopOf="@id/viewHelp"
+                app:layout_constraintBottom_toBottomOf="@id/viewHelp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

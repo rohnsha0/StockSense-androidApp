@@ -36,6 +36,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
+                    <ImageView
+                        android:id="@+id/backStockInfo"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:tint="@color/white"
+                        android:src="@drawable/baseline_arrow_back_ios_new_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/dashTitle"
                         android:layout_width="wrap_content"
@@ -45,6 +55,7 @@
                         android:text="LTP"
                         android:textAlignment="center"
                         android:textColor="@color/white"
+                        android:maxLength="21"
                         android:textSize="26sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -182,6 +193,23 @@
 
         </LinearLayout>
 
+        <com.db.williamchart.view.LineChartView
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:layout_marginTop="124dp"
+            android:paddingTop="10dp"
+            android:visibility="gone"
+            android:paddingBottom="10dp"
+            app:chart_axis="none"
+            app:chart_gridEffect="dotted"
+            app:chart_lineColor="@color/white"
+            app:chart_lineThickness="3dp"
+            app:chart_smoothLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/LTPLayout" />
+
         <LinearLayout
             android:id="@+id/LTPLayout"
             android:layout_width="match_parent"
@@ -220,23 +248,6 @@
                     app:layout_constraintEnd_toEndOf="@+id/stockPrice"
                     app:layout_constraintStart_toStartOf="@+id/stockPrice"
                     app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
-
-                <com.db.williamchart.view.LineChartView
-                    android:id="@+id/lineChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="165dp"
-                    android:layout_marginTop="50dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    app:chart_axis="none"
-                    app:chart_gridEffect="dotted"
-                    app:chart_lineColor="@color/white"
-                    app:chart_lineThickness="3dp"
-                    app:chart_smoothLine="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/change" />
-
 
                 <LinearLayout
                     android:id="@+id/updationPane"

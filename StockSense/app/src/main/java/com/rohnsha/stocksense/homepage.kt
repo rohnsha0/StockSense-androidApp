@@ -1,9 +1,11 @@
 package com.rohnsha.stocksense
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,11 +17,12 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.rohnsha.stocksense.databinding.ActivityHomepageBinding
 import com.rohnsha.stocksense.databinding.ActivityMainBinding
 
-class homepage : AppCompatActivity() {
+class homepage : AppCompatActivity(), home.FragmentChangeListener {
 
     private lateinit var binding: ActivityHomepageBinding
     private lateinit var analytics: FirebaseAnalytics
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,6 +30,11 @@ class homepage : AppCompatActivity() {
         setContentView(binding.root)
         analytics= FirebaseAnalytics.getInstance(this)
         replaceFragment(home())
+
+        val homeFrag= supportFragmentManager.findFragmentById(R.id.main_content) as? home
+        homeFrag?.view?.findViewById<TextView>(R.id.viewWl)?.setOnClickListener {
+            replaceFragment(watchListFRAG())
+        }
 
         binding.bottomNav.background= null
 
@@ -56,5 +64,13 @@ class homepage : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.main_content, fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun replaceFrag(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.main_content, fragment)
+        fragmentTransaction.commit()
+        binding.bottomNav.menu.findItem(R.id.watchList)?.isChecked= true
     }
 }

@@ -2,23 +2,26 @@ package com.rohnsha.stocksense
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.rohnsha.stocksense.database.search_history.search_history_model
+import com.rohnsha.stocksense.indices_db.indices
+import com.rohnsha.stocksense.indices_db.indicesAdapter
+import com.rohnsha.stocksense.indices_db.indicesViewModel
+import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
+import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +39,9 @@ class home : Fragment() {
     private var param2: String? = null
     private lateinit var mSearchHistoryModel: search_history_model
     private lateinit var auth: FirebaseAuth
+    private var fragmentChangeListener: FragmentChangeListener? = null
+    private lateinit var mWatchlistModel: watchlistsVM
+    private lateinit var mIndicesViewModel: indicesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,15 +82,45 @@ class home : Fragment() {
             }
     }
 
+    interface FragmentChangeListener{
+        fun replaceFrag(fragment: Fragment)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentChangeListener = context as? FragmentChangeListener
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-        val btnSignOut= view.findViewById<Button>(R.id.btnSignOut)
-        val dltProfile= view.findViewById<Button>(R.id.dltUser)
+        val viewWl= view.findViewById<TextView>(R.id.viewWl)
+        val rvWatchlists= view.findViewById<RecyclerView>(R.id.rvWatchlistHome)
+        val rvIndices= view.findViewById<RecyclerView>(R.id.rvIndicesHome)
+        mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
+        mIndicesViewModel= ViewModelProvider(this)[indicesViewModel::class.java]
+
+        val adapter= indicesAdapter()
+        rvIndices.adapter= adapter
+        rvIndices.layoutManager= LinearLayoutManager(requireContext())
+        mIndicesViewModel.readIndices.observe(viewLifecycleOwner, Observer { stocks ->
+            adapter.setIndices(stocks)
+        })
+
+        val adapterFive= watchlistAdapterFive()
+        rvWatchlists.adapter= adapterFive
+        rvWatchlists.layoutManager= LinearLayoutManager(requireContext())
+        mWatchlistModel.readWatchlists.observe(viewLifecycleOwner, Observer { stocks ->
+            adapterFive.setWatchlists(stocks)
+        })
+
+        viewWl.setOnClickListener {
+            fragmentChangeListener?.replaceFrag(watchListFRAG())
+        }
+
         checkLoginState()
 
-        dltProfile.setOnClickListener {
+        /*dltProfile.setOnClickListener {
             Toast.makeText(requireContext(), "Profile deletion initiated", Toast.LENGTH_SHORT).show()
             auth.currentUser?.delete()
             checkLoginState()
@@ -107,16 +143,17 @@ class home : Fragment() {
             btnLogin.setOnClickListener {
                 startActivity(Intent(requireActivity(), welcome_screen::class.java))
             }
-        }
+        }*/
     }
 
     private fun checkLoginState(){
-        val textView= view?.findViewById<TextView>(R.id.homePage)
+        //val textView= view?.findViewById<TextView>(R.id.homePage)
         if (auth.currentUser==null){
-            startActivity(Intent(requireContext(), welcome_screen::class.java))
-            requireActivity().finish()
+            val intent= Intent(requireContext(), welcome_screen::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         } else{
-            textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon...\n\nNote: Only NIFTY50 stocks are available\nfor prediction\n(We're working on adding more!)"
+        //    textView?.text= "Hello ${auth.currentUser?.displayName},\nThe Homepage will be live soon...\n\nNote: Only NIFTY50 stocks are available\nfor prediction\n(We're working on adding more!)"
         }
     }
 

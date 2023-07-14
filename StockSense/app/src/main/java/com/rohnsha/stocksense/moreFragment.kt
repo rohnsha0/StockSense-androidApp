@@ -1,10 +1,15 @@
 package com.rohnsha.stocksense
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +25,7 @@ class moreFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,5 +61,38 @@ class moreFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val userName= view.findViewById<TextView>(R.id.tvNameMore)
+        val viewProfile= view.findViewById<View>(R.id.viewProfile)
+        val viewEmail= view.findViewById<ConstraintLayout>(R.id.viewProfileEmail)
+        val emailImgBtn= view.findViewById<ImageView>(R.id.emailVerifyBtn)
+        val changeMail= view.findViewById<TextView>(R.id.changeMail)
+        val accountDelete= view.findViewById<ConstraintLayout>(R.id.accountDelete)
+
+        accountDelete.setOnClickListener {
+            startActivity(Intent(requireContext(), logout_account::class.java))
+        }
+
+        viewProfile.setOnClickListener {
+            startActivity(Intent(requireContext(), profile::class.java))
+        }
+
+        auth= FirebaseAuth.getInstance()
+
+        userName.text= auth.currentUser?.displayName
+
+        if (auth.currentUser!!.isEmailVerified){
+            emailImgBtn.visibility= View.GONE
+            changeMail.visibility= View.VISIBLE
+        } else {
+            viewEmail.setOnClickListener {
+                auth.currentUser!!.sendEmailVerification()
+                customToast.makeText(requireContext(), "Verification mail send to registered mail id!", 2).show()
+            }
+        }
     }
 }

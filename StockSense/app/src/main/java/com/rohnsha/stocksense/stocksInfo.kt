@@ -97,6 +97,7 @@ class stocksInfo : AppCompatActivity() {
     private var mInterstitialAd: InterstitialAd?=null
     lateinit var stockInfoBrnd: String
     private lateinit var mWatchlistModel: watchlistsVM
+    private lateinit var chartSet: List<Pair<String, Float>>
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,6 +131,11 @@ class stocksInfo : AppCompatActivity() {
         val watchlistIcon= findViewById<ImageView>(R.id.watchlistIcon)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
         val lineChart= findViewById<LineChartView>(R.id.lineChart)
+        val backStockInfo= findViewById<ImageView>(R.id.backStockInfo)
+
+        backStockInfo.setOnClickListener {
+            onBackPressed()
+        }
 
 
         var wlBtnClickCount = 0
@@ -239,7 +245,7 @@ class stocksInfo : AppCompatActivity() {
                 withContext(Dispatchers.Main){
                     stockInfoBrnd= stocksInfoResponse.stock_name
                     previousCloses(stocksInfoResponse.t1,stocksInfoResponse.t2, stocksInfoResponse.t3, stocksInfoResponse.t4, stocksInfoResponse.t5, stocksInfoResponse.t6)
-                    val chartSet= listOf(
+                    chartSet= listOf(
                         "T-6" to stocksInfoResponse.t6.toFloat(),
                         "T-5" to stocksInfoResponse.t5.toFloat(),
                         "T-4" to stocksInfoResponse.t4.toFloat(),
@@ -248,7 +254,7 @@ class stocksInfo : AppCompatActivity() {
                         "T-1" to stocksInfoResponse.t1.toFloat(),
                         "T" to stockDataBody!!.regularMarketPrice
                     )
-                    lineChart.animate(chartSet)
+                    lineChart.animation.duration= 1000L
                 }
             } catch (e: Exception){
                 stockInfoBrnd= inpSymbol.substringBefore('.').uppercase()
@@ -265,7 +271,9 @@ class stocksInfo : AppCompatActivity() {
                     updationPane.visibility= View.VISIBLE
                     bgMain.visibility= View.VISIBLE
                     loadingTxt.visibility= View.GONE
+                    lineChart.visibility= View.VISIBLE
                     mainContainer.setBackgroundColor(ContextCompat.getColor(this@stocksInfo, R.color.dash_bg))
+                    lineChart.animate(chartSet)
 
                     toolbarTitle.text= stockInfoBrnd
 

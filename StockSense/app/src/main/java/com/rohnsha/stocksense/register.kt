@@ -27,7 +27,7 @@ class register : AppCompatActivity() {
         auth= FirebaseAuth.getInstance()
 
         registerBTN.setOnClickListener {
-            Toast.makeText(this, "Registering User...", Toast.LENGTH_LONG).show()
+            customToast.makeText(this, "Registering User...", 2).show()
             registerUser()
         }
 
@@ -54,7 +54,7 @@ class register : AppCompatActivity() {
                     }
                 } catch (e: Exception){
                     withContext(Dispatchers.Main){
-                        Toast.makeText(this@register, e.message, Toast.LENGTH_LONG).show()
+                        e.message?.let { customToast.makeText(this@register, it, 2).show() }
                     }
                 }
             }
@@ -63,7 +63,7 @@ class register : AppCompatActivity() {
 
     private fun checkLoggedInStatus(){
         if (auth.currentUser==null){
-            Toast.makeText(this@register, "Something went wrong, try again!", Toast.LENGTH_LONG).show()
+            customToast.makeText(this@register, "Something went wrong, try again!", 2).show()
         } else {
             startActivity(Intent(this@register, homepage::class.java))
             finish()
@@ -73,10 +73,10 @@ class register : AppCompatActivity() {
     private fun checkEmail(): Boolean {
         val email= findViewById<EditText>(R.id.etMailTxt).text.toString()
         if (email.isEmpty()) {
-            Toast.makeText(this@register, "Email is needed to proceed forward", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "Email is needed to proceed forward", 2).show()
             return false
         } else if (!Regex("^\\w+[.-]?\\w+@\\w+([.-]?\\w+)+\$").matches(email)) {
-            Toast.makeText(this@register, "Email should be in the specified format", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "Email should be in the specified format", 2).show()
             return false
         }
         return true
@@ -85,10 +85,10 @@ class register : AppCompatActivity() {
     private fun checkPass(): Boolean {
         val password= findViewById<EditText>(R.id.etPass).text.toString()
         if (password.isEmpty()){
-            Toast.makeText(this@register, "Password can't be empty", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "Password can't be empty", 2).show()
             return false
         } else if (password.isNotEmpty() && password.length<8){
-            Toast.makeText(this@register, "Password should be minimum 8 characters long", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "Password should be minimum 8 characters long", 2).show()
         }
         return true
     }
@@ -98,16 +98,16 @@ class register : AppCompatActivity() {
         val lastName= findViewById<EditText>(R.id.etLastName).text.toString()
 
         if (firstName.isEmpty()){
-            Toast.makeText(this@register, "First name cannot be empty", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "First name cannot be empty", 2).show()
             return false
         } else if (lastName.isEmpty()){
-            Toast.makeText(this@register, "Last name cannot be empty", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "Last name cannot be empty", 2).show()
             return false
         } else if (!Regex("[a-zA-Z]+").matches(firstName)){
-            Toast.makeText(this@register, "First name can only contain alphabets", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "First name can only contain alphabets", 2).show()
             return false
         } else if (!Regex("[a-zA-Z]+").matches(lastName)){
-            Toast.makeText(this@register, "Last name can only contain alphabets", Toast.LENGTH_SHORT).show()
+            customToast.makeText(this@register, "Last name can only contain alphabets", 2).show()
             return false
         }
         return true

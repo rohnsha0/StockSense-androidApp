@@ -57,8 +57,13 @@ class prediction : AppCompatActivity() {
         val dateValue= findViewById<TextView>(R.id.dateVal)
         val symbolStock= findViewById<TextView>(R.id.stockSymbolVal)
         val stockLTPInfo= findViewById<TextView>(R.id.currentPriceValue)
+        val backBtnPred= findViewById<ImageView>(R.id.backPred)
         mBannerAdView= findViewById(R.id.bannerAdPred)
         mBannerAdView2= findViewById(R.id.bannerAdPred2)
+
+        backBtnPred.setOnClickListener {
+            onBackPressed()
+        }
 
         predIntent.setOnClickListener {
             startActivity(Intent(this, homepage::class.java))
