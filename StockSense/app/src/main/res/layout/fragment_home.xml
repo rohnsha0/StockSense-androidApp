@@ -57,12 +57,11 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="match_parent"
             android:scrollbars="none"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -72,49 +71,49 @@
                     android:id="@+id/tvAssets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Indices"
-                    android:layout_marginTop="30dp"
                     android:layout_marginStart="24dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Indices"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/titilliumweb_semi_bold"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvIndicesHome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvAssets"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/tvAssets" />
 
                 <Button
                     android:id="@+id/addIndices"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:text="+ Add more indices"
                     android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
                     android:layout_marginTop="14dp"
-                    android:textSize="19sp"
+                    android:layout_marginEnd="24dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="+ Add more indices"
                     android:textColor="@color/formAccentLight"
-                    app:strokeColor= "@color/formAccentLight"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="19sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rvIndicesHome"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvIndicesHome"
+                    app:strokeColor="@color/formAccentLight" />
 
                 <TextView
                     android:id="@+id/tvWl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Watchlists"
-                    android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:layout_marginTop="26sp"
                     android:layout_marginStart="24sp"
+                    android:layout_marginTop="26sp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Watchlists"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addIndices"/>
+                    app:layout_constraintTop_toBottomOf="@id/addIndices" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvWatchlistHome"
@@ -130,9 +129,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="19dp"
+                    android:layout_marginBottom="20dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="See all Watchlists"
-                    android:layout_marginBottom="30dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

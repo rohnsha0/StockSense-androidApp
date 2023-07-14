@@ -1,5 +1,7 @@
 package com.rohnsha.stocksense
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,16 +9,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.rohnsha.stocksense.database.search_history.search_history_model
 import com.rohnsha.stocksense.indices_db.indices
 import com.rohnsha.stocksense.indices_db.indicesAdapter
 import com.rohnsha.stocksense.indices_db.indicesViewModel
+import com.rohnsha.stocksense.ltpAPI.object_ltp.ltpAPIService
 import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +49,8 @@ class home : Fragment() {
     private var fragmentChangeListener: FragmentChangeListener? = null
     private lateinit var mWatchlistModel: watchlistsVM
     private lateinit var mIndicesViewModel: indicesViewModel
+    private lateinit var indexSymbol: String
+    private lateinit var indexName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +100,7 @@ class home : Fragment() {
         fragmentChangeListener = context as? FragmentChangeListener
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -99,8 +109,54 @@ class home : Fragment() {
         val rvIndices= view.findViewById<RecyclerView>(R.id.rvIndicesHome)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
         mIndicesViewModel= ViewModelProvider(this)[indicesViewModel::class.java]
+        val addIndices= view.findViewById<Button>(R.id.addIndices)
 
-        val adapter= indicesAdapter()
+        addIndices.setOnClickListener {
+            val indicesView: View= layoutInflater.inflate(R.layout.items_add, null)
+            val dialgueIndices= BottomSheetDialog(requireContext())
+            val tvSymbol= indicesView.findViewById<TextView>(R.id.inpSymbol_Index)
+            val rbNifty50= indicesView.findViewById<RadioButton>(R.id.rbNSE50)
+            val rbSensex= indicesView.findViewById<RadioButton>(R.id.rbBSE)
+            val rbNSEBank= indicesView.findViewById<RadioButton>(R.id.rbNiftyBank)
+            val rbGrp= indicesView.findViewById<RadioGroup>(R.id.verticalRadioIndex)
+            val doneBtn= indicesView.findViewById<Button>(R.id.addBtn)
+            dialgueIndices.setContentView(indicesView)
+
+
+            rbGrp.setOnCheckedChangeListener { _, checkedId ->
+                if (checkedId==R.id.rbNSE50){
+                    indexSymbol= rbNifty50.text.split(":").map { it.trim() }[1]
+                    indexName= rbNifty50.text.split(":").map { it.trim() }[0]
+                } else if (checkedId==R.id.rbBSE){
+                    indexSymbol= rbSensex.text.split(":").map { it.trim() }[1]
+                    indexName= rbSensex.text.split(":").map { it.trim() }[0]
+                } else if (checkedId==R.id.rbNiftyBank){
+                    indexSymbol= rbNSEBank.text.split(":").map { it.trim() }[1]
+                    indexName= rbNSEBank.text.split(":").map { it.trim() }[0]
+                }
+                tvSymbol.text= indexSymbol
+            }
+
+            dialgueIndices.show()
+
+            doneBtn.setOnClickListener {
+                GlobalScope.launch(Dispatchers.IO){
+                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
+                    try {
+                        val response= ltpAPIService.getLTP(dynamicURL)
+                        val indexData= indices(indexSymbol, indexName, response.ltp, response.change)
+                        mIndicesViewModel.addIndices(indexData)
+                    } catch (e: Exception){
+                        val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
+                        mIndicesViewModel.addIndices(indexData)
+                    }
+                }
+                customToast.makeText(requireContext(), "Sucessfully added", 1).show()
+                dialgueIndices.dismiss()
+            }
+        }
+
+        val adapter= indicesAdapter(Application())
         rvIndices.adapter= adapter
         rvIndices.layoutManager= LinearLayoutManager(requireContext())
         mIndicesViewModel.readIndices.observe(viewLifecycleOwner, Observer { stocks ->
