@@ -3,8 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/dashboard_white_bg"
+    android:paddingBottom="45dp"
     android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/addIndicesH1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Indices"
+        android:textSize="19sp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:layout_marginTop="29dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/verifyIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        android:textSize="17sp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/dash_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/addIndicesH1"
+        app:layout_constraintBottom_toBottomOf="@id/addIndicesH1"/>
+
+    <TextView
+        android:id="@+id/doneIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:visibility="gone"
+        android:textSize="17sp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/dash_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/addIndicesH1"
+        app:layout_constraintBottom_toBottomOf="@id/addIndicesH1"/>
 
     <TextView
         android:id="@+id/titleSymbolADD"
@@ -12,18 +51,18 @@
         android:layout_height="wrap_content"
         android:text="Enter Symbol to add"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/titilliumweb_semi_bold"
         android:textSize="15sp"
         android:textColor="@color/lightgrey"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addIndicesH1"
         app:layout_constraintStart_toStartOf="parent"/>
     
     <EditText
         android:id="@+id/inpSymbol_Index"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="ITC.NS"
+        android:hint="Symbol"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintTop_toBottomOf="@+id/titleSymbolADD"
@@ -98,10 +137,59 @@
     </HorizontalScrollView>
 
     <TextView
+        android:id="@+id/priceIndexH1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Market Price"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:textSize="15sp"
+        android:textColor="@color/lightgrey"
+        app:layout_constraintTop_toBottomOf="@id/scrollListIndices"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/priceIndex"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="in ₹"
+        android:enabled="false"
+        app:layout_constraintStart_toStartOf="@id/priceIndexH1"
+        app:layout_constraintTop_toBottomOf="@+id/priceIndexH1"
+        android:backgroundTint="@color/formAccentLight"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
+        android:id="@+id/changeIndexH1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Market Price"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/titilliumweb_semi_bold"
+        android:textSize="15sp"
+        android:textColor="@color/lightgrey"
+        app:layout_constraintTop_toBottomOf="@id/scrollListIndices"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/changeIndex"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="NEUTRAL"
+        android:enabled="false"
+        android:backgroundTint="@color/formAccentLight"
+        app:layout_constraintStart_toStartOf="@id/changeIndexH1"
+        app:layout_constraintTop_toBottomOf="@+id/changeIndexH1"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
         android:id="@+id/verifyTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verify"
+        android:visibility="gone"
         android:fontFamily="@font/titilliumweb_semi_bold"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,6 +201,7 @@
         android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Add Symbol"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"

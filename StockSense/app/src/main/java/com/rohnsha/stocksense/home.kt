@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -29,6 +30,8 @@ import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.properties.Delegates
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +54,8 @@ class home : Fragment() {
     private lateinit var mIndicesViewModel: indicesViewModel
     private lateinit var indexSymbol: String
     private lateinit var indexName: String
+    private var indexPrice by Delegates.notNull<Double>()
+    private lateinit var indexStatus: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +125,10 @@ class home : Fragment() {
             val rbNSEBank= indicesView.findViewById<RadioButton>(R.id.rbNiftyBank)
             val rbGrp= indicesView.findViewById<RadioGroup>(R.id.verticalRadioIndex)
             val doneBtn= indicesView.findViewById<Button>(R.id.addBtn)
+            val verifyBtn= indicesView.findViewById<TextView>(R.id.verifyIndex)
+            val priceIndex= indicesView.findViewById<EditText>(R.id.priceIndex)
+            val changeIndex= indicesView.findViewById<EditText>(R.id.changeIndex)
+            val doneIndex= indicesView.findViewById<TextView>(R.id.doneIndex)
             dialgueIndices.setContentView(indicesView)
 
 
@@ -135,9 +144,54 @@ class home : Fragment() {
                     indexName= rbNSEBank.text.split(":").map { it.trim() }[0]
                 }
                 tvSymbol.text= indexSymbol
+                verifyBtn.visibility= View.VISIBLE
+                doneIndex.visibility= View.GONE
+                changeIndex.hint= "NEUTRAL"
+                priceIndex.hint= "in ₹"
             }
 
             dialgueIndices.show()
+
+            verifyBtn.setOnClickListener {
+                GlobalScope.launch(Dispatchers.IO) {
+                    withContext(Dispatchers.Main){
+                        customToast.makeText(requireContext(), "Fetching Additional Informations", 2).show()
+                    }
+                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
+                    try {
+                        val response= ltpAPIService.getLTP(dynamicURL)
+                        withContext(Dispatchers.Main){
+                            indexPrice= response.ltp
+                            priceIndex.hint= indexPrice.toString()
+                            indexStatus= response.change
+                            changeIndex.hint= indexStatus
+                            verifyBtn.visibility= View.GONE
+                            doneIndex.visibility= View.VISIBLE
+                        }
+                    } catch (e: Exception){
+                        withContext(Dispatchers.Main){
+                            customToast.makeText(requireContext(), "Something went wrong. Please try again later!", 2).show()
+                        }
+                    }
+                }
+            }
+
+            doneIndex.setOnClickListener {
+                GlobalScope.launch(Dispatchers.IO){
+                    try {
+                        val indexData= indices(indexSymbol, indexName, indexPrice, indexStatus)
+                        mIndicesViewModel.addIndices(indexData)
+                    } catch (e: Exception){
+                        val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
+                        mIndicesViewModel.addIndices(indexData)
+                    }
+
+                    withContext(Dispatchers.Main){
+                        customToast.makeText(requireContext(), "Sucessfully added to tracking", 1).show()
+                    }
+                }
+                dialgueIndices.dismiss()
+            }
 
             doneBtn.setOnClickListener {
                 GlobalScope.launch(Dispatchers.IO){

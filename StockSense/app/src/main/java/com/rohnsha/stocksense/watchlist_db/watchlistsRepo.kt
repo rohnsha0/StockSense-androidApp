@@ -23,4 +23,8 @@ class watchlistsRepo(private val watchlistsDAO: watchlistsDAO) {
         return watchlistsDAO.searchWatchlistsDB(symbol)
     }
 
+    suspend fun getDBcount(): Int{
+        return watchlistsDAO.getDBcount()
+    }
+
 }

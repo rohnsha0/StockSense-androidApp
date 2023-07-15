@@ -46,4 +46,10 @@ class watchlistsVM(application: Application): AndroidViewModel(application) {
             watchlistsRepo.searchWatchlists(symbol = symbol)
         }
     }
+
+    suspend fun getDBcountWL(): Int{
+        return withContext(Dispatchers.IO){
+            watchlistsRepo.getDBcount()
+        }
+    }
 }

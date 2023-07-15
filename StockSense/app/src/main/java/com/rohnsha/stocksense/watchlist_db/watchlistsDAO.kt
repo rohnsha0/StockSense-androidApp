@@ -13,6 +13,9 @@ interface watchlistsDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addWatchlists(watchlists: watchlists)
 
+    @Query("SELECT COUNT(symbol) FROM watchlists_table")
+    fun getDBcount(): Int
+
     @Delete
     suspend fun deleteWatchlist(watchlists: List<watchlists>)
 

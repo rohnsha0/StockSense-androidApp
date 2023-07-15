@@ -47,9 +47,13 @@ class logout_account : AppCompatActivity() {
 
         deleteBtn.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO){
-                auth.currentUser!!.delete().await()
-                withContext(Dispatchers.Main){
-                    checkLoginState()
+                try {
+                    auth.currentUser!!.delete().await()
+                    withContext(Dispatchers.Main){
+                        checkLoginState()
+                    }
+                } catch (e: Exception){
+                    customToast.makeText(this@logout_account, e.toString(), 2).show()
                 }
             }
         }

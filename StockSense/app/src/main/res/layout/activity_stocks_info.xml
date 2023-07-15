@@ -55,7 +55,7 @@
                         android:text="LTP"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:maxLength="21"
+                        android:maxLength="18"
                         android:textSize="26sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

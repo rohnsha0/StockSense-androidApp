@@ -24,6 +24,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
 import com.rohnsha.stocksense.watchlist_db.watchlistsAdapter
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -199,6 +203,23 @@ class watchListFRAG : Fragment() {
             }
 
             dialogInp.show()
+        }
+
+        val welcomeContainer= view.findViewById<ConstraintLayout>(R.id.welcomeContainer)
+        val mainContainer= view.findViewById<ConstraintLayout>(R.id.mainContentWatchlists)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            if (mWatchlistModel.getDBcountWL()==0){
+                withContext(Dispatchers.Main){
+                    welcomeContainer.visibility= View.VISIBLE
+                    mainContainer.visibility=View.GONE
+                }
+            } else {
+                withContext(Dispatchers.Main){
+                    welcomeContainer.visibility= View.GONE
+                    mainContainer.visibility=View.VISIBLE
+                }
+            }
         }
 
         val buttonSearch = view.findViewById<Button>(R.id.button2search)

@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:elevation="2dp"
         android:text="Stock Name"
-        android:maxLength="27"
+        android:maxLength="24"
         android:fontFamily="@font/titilliumweb_semi_bold"
         android:textSize="15sp"
         android:layout_marginStart="13dp"
