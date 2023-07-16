@@ -16,6 +16,21 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".stock_data"
+            android:exported="false" />
+        <activity
+            android:name=".onBoard4"
+            android:exported="false" />
+        <activity
+            android:name=".onBoard3"
+            android:exported="false" />
+        <activity
+            android:name=".onBoard2"
+            android:exported="false" />
+        <activity
+            android:name=".onBoarding1"
+            android:exported="false" />
+        <activity
             android:name=".logout_account"
             android:exported="false" />
         <activity

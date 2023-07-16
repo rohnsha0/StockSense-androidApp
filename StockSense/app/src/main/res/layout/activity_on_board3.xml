@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context=".onBoard3">
+
+    <ImageView
+        android:id="@+id/onBoard3Img"
+        android:layout_width="326dp"
+        android:layout_height="240dp"
+        android:src="@drawable/python_coding_language"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="77dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/dashboard_white_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/onBoard3Img">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:id="@+id/onBoard3Circ1"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/round_blue"
+                android:backgroundTint="@color/viewsDash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/onBoard3Circ2"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/round_blue"
+                android:backgroundTint="@color/viewsDash"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/onBoard3Circ1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/onBoard3Circ3"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/round_blue"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/onBoard3Circ2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                android:id="@+id/onBoard3Circ4"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/round_blue"
+                android:backgroundTint="@color/viewsDash"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/onBoard3Circ3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/onBoard3H1"
+            android:layout_width="match_parent"
+            android:lineHeight="45dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:fontFamily="@font/titillium_web_bold"
+            android:gravity="center"
+            android:text="Perform market\nPrediction in adv."
+            android:textSize="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/onBoardTxt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:gravity="center"
+            android:text="AYou get access to finely tuned stocks\navailable for closing price prediction (day &amp; hourly-based)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/onBoard3H1" />
+
+        <Button
+            android:id="@+id/oneBoard3Btn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="200dp"
+            android:layout_height="46dp"
+            android:text="Next Step"
+            android:layout_marginTop="117dp"
+            android:layout_marginBottom="47dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -132,6 +132,23 @@ class stocksInfo : AppCompatActivity() {
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
         val lineChart= findViewById<LineChartView>(R.id.lineChart)
         val backStockInfo= findViewById<ImageView>(R.id.backStockInfo)
+        val allData= findViewById<TextView>(R.id.textView2)
+
+        allData.setOnClickListener {
+            customToast.makeText(this, "Resources unavailable", 2).show()
+        }
+
+        tecchView.setOnClickListener {
+            val intent= Intent(this, stock_data::class.java)
+            intent.putExtra("symbolStock", inpSymbol)
+            intent.putExtra("nameStock", stockInfoBrnd)
+            startActivity(intent)
+            if (mInterstitialAd != null) {
+                mInterstitialAd?.show(this@stocksInfo)
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.")
+            }
+        }
 
         backStockInfo.setOnClickListener {
             onBackPressed()
@@ -258,6 +275,11 @@ class stocksInfo : AppCompatActivity() {
                 }
             } catch (e: Exception){
                 stockInfoBrnd= inpSymbol.substringBefore('.').uppercase()
+                chartSet= listOf(
+                    "x" to 0F,
+                    "y" to 0F,
+                    "z" to 0F
+                )
                 Log.e("errorName", e.toString())
             }
 

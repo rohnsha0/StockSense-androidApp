@@ -375,14 +375,14 @@
                         app:layout_constraintEnd_toEndOf="@+id/technicalView"
                         app:layout_constraintStart_toStartOf="@+id/technicalView"
                         app:layout_constraintTop_toTopOf="@+id/technicalView"
-                        app:srcCompat="@drawable/trend_down" />
+                        app:srcCompat="@drawable/baseline_multiline_chart_24" />
 
                     <TextView
                         android:id="@+id/btnTechnical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="Technicals"
+                        android:text="Statistics"
                         android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="@+id/technicalView"
                         app:layout_constraintStart_toStartOf="@+id/technicalView"
@@ -810,8 +810,8 @@
                         android:layout_marginTop="19dp"
                         android:layout_marginBottom="20dp"
                         android:fontFamily="@font/titilliumweb_semi_bold"
-                        android:text="See All Closures"
-                        android:textColor="#347AF0"
+                        android:text="See All Informations"
+                        android:textColor="@color/dash_bg"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

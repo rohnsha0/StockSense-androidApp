@@ -475,7 +475,6 @@
 
                 <Button
                     android:id="@+id/predIntentBTN"
-                    style="@style/predButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
@@ -485,6 +484,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bannerAdPred2" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    app:layout_constraintTop_toBottomOf="@id/predIntentBTN"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

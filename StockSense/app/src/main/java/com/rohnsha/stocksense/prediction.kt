@@ -66,8 +66,9 @@ class prediction : AppCompatActivity() {
         }
 
         predIntent.setOnClickListener {
-            startActivity(Intent(this, homepage::class.java))
-            finish()
+            val intent= Intent(this, homepage::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
 
         var adClickCount = 0

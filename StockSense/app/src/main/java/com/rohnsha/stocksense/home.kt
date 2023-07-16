@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.rohnsha.stocksense.database.search_history.search_history_model
@@ -111,10 +112,27 @@ class home : Fragment() {
 
         val viewWl= view.findViewById<TextView>(R.id.viewWl)
         val rvWatchlists= view.findViewById<RecyclerView>(R.id.rvWatchlistHome)
+        val viewAddWl= view.findViewById<TextView>(R.id.viewAddWl)
+        val lottie= view.findViewById<LottieAnimationView>(R.id.lottieAnimationHome)
         val rvIndices= view.findViewById<RecyclerView>(R.id.rvIndicesHome)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
         mIndicesViewModel= ViewModelProvider(this)[indicesViewModel::class.java]
         val addIndices= view.findViewById<Button>(R.id.addIndices)
+
+        viewAddWl.setOnClickListener {
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
+
+        GlobalScope.launch(Dispatchers.IO){
+            if (mWatchlistModel.getDBcountWL()==0){
+                withContext(Dispatchers.Main){
+                    viewWl.visibility=View.GONE
+                    rvWatchlists.visibility=View.GONE
+                    lottie.visibility= View.VISIBLE
+                    viewAddWl.visibility= View.VISIBLE
+                }
+            }
+        }
 
         addIndices.setOnClickListener {
             val indicesView: View= layoutInflater.inflate(R.layout.items_add, null)
