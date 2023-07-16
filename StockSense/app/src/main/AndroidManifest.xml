@@ -16,6 +16,9 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".docs.searchbar_docs"
+            android:exported="false" />
+        <activity
             android:name=".stock_data"
             android:exported="false" />
         <activity

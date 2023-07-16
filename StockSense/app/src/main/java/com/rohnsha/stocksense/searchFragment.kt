@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.SearchView
 import android.widget.Toast
@@ -27,6 +28,7 @@ import com.rohnsha.stocksense.database.search_history.searchDAO
 import com.rohnsha.stocksense.database.search_history.searchHistoryAdapter
 import com.rohnsha.stocksense.database.search_history.search_history
 import com.rohnsha.stocksense.database.search_history.search_history_model
+import com.rohnsha.stocksense.docs.searchbar_docs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -92,7 +94,12 @@ class searchFragment : Fragment() {
         val recyclerViewSearch= view.findViewById<RecyclerView>(R.id.searchHistoryRV)
         val initBoiler= view.findViewById<ConstraintLayout>(R.id.searchInit)
         val loadingSearch= view.findViewById<ConstraintLayout>(R.id.loadingSearch)
+        val qManual= view.findViewById<ImageView>(R.id.qManual)
         mSearchHistoryModel= ViewModelProvider(this)[search_history_model::class.java]
+
+        qManual.setOnClickListener {
+            startActivity(Intent(requireContext(), searchbar_docs::class.java))
+        }
 
 
         GlobalScope.launch(Dispatchers.IO){

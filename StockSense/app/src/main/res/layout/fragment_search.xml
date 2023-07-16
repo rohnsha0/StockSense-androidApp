@@ -118,6 +118,7 @@
                     </RadioGroup>
 
                     <ImageView
+                        android:id="@+id/qManual"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginTop="2dp"
