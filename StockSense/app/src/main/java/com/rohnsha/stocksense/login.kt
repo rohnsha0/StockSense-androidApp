@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +44,7 @@ class login : AppCompatActivity() {
         val password= findViewById<EditText>(R.id.etPass).text.toString()
 
         if (checkEmail() && checkPass()){
-            CoroutineScope(Dispatchers.IO).launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 try {
                     auth.signInWithEmailAndPassword(email, password).await()
                     withContext(Dispatchers.Main){

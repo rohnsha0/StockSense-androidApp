@@ -102,6 +102,7 @@
                 android:layout_marginEnd="19dp"/>
 
             <TextView
+                android:id="@+id/emailVerifyTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email id verification"

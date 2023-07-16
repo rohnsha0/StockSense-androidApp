@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdError
@@ -31,6 +32,7 @@ import com.rohnsha.stocksense.database.search_history.search_history_model
 import com.rohnsha.stocksense.docs.searchbar_docs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -102,13 +104,11 @@ class searchFragment : Fragment() {
         }
 
 
-        GlobalScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO){
             if (mSearchHistoryModel.countDBquery()<=0){
-                withContext(Dispatchers.Main){
-                    loadingSearch.visibility= View.GONE
-                    initBoiler.visibility= View.VISIBLE
-                    recyclerViewSearch.visibility= View.GONE
-                }
+                loadingSearch.visibility= View.GONE
+                initBoiler.visibility= View.VISIBLE
+                recyclerViewSearch.visibility= View.GONE
             } else {
                 withContext(Dispatchers.Main){
                     loadingSearch.visibility= View.GONE
@@ -118,10 +118,11 @@ class searchFragment : Fragment() {
             }
         }
 
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 performSearch(query)
-                GlobalScope.launch(Dispatchers.IO){
+                lifecycleScope.launch(Dispatchers.IO){
                     addHistoryToDB(query)
                 }
                 return false
@@ -228,5 +229,15 @@ class searchFragment : Fragment() {
             symbol= stockSymbol
         }
         return symbol
+    }
+
+    override fun onPause() {
+        Log.d("mm", "onPause")
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        Log.d("mm", "onDestroy")
+        super.onDestroy()
     }
 }

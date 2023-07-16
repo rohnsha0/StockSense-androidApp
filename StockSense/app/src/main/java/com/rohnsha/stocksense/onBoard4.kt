@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.rohnsha.stocksense.indices_db.indices
 import com.rohnsha.stocksense.indices_db.indicesViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +28,7 @@ class onBoard4 : AppCompatActivity() {
         val onBoard4Btn= findViewById<Button>(R.id.oneBoard4Btn)
         mIndicesViewModel= ViewModelProvider(this)[indicesViewModel::class.java]
 
-        GlobalScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO){
             val indexNiftyData= indices("^NSEI", "Nifty 50", 0.0, "NEUTRAL")
             mIndicesViewModel.addIndices(indexNiftyData)
             val indexSensexData= indices("^BSESN", "S&P BSE SENSEX", 0.0, "NEUTRAL")

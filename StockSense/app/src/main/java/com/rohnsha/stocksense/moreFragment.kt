@@ -70,6 +70,7 @@ class moreFragment : Fragment() {
         val viewProfile= view.findViewById<View>(R.id.viewProfile)
         val viewEmail= view.findViewById<ConstraintLayout>(R.id.viewProfileEmail)
         val emailImgBtn= view.findViewById<ImageView>(R.id.emailVerifyBtn)
+        val emailImgTv= view.findViewById<TextView>(R.id.emailVerifyTv)
         val changeMail= view.findViewById<TextView>(R.id.changeMail)
         val accountDelete= view.findViewById<ConstraintLayout>(R.id.accountDelete)
 
@@ -88,6 +89,7 @@ class moreFragment : Fragment() {
         if (auth.currentUser!!.isEmailVerified){
             emailImgBtn.visibility= View.GONE
             changeMail.visibility= View.VISIBLE
+            emailImgTv.text= "Email id verified"
         } else {
             viewEmail.setOnClickListener {
                 auth.currentUser!!.sendEmailVerification()

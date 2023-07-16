@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class welcome_screen : AppCompatActivity() {
         val createACbtn= findViewById<Button>(R.id.createAccountBTN)
         val loginTV= findViewById<TextView>(R.id.loginTV)
 
-        GlobalScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO){
             val sharedPreferences: SharedPreferences= getSharedPreferences("loginKey", Context.MODE_PRIVATE)
             val editor= sharedPreferences.edit()
             if (!sharedPreferences.getBoolean("viewedOnBoarding", false)){

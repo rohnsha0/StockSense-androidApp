@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.db.williamchart.view.LineChartView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -254,7 +255,7 @@ class stocksInfo : AppCompatActivity() {
         }
 
         val stockDataFtcher= stockDataFetcher()
-        GlobalScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
             val dynamicUrl= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws//query/${inpSymbol.uppercase()}"
             try {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -40,7 +41,7 @@ class register : AppCompatActivity() {
         val lastName= findViewById<EditText>(R.id.etLastName).text.toString()
 
         if (checkEmail() && checkPass() && checkLastFirstName()){
-            CoroutineScope(Dispatchers.IO).launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 try {
                     auth.createUserWithEmailAndPassword(email, password).await()
                     auth.currentUser?.let {

@@ -16,6 +16,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -123,7 +124,7 @@ class home : Fragment() {
             startActivity(Intent(requireContext(), MainActivity::class.java))
         }
 
-        GlobalScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO){
             if (mWatchlistModel.getDBcountWL()==0){
                 withContext(Dispatchers.Main){
                     viewWl.visibility=View.GONE
@@ -171,7 +172,7 @@ class home : Fragment() {
             dialgueIndices.show()
 
             verifyBtn.setOnClickListener {
-                GlobalScope.launch(Dispatchers.IO) {
+                lifecycleScope.launch(Dispatchers.IO) {
                     withContext(Dispatchers.Main){
                         customToast.makeText(requireContext(), "Fetching Additional Informations", 2).show()
                     }
@@ -195,7 +196,7 @@ class home : Fragment() {
             }
 
             doneIndex.setOnClickListener {
-                GlobalScope.launch(Dispatchers.IO){
+                lifecycleScope.launch(Dispatchers.IO){
                     try {
                         val indexData= indices(indexSymbol, indexName, indexPrice, indexStatus)
                         mIndicesViewModel.addIndices(indexData)
@@ -212,7 +213,7 @@ class home : Fragment() {
             }
 
             doneBtn.setOnClickListener {
-                GlobalScope.launch(Dispatchers.IO){
+                lifecycleScope.launch(Dispatchers.IO){
                     val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
                     try {
                         val response= ltpAPIService.getLTP(dynamicURL)
@@ -286,7 +287,7 @@ class home : Fragment() {
     }
 
     private fun checkUpdateSearchHistory(){
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             val sharedPreferences = requireContext().getSharedPreferences("visibilityPref", Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
 

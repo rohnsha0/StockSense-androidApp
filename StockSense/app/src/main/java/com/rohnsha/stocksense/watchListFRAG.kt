@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -208,7 +209,7 @@ class watchListFRAG : Fragment() {
         val welcomeContainer= view.findViewById<ConstraintLayout>(R.id.welcomeContainer)
         val mainContainer= view.findViewById<ConstraintLayout>(R.id.mainContentWatchlists)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             if (mWatchlistModel.getDBcountWL()==0){
                 withContext(Dispatchers.Main){
                     welcomeContainer.visibility= View.VISIBLE

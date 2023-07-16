@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -46,7 +47,7 @@ class logout_account : AppCompatActivity() {
         checkLoginState()
 
         deleteBtn.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO){
+            lifecycleScope.launch(Dispatchers.IO){
                 try {
                     auth.currentUser!!.delete().await()
                     withContext(Dispatchers.Main){
@@ -59,7 +60,7 @@ class logout_account : AppCompatActivity() {
         }
 
         logoutBtn.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO){
+            lifecycleScope.launch(Dispatchers.IO){
                 auth.signOut()
                 withContext(Dispatchers.Main){
                     if (checkLoginState()){
