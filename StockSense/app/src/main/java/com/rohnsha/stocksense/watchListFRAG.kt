@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,8 @@ import com.rohnsha.stocksense.watchlist_db.watchlistsAdapter
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -210,17 +213,24 @@ class watchListFRAG : Fragment() {
         val mainContainer= view.findViewById<ConstraintLayout>(R.id.mainContentWatchlists)
 
         lifecycleScope.launch(Dispatchers.IO) {
-            if (mWatchlistModel.getDBcountWL()==0){
-                withContext(Dispatchers.Main){
-                    welcomeContainer.visibility= View.VISIBLE
-                    mainContainer.visibility=View.GONE
-                }
-            } else {
-                withContext(Dispatchers.Main){
-                    welcomeContainer.visibility= View.GONE
-                    mainContainer.visibility=View.VISIBLE
+            val wlDBcount= launch {
+                Log.e("checkingDBWL", "checking db for wl.....")
+                delay(50)
+                if (mWatchlistModel.getDBcountWL()==0){
+                    withContext(Dispatchers.Main){
+                        welcomeContainer.visibility= View.VISIBLE
+                        mainContainer.visibility=View.GONE
+                    }
+                } else {
+                    withContext(Dispatchers.Main){
+                        welcomeContainer.visibility= View.GONE
+                        mainContainer.visibility=View.VISIBLE
+                    }
                 }
             }
+            delay(2000L)
+            wlDBcount.cancelAndJoin()
+            Log.e("checkingDBWL", "stooping db for wl.....")
         }
 
         val buttonSearch = view.findViewById<Button>(R.id.button2search)

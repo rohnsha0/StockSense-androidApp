@@ -106,20 +106,26 @@ class searchFragment : Fragment() {
         }
 
 
-        val job = lifecycleScope.launch(Dispatchers.IO){
-            if (mSearchHistoryModel.countDBquery()<=0){
-                withContext(Dispatchers.Main){
-                    loadingSearch.visibility= View.GONE
-                    initBoiler.visibility= View.VISIBLE
-                    recyclerViewSearch.visibility= View.GONE
-                }
-            } else {
-                withContext(Dispatchers.Main){
-                    loadingSearch.visibility= View.GONE
-                    initBoiler.visibility= View.GONE
-                    recyclerViewSearch.visibility= View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO){
+            val searchDBscope= launch {
+                Log.e("countDBsearhc", "countingDB")
+                if (mSearchHistoryModel.countDBquery()<=0){
+                    withContext(Dispatchers.Main){
+                        loadingSearch.visibility= View.GONE
+                        initBoiler.visibility= View.VISIBLE
+                        recyclerViewSearch.visibility= View.GONE
+                    }
+                } else {
+                    withContext(Dispatchers.Main){
+                        loadingSearch.visibility= View.GONE
+                        initBoiler.visibility= View.GONE
+                        recyclerViewSearch.visibility= View.VISIBLE
+                    }
                 }
             }
+            delay(2000L)
+            searchDBscope.cancelAndJoin()
+            Log.e("countDBsearhc", "stoopingCounting")
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

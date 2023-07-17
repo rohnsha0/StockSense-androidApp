@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,8 @@ import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.properties.Delegates
@@ -125,14 +128,23 @@ class home : Fragment() {
         }
 
         lifecycleScope.launch(Dispatchers.IO){
-            if (mWatchlistModel.getDBcountWL()==0){
-                withContext(Dispatchers.Main){
-                    viewWl.visibility=View.GONE
-                    rvWatchlists.visibility=View.GONE
-                    lottie.visibility= View.VISIBLE
-                    viewAddWl.visibility= View.VISIBLE
+            val checkDbScope= launch {
+                while (true){
+                    delay(50L)
+                    if (mWatchlistModel.getDBcountWL()==0){
+                        withContext(Dispatchers.Main){
+                            viewWl.visibility=View.GONE
+                            rvWatchlists.visibility=View.GONE
+                            lottie.visibility= View.VISIBLE
+                            viewAddWl.visibility= View.VISIBLE
+                        }
+                    }
+                    Log.e("checkDb", "chcking DB....")
                 }
             }
+            delay(2000L)
+            checkDbScope.cancelAndJoin()
+            Log.e("chckDB", "checking DB stopped.....")
         }
 
         addIndices.setOnClickListener {
@@ -173,37 +185,53 @@ class home : Fragment() {
 
             verifyBtn.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    withContext(Dispatchers.Main){
-                        customToast.makeText(requireContext(), "Fetching Additional Informations", 2).show()
-                    }
-                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
-                    try {
-                        val response= ltpAPIService.getLTP(dynamicURL)
-                        withContext(Dispatchers.Main){
-                            indexPrice= response.ltp
-                            priceIndex.hint= indexPrice.toString()
-                            indexStatus= response.change
-                            changeIndex.hint= indexStatus
-                            verifyBtn.visibility= View.GONE
-                            doneIndex.visibility= View.VISIBLE
+                    val verifyScope= launch {
+                        while (true){
+                            delay(50L)
+                            withContext(Dispatchers.Main){
+                                customToast.makeText(requireContext(), "Fetching Additional Informations", 2).show()
+                            }
+                            val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
+                            try {
+                                val response= ltpAPIService.getLTP(dynamicURL)
+                                withContext(Dispatchers.Main){
+                                    indexPrice= response.ltp
+                                    priceIndex.hint= indexPrice.toString()
+                                    indexStatus= response.change
+                                    changeIndex.hint= indexStatus
+                                    verifyBtn.visibility= View.GONE
+                                    doneIndex.visibility= View.VISIBLE
+                                }
+                                Log.e("verifyLog", "verifying")
+                            } catch (e: Exception){
+                                withContext(Dispatchers.Main){
+                                    customToast.makeText(requireContext(), "Something went wrong. Please try again later!", 2).show()
+                                }
+                            }
                         }
-                    } catch (e: Exception){
-                        withContext(Dispatchers.Main){
-                            customToast.makeText(requireContext(), "Something went wrong. Please try again later!", 2).show()
-                        }
                     }
+                    delay(1500L)
+                    verifyScope.cancelAndJoin()
                 }
             }
 
             doneIndex.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO){
-                    try {
-                        val indexData= indices(indexSymbol, indexName, indexPrice, indexStatus)
-                        mIndicesViewModel.addIndices(indexData)
-                    } catch (e: Exception){
-                        val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
-                        mIndicesViewModel.addIndices(indexData)
+                    val addDoneBtnIndexScope= launch {
+                        while (true){
+                            delay(50L)
+                            try {
+                                val indexData= indices(indexSymbol, indexName, indexPrice, indexStatus)
+                                mIndicesViewModel.addIndices(indexData)
+                            } catch (e: Exception){
+                                val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
+                                mIndicesViewModel.addIndices(indexData)
+                            }
+                        }
                     }
+
+                    delay(1000L)
+                    addDoneBtnIndexScope.cancelAndJoin()
 
                     withContext(Dispatchers.Main){
                         customToast.makeText(requireContext(), "Sucessfully added to tracking", 1).show()
@@ -214,15 +242,21 @@ class home : Fragment() {
 
             doneBtn.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO){
-                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
-                    try {
-                        val response= ltpAPIService.getLTP(dynamicURL)
-                        val indexData= indices(indexSymbol, indexName, response.ltp, response.change)
-                        mIndicesViewModel.addIndices(indexData)
-                    } catch (e: Exception){
-                        val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
-                        mIndicesViewModel.addIndices(indexData)
+                    val addIndicesScope= launch {
+                        val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
+                        try {
+                            val response= ltpAPIService.getLTP(dynamicURL)
+                            val indexData= indices(indexSymbol, indexName, response.ltp, response.change)
+                            mIndicesViewModel.addIndices(indexData)
+                            Log.e("addIndex", "collecting data...")
+                        } catch (e: Exception){
+                            val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
+                            mIndicesViewModel.addIndices(indexData)
+                        }
                     }
+                    delay(1000L)
+                    addIndicesScope.cancelAndJoin()
+                    Log.e("addIndex", "cancelling...")
                 }
                 customToast.makeText(requireContext(), "Sucessfully added", 1).show()
                 dialgueIndices.dismiss()

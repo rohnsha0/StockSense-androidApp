@@ -55,25 +55,24 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
 
             CoroutineScope(Dispatchers.IO).launch{
                 val updateLTP= launch {
-                    while (true){
-                        delay(50L)
-                        val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/${currentitem.symbol}"
-                        try {
-                            val response= object_ltp.ltpAPIService.getLTP(dynamicURL)
-                            val updateData= indices(currentitem.symbol, currentitem.company, response.ltp, response.change)
-                            mIndicesVM.aupdateIndices(updateData)
-                            Log.e("indicesReq", "sending requests....")
-                        } catch (e: Exception){
-                            withContext(Dispatchers.Main){
-                                Log.e("indicesError", "sending errors....")
-                                customToast.makeText(context, e.toString(), 2).show()
-                            }
+                    delay(100L)
+                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/${currentitem.symbol}"
+                    try {
+                        Log.e("indicesReq", "sending requests....")
+                        val response= object_ltp.ltpAPIService.getLTP(dynamicURL)
+                        Log.e("indicesReq", "updating table....")
+                        val updateData= indices(currentitem.symbol, currentitem.company, response.ltp, response.change)
+                        mIndicesVM.aupdateIndices(updateData)
+                        Log.e("indicesReq", "updated table....")
+                    } catch (e: Exception){
+                        withContext(Dispatchers.Main){
+                            Log.e("indicesError", "sending errors....")
                         }
                     }
                 }
-                delay(1000L)
+                delay(1500L)
                 updateLTP.cancelAndJoin()
-                Log.e("canceliing", "cancelled....")
+                Log.e("indicesReq", "cancelled....")
             }
 
             findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol

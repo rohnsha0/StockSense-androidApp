@@ -119,7 +119,9 @@ class prediction : AppCompatActivity() {
             val dynnamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/prediction/$symbol"
 
             try {
+                Log.e("predReq", "sending request")
                 val response= predAPIservice.getModelData(dynnamicURL)
+                Log.e("predReq", "sent request")
                 val modelStr= response.predicted_close
                 Log.d("responseServer", modelStr.toString())
 

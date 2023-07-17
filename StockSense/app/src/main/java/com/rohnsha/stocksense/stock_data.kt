@@ -103,8 +103,9 @@ class stock_data : AppCompatActivity() {
         }
 
         lifecycleScope.launch(Dispatchers.IO){
+            Log.e("stockData", "sending requests....")
             val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/technical/$symbol"
-
+            Log.e("stockData", "sent requests....")
             try {
                 val response= technicalAPIservice.getTehnicalData(dynamicURL)
                 withContext(Dispatchers.Main){

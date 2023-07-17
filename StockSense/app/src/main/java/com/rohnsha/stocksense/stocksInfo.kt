@@ -259,7 +259,9 @@ class stocksInfo : AppCompatActivity() {
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
             val dynamicUrl= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws//query/${inpSymbol.uppercase()}"
             try {
+                Log.e("stockInfo", "sending requests....")
                 val stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
+                Log.e("stockInfo", "request sent....")
                 withContext(Dispatchers.Main){
                     stockInfoBrnd= stocksInfoResponse.stock_name
                     previousCloses(stocksInfoResponse.t1,stocksInfoResponse.t2, stocksInfoResponse.t3, stocksInfoResponse.t4, stocksInfoResponse.t5, stocksInfoResponse.t6)

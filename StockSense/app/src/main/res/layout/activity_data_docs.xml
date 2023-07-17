@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".docs.data_docs">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarDataDocs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBarData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/backData"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/baseline_arrow_back_ios_new_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Data Policy"
+                    android:textSize="26sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/dashboard_white_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbarDataDocs">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/dataDoc1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome to the world of data-driven investment strategies. Our app utilizes advanced algorithms and machine learning techniques to provide accurate stock price predictions. And the best part?\nAll you need to get started is your name and email ID. Unlike many other apps, we do not require any access to your contacts. We believe in minimizing data collection and only focus on gathering the necessary information to provide you with reliable stock price predictions. So, say goodbye to the hassle of complex forms and lengthy registrations."
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <View
+                    android:id="@+id/dashed2"
+                    android:layout_width="90dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_weight=".3"
+                    android:background="@drawable/dashed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dataDoc1" />
+
+                <TextView
+                    android:id="@+id/dataDoc2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="With our app, you can:\n1. Gain access to reliable stock price predictions for a wide range of companies and indices.\n2. Receive personalized investment recommendations based on your risk tolerance and investment goals.\n3. Stay informed with real-time updates on market trends and price movements.\n4. Explore interactive charts and visualizations to understand historical performance and forecasted trends.\n5. Enjoy a user-friendly interface designed to make investing simpler and more accessible.\n6. No complex forms or lengthy questionnaires required. Simply provide your name and email ID, and you'll be on your way to making smarter investment decisions."
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/dashed2"/>
+
+                <View
+                    android:id="@+id/dashed"
+                    android:layout_width="90dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_weight=".3"
+                    android:background="@drawable/dashed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dataDoc2" />
+
+                <TextView
+                    android:id="@+id/dataDoc3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Download StockSense today and experience stock price prediction with privacy as the forefront of our mission. Protect your data while unlocking the power of intelligent investing!"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/dashed"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    app:layout_constraintTop_toBottomOf="@id/dataDoc3"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
