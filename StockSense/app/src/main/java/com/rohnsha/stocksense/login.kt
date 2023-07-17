@@ -65,8 +65,9 @@ class login : AppCompatActivity() {
         if (auth.currentUser==null){
             Toast.makeText(this@login, "Something went wrong, try again!", Toast.LENGTH_LONG)
         } else {
-            startActivity(Intent(this@login, homepage::class.java))
-            finish()
+            val intent= Intent(this, homepage::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
     }
 

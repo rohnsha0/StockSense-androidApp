@@ -187,7 +187,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Data Usage and Handling"
+                android:text="Data Policy"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/titilliumweb_semi_bold"
                 android:textSize="19sp"

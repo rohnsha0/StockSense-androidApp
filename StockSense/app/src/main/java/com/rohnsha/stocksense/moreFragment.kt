@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.rohnsha.stocksense.docs.data_docs
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,6 +74,18 @@ class moreFragment : Fragment() {
         val emailImgTv= view.findViewById<TextView>(R.id.emailVerifyTv)
         val changeMail= view.findViewById<TextView>(R.id.changeMail)
         val accountDelete= view.findViewById<ConstraintLayout>(R.id.accountDelete)
+
+        view.findViewById<ConstraintLayout>(R.id.viewHelp).setOnClickListener {
+            startActivity(Intent(requireContext(), help_support::class.java))
+        }
+
+        view.findViewById<ConstraintLayout>(R.id.viewPrivacy).setOnClickListener {
+            startActivity(Intent(requireContext(), data_docs::class.java))
+        }
+
+        view.findViewById<ConstraintLayout>(R.id.viewStatus).setOnClickListener {
+            customToast.makeText(requireContext(), "Services, up and running!", 1).show()
+        }
 
         accountDelete.setOnClickListener {
             startActivity(Intent(requireContext(), logout_account::class.java))

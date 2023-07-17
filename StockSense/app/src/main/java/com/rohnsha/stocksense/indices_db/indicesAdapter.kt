@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +21,14 @@ import com.rohnsha.stocksense.ltpAPI.object_ltp
 import com.rohnsha.stocksense.watchlist_db.watchlists
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.isActive
 
 class indicesAdapter(private val application: Application): RecyclerView.Adapter<indicesAdapter.indicesViewHolder>(){
 
@@ -47,19 +53,27 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
 
         holder.itemView.apply {
 
-            GlobalScope.launch(Dispatchers.IO){
-                val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/${currentitem.symbol}"
-                try {
-                    val response= object_ltp.ltpAPIService.getLTP(dynamicURL)
-                    val updateData= indices(currentitem.symbol, currentitem.company, response.ltp, response.change)
-                    mIndicesVM.aupdateIndices(updateData)
-
-                } catch (e: Exception){
-                    withContext(Dispatchers.Main){
-                        customToast.makeText(context, e.toString(), 2).show()
+            CoroutineScope(Dispatchers.IO).launch{
+                val updateLTP= launch {
+                    while (true){
+                        delay(50L)
+                        val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/${currentitem.symbol}"
+                        try {
+                            val response= object_ltp.ltpAPIService.getLTP(dynamicURL)
+                            val updateData= indices(currentitem.symbol, currentitem.company, response.ltp, response.change)
+                            mIndicesVM.aupdateIndices(updateData)
+                            Log.e("indicesReq", "sending requests....")
+                        } catch (e: Exception){
+                            withContext(Dispatchers.Main){
+                                Log.e("indicesError", "sending errors....")
+                                customToast.makeText(context, e.toString(), 2).show()
+                            }
+                        }
                     }
                 }
-
+                delay(1000L)
+                updateLTP.cancelAndJoin()
+                Log.e("canceliing", "cancelled....")
             }
 
             findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol

@@ -66,8 +66,9 @@ class register : AppCompatActivity() {
         if (auth.currentUser==null){
             customToast.makeText(this@register, "Something went wrong, try again!", 2).show()
         } else {
-            startActivity(Intent(this@register, homepage::class.java))
-            finish()
+            val intent= Intent(this, homepage::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
     }
 

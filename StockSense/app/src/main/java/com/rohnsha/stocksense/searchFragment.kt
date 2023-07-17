@@ -33,6 +33,8 @@ import com.rohnsha.stocksense.docs.searchbar_docs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -104,11 +106,13 @@ class searchFragment : Fragment() {
         }
 
 
-        lifecycleScope.launch(Dispatchers.IO){
+        val job = lifecycleScope.launch(Dispatchers.IO){
             if (mSearchHistoryModel.countDBquery()<=0){
-                loadingSearch.visibility= View.GONE
-                initBoiler.visibility= View.VISIBLE
-                recyclerViewSearch.visibility= View.GONE
+                withContext(Dispatchers.Main){
+                    loadingSearch.visibility= View.GONE
+                    initBoiler.visibility= View.VISIBLE
+                    recyclerViewSearch.visibility= View.GONE
+                }
             } else {
                 withContext(Dispatchers.Main){
                     loadingSearch.visibility= View.GONE
@@ -117,7 +121,6 @@ class searchFragment : Fragment() {
                 }
             }
         }
-
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
