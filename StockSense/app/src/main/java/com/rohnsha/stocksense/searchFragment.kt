@@ -111,15 +111,8 @@ class searchFragment : Fragment() {
                 Log.e("countDBsearhc", "countingDB")
                 if (mSearchHistoryModel.countDBquery()<=0){
                     withContext(Dispatchers.Main){
-                        loadingSearch.visibility= View.GONE
                         initBoiler.visibility= View.VISIBLE
                         recyclerViewSearch.visibility= View.GONE
-                    }
-                } else {
-                    withContext(Dispatchers.Main){
-                        loadingSearch.visibility= View.GONE
-                        initBoiler.visibility= View.GONE
-                        recyclerViewSearch.visibility= View.VISIBLE
                     }
                 }
             }

@@ -247,8 +247,6 @@ class stocksInfo : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.hide()
 
-
-
         backBTN.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()

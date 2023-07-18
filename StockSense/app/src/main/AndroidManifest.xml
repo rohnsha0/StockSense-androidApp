@@ -56,7 +56,8 @@
             android:exported="false" />
         <activity
             android:name=".homepage"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.StockSense" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,8 +72,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.StockSense" />
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_main">#121212</color>
+    <color name="bg_main">#0f0f0f</color>
     <color name="black">#FFFFFF</color>
-    <color name="dash_bg">#0A84FF</color>
+    <color name="dash_bg">#F4F5FA</color>
     <color name="formAccentLight">#B5BBC9</color>
-    <color name="white">#333333</color>
+    <color name="white">#000000</color>
     <color name="viewsDash">#4D4D4D</color>
     <color name="default_text_color">@color/black</color>
 </resources>

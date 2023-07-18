@@ -24,11 +24,16 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
+import com.rohnsha.stocksense.StockDataResponse
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.isActive
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import kotlin.Exception
 
 class indicesAdapter(private val application: Application): RecyclerView.Adapter<indicesAdapter.indicesViewHolder>(){
 
@@ -53,24 +58,29 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
 
         holder.itemView.apply {
 
-            CoroutineScope(Dispatchers.IO).launch{
+            val handler= CoroutineExceptionHandler { _, throwable ->
+                Log.e("exception", "Coroutine ended")
+            }
+            CoroutineScope(Dispatchers.IO + handler).launch{
                 val updateLTP= launch {
-                    delay(100L)
-                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/${currentitem.symbol}"
+                    delay(1000L)
                     try {
-                        Log.e("indicesReq", "sending requests....")
-                        val response= object_ltp.ltpAPIService.getLTP(dynamicURL)
-                        Log.e("indicesReq", "updating table....")
-                        val updateData= indices(currentitem.symbol, currentitem.company, response.ltp, response.change)
+                        Log.e("indicesReq", "sending requests (${currentitem.symbol})....")
+                        val response= getStockData(currentitem.symbol)
+                        Log.e("indicesReq", "updating table (${currentitem.symbol})....")
+                        val stockChange = (response!!.regularMarketPrice-response!!.previousClose)
+                        val updateData= indices(currentitem.symbol, currentitem.company, response!!.regularMarketPrice.toDouble(), changeToStatus(stockChange))
                         mIndicesVM.aupdateIndices(updateData)
-                        Log.e("indicesReq", "updated table....")
+                        Log.e("indicesReq", "updated table (${currentitem.symbol})....")
+                        throw Exception("Finished WOrking")
                     } catch (e: Exception){
                         withContext(Dispatchers.Main){
                             Log.e("indicesError", "sending errors....")
                         }
                     }
+                    throw Exception("Finished WOrking")
                 }
-                delay(1500L)
+                delay(1000L)
                 updateLTP.cancelAndJoin()
                 Log.e("indicesReq", "cancelled....")
             }
@@ -78,8 +88,8 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
             findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol
             findViewById<TextView>(R.id.sName).text= currentitem.company
             findViewById<TextView>(R.id.rvLtp).text= String.format("%.2f", currentitem.ltp)
-            findViewById<TextView>(R.id.rvStatus).text= currentitem.status
-            findViewById<TextView>(R.id.logoInit).text= currentitem.symbol.substring(0, 1)
+            findViewById<TextView>(R.id.rvStatus).text= currentitem.status.toString()
+            findViewById<TextView>(R.id.logoInit).text= currentitem.company.substring(0, 1)
             if (currentitem.status=="POSITIVE"){
                 findViewById<TextView>(R.id.rvStatus).setTextColor(Color.GREEN)
                 findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(
@@ -100,5 +110,30 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
     fun setIndices(stocks: List<indices>){
         this.indicesList= stocks
         notifyDataSetChanged()
+    }
+
+    private fun changeToStatus(change: Float): String {
+        if (change>0){
+            return "POSITIVE"
+        } else if (change<0){
+            return "NEGATIVE"
+        }
+        return "NEUTRAL"
+    }
+
+    suspend fun getStockData(symbol: String): com.rohnsha.stocksense.Result.Meta?{
+        val url= "https://query1.finance.yahoo.com/v8/finance/chart/$symbol"
+        try {
+            val response = OkHttpClient().newCall(Request.Builder().url(url).build()).execute()
+            val responseBody= response.body
+            val json = responseBody?.string()
+            Log.d("stockDataFetcher","JSON Response: $json")
+            val gson = Gson()
+            val stockDataResponse = gson.fromJson(json, StockDataResponse::class.java)
+            return stockDataResponse.chart.result[0].meta
+        } catch (e: Exception){
+            Log.e("stockDataFetcher", "Error fetching stock data: ${e.message}")
+            return null
+        }
     }
 }
