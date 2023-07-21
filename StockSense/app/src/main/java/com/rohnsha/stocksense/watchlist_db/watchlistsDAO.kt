@@ -6,12 +6,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface watchlistsDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addWatchlists(watchlists: watchlists)
+
+    @Update
+    suspend fun updateWatchlists(watchlists: watchlists)
 
     @Query("SELECT COUNT(symbol) FROM watchlists_table")
     fun getDBcount(): Int

@@ -35,6 +35,12 @@ class watchlistsVM(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun updateWatchlists(watchlists: watchlists){
+        viewModelScope.launch(Dispatchers.IO){
+            watchlistsRepo.updateWatchlists(watchlists)
+        }
+    }
+
     fun deleteUser(watchlists: List<watchlists>){
         viewModelScope.launch(Dispatchers.IO){
             watchlistsRepo.deleteWatchlists(watchlists)

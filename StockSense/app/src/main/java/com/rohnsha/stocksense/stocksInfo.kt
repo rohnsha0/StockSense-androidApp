@@ -161,11 +161,13 @@ class stocksInfo : AppCompatActivity() {
 
         val adRequest= AdRequest.Builder().build()
 
-        InterstitialAd.load(this,"ca-app-pub-9534797608454346/1015649609", adRequest, object : InterstitialAdLoadCallback() {
+        val adID= this.getString(R.string.interstitialID)
+
+        InterstitialAd.load(this,adID, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError?.toString()?.let { Log.d("TAG", it) }
                 mInterstitialAd = null
-                InterstitialAd.load(this@stocksInfo,"ca-app-pub-9534797608454346/1015649609", adRequest, object : InterstitialAdLoadCallback() {
+                InterstitialAd.load(this@stocksInfo,adID, adRequest, object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
                         adError?.toString()?.let { Log.d("TAG", it) }
                         mInterstitialAd = null
@@ -304,6 +306,8 @@ class stocksInfo : AppCompatActivity() {
                         val intent= Intent(this@stocksInfo, prediction::class.java)
                         intent.putExtra("symbolStock", inpSymbol)
                         intent.putExtra("ltp", stockDataBody.regularMarketPrice.toString())
+                        Log.d("companyName", stockInfoBrnd)
+                        intent.putExtra("company", stockInfoBrnd)
                         startActivity(intent)
                         if (mInterstitialAd != null) {
                             mInterstitialAd?.show(this@stocksInfo)
@@ -328,6 +332,7 @@ class stocksInfo : AppCompatActivity() {
                             withContext(Dispatchers.Main){
                                 watchlistViewTXT.text= "Watchlisted"
                                 watchlistIcon.setImageResource(R.drawable.baseline_bookmark_remove_24)
+                                mWatchlistModel.updateWatchlists(watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble())))
                                 watchlistView.setOnClickListener {
                                     if (wlBtnClickCount==0){
                                         mWatchlistModel.deleteUser(data)

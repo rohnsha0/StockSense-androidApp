@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,9 +14,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,11 +27,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.rohnsha.stocksense.database.search_history.search_history_model
 import com.rohnsha.stocksense.indices_db.indices
 import com.rohnsha.stocksense.indices_db.indicesAdapter
 import com.rohnsha.stocksense.indices_db.indicesViewModel
 import com.rohnsha.stocksense.ltpAPI.object_ltp.ltpAPIService
+import com.rohnsha.stocksense.pred_glance_db.glance_view_model
+import com.rohnsha.stocksense.pred_glance_db.pred_glance
+import com.rohnsha.stocksense.prediction_api.pred_object
 import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +44,8 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import kotlin.properties.Delegates
 
 // TODO: Rename parameter arguments, choose names that match
@@ -57,10 +67,12 @@ class home : Fragment() {
     private var fragmentChangeListener: FragmentChangeListener? = null
     private lateinit var mWatchlistModel: watchlistsVM
     private lateinit var mIndicesViewModel: indicesViewModel
+    private lateinit var mPredictionViewModel: glance_view_model
     private lateinit var indexSymbol: String
     private lateinit var indexName: String
     private var indexPrice by Delegates.notNull<Double>()
     private lateinit var indexStatus: String
+    private lateinit var glanceData: pred_glance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +133,62 @@ class home : Fragment() {
         val rvIndices= view.findViewById<RecyclerView>(R.id.rvIndicesHome)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
         mIndicesViewModel= ViewModelProvider(this)[indicesViewModel::class.java]
+        mPredictionViewModel= ViewModelProvider(this)[glance_view_model::class.java]
         val addIndices= view.findViewById<Button>(R.id.addIndices)
+        val glanceInit= view.findViewById<ConstraintLayout>(R.id.predictedGlanceInit)
+        val glanceInitStatus= view.findViewById<TextView>(R.id.glanceInitStatus)
+        val glanceContainer= view.findViewById<ConstraintLayout>(R.id.predictionGlance)
+
+        lifecycleScope.launch(Dispatchers.IO){
+            val glanceDBCount= mPredictionViewModel.getDBcount()
+            if (glanceDBCount==1){
+                withContext(Dispatchers.Main){
+                    glanceInitStatus.text= "We're gathering informations..."
+                }
+                glanceData= mPredictionViewModel.queryGlance()
+                withContext(Dispatchers.Main){
+                    view.findViewById<TextView>(R.id.glanceName).text= glanceData.company
+                    view.findViewById<TextView>(R.id.symbolGlanceTV).text= glanceData.symbol.substringBefore('.')
+                }
+                val dynamicURLPred= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/prediction/${glanceData.symbol}"
+                try {
+                    Log.d("glanceReq", "Sending prediction Request")
+                    val responsePred= pred_object.predAPIservice.getModelData(dynamicURLPred)
+                    Log.d("glanceReq", "Prediction Request sent")
+                    val responseLTP= getGlanceLTP(glanceData.symbol)
+                    Log.d("glanceReq", "LTP Request sent")
+                    val ltp= String.format("%.2f", responseLTP!!.regularMarketPrice)
+                    val predictedClose= String.format("%.2f", responsePred.predicted_close)
+                    Log.d("glanceReq", "Formatting started")
+                    withContext(Dispatchers.Main){
+                        glanceInit.visibility= View.GONE
+                        glanceContainer.visibility= View.VISIBLE
+                        view.findViewById<TextView>(R.id.glanceClose).text= predictedClose
+                        view.findViewById<TextView>(R.id.glanceLtp).text= ltp
+                        getPredictionInfos(ltp = responseLTP!!.regularMarketPrice.toDouble(), prediction = responsePred.predicted_close.toDouble())
+                    }
+                    Log.d("glanceReq", "Formatting completed")
+                } catch (e: Exception){
+                    withContext(Dispatchers.Main){
+                        glanceInit.visibility= View.GONE
+                        glanceContainer.visibility= View.VISIBLE
+                        view.findViewById<TextView>(R.id.glanceLtp).text= glanceData.ltp.toString()
+                        view.findViewById<TextView>(R.id.glanceStatus).text= glanceData.trend.uppercase()
+                        view.findViewById<TextView>(R.id.glanceClose).text= String.format("%.2f", glanceData.prediction)
+                        view.findViewById<TextView>(R.id.glanceRemarks).text= glanceData.remarks
+                        customToast.makeText(requireContext(), "Unable to refresh Glance Dash", 2).show()
+                    }
+                }
+            } else if (glanceDBCount==0){
+                withContext(Dispatchers.Main){
+                    glanceInitStatus.text= "Add items to Glance Dash from Prediction page\n1. Search for possible scripts\n2. Tap on prediction button\n3. Add script to glance dash"
+                }
+            } else {
+                withContext(Dispatchers.Main){
+                    glanceInitStatus.text= "Something went wrong. Check back later!"
+                }
+            }
+        }
 
         viewAddWl.setOnClickListener {
             startActivity(Intent(requireContext(), MainActivity::class.java))
@@ -330,6 +397,49 @@ class home : Fragment() {
             } else{
                 editor.putBoolean("boilerTemp", false)
             }
+        }
+    }
+
+    suspend fun getGlanceLTP(symbol: String): com.rohnsha.stocksense.Result.Meta?{
+        val url= "https://query1.finance.yahoo.com/v8/finance/chart/$symbol"
+        try {
+            val response = OkHttpClient().newCall(Request.Builder().url(url).build()).execute()
+            val responseBody= response.body
+            val json = responseBody?.string()
+            Log.d("stockDataFetcher","JSON Response: $json")
+            val gson = Gson()
+            val stockDataResponse = gson.fromJson(json, StockDataResponse::class.java)
+            return stockDataResponse.chart.result[0].meta
+        } catch (e: Exception){
+            Log.e("stockDataFetcher", "Error fetching stock data: ${e.message}")
+            return null
+        }
+    }
+
+    suspend fun getPredictionInfos(ltp: Double, prediction: Double){
+        val remarks= view?.findViewById<TextView>(R.id.glanceRemarks)
+        val trend= view?.findViewById<TextView>(R.id.glanceStatus)
+        val imagePred= view?.findViewById<ImageView>(R.id.imagePred)
+        val change= ltp-prediction
+        if (change>0){
+            trend?.text= "UPTREND"
+            trend?.setTextColor(Color.GREEN)
+            imagePred?.backgroundTintList= ColorStateList.valueOf(Color.GREEN)
+            remarks?.text= "Stock outperforming predictions"
+        } else if (change<0){
+            trend?.text= "DOWNTREND"
+            trend?.setTextColor(Color.RED)
+            imagePred?.backgroundTintList= ColorStateList.valueOf(Color.RED)
+            remarks?.text= "Bearish stock performance"
+        } else {
+            trend?.text= "NEUTRAL"
+            trend?.setTextColor(Color.GRAY)
+            imagePred?.backgroundTintList= ColorStateList.valueOf(Color.GRAY)
+            remarks?.text= "Not a strong upward force, stock is performing as expected"
+        }
+        withContext(Dispatchers.IO){
+            val glanceUpdateData= pred_glance(symbol = glanceData.symbol, company = glanceData.company, ltp =  ltp, prediction =  prediction, remarks = remarks?.text.toString(), trend = trend?.text.toString() )
+            mPredictionViewModel.addGlance(glanceUpdateData)
         }
     }
 }

@@ -40,7 +40,7 @@ class watchlistsAdapter: RecyclerView.Adapter<watchlistsAdapter.watchlistsViewHo
         val currentitem= watchlistsList[position]
         holder.itemView.apply {
             findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol
-            findViewById<TextView>(R.id.sName).text= currentitem.company
+            findViewById<TextView>(R.id.sName).text= currentitem.company.limitText(20)
             findViewById<TextView>(R.id.rvLtp).text= String.format("%.2f", currentitem.ltp)
             findViewById<TextView>(R.id.rvStatus).text= currentitem.status
             findViewById<TextView>(R.id.logoInit).text= currentitem.symbol.substring(0, 1)
@@ -117,5 +117,8 @@ class watchlistsAdapter: RecyclerView.Adapter<watchlistsAdapter.watchlistsViewHo
         this.watchlistsList= stocks
         notifyDataSetChanged()
     }
+}
 
+fun String.limitText(maxChar: Int): String {
+    return this.take(maxChar)
 }

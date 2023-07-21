@@ -32,6 +32,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_back_ios_new_24"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    android:tint="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,6 +47,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/dashPred"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/baseline_leak_add_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/black" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -14,12 +14,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.material.appbar.AppBarLayout
+import com.rohnsha.stocksense.pred_glance_db.glance_view_model
+import com.rohnsha.stocksense.pred_glance_db.pred_glance
 import com.rohnsha.stocksense.prediction_api.pred_object.predAPIservice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,12 +32,18 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.properties.Delegates
 
 class prediction : AppCompatActivity() {
     lateinit var symbol: String
     lateinit var stockLTP: String
+    lateinit var company: String
+    var modelStr by Delegates.notNull<Float>()
     lateinit var mBannerAdView: AdView
     lateinit var mBannerAdView2: AdView
+    private lateinit var mPredictinViewModel: glance_view_model
+    private var isPresentInGlance by Delegates.notNull<Boolean>()
+    private lateinit var glanceEntry: List<pred_glance>
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +52,10 @@ class prediction : AppCompatActivity() {
 
         symbol= intent.getStringExtra("symbolStock").toString()
         stockLTP= intent.getStringExtra("ltp").toString()
+        company= intent.getStringExtra("company").toString()
+
+        Log.d("companyName", company)
+
         symbol= symbol.uppercase()
 
         val predClose= findViewById<TextView>(R.id.closeVal)
@@ -61,6 +75,8 @@ class prediction : AppCompatActivity() {
         val backBtnPred= findViewById<ImageView>(R.id.backPred)
         mBannerAdView= findViewById(R.id.bannerAdPred)
         mBannerAdView2= findViewById(R.id.bannerAdPred2)
+        val dashBtn= findViewById<ImageView>(R.id.dashPred)
+        mPredictinViewModel= ViewModelProvider(this)[glance_view_model::class.java]
 
         backBtnPred.setOnClickListener {
             onBackPressed()
@@ -122,7 +138,7 @@ class prediction : AppCompatActivity() {
                 Log.e("predReq", "sending request")
                 val response= predAPIservice.getModelData(dynnamicURL)
                 Log.e("predReq", "sent request")
-                val modelStr= response.predicted_close
+                modelStr= response.predicted_close
                 Log.d("responseServer", modelStr.toString())
 
                 withContext(Dispatchers.Main){
@@ -152,6 +168,59 @@ class prediction : AppCompatActivity() {
                     loadingView.visibility= View.GONE
                     errorView.visibility= View.VISIBLE
                     Log.e("error", "something went wrong")
+                }
+            }
+
+            Log.d("getDBcount", mPredictinViewModel.getDBcount().toString())
+
+            val dashPred= findViewById<ImageView>(R.id.dashPred)
+
+            lifecycleScope.launch(Dispatchers.IO){
+                glanceEntry= mPredictinViewModel.searchDBGlance(symbol)
+                isPresentInGlance= glanceEntry.isNotEmpty()
+                if (isPresentInGlance){
+                    withContext(Dispatchers.Main){
+                        dashPred.setImageResource(R.drawable.baseline_leak_remove_24)
+                    }
+                }
+            }
+            var touchCountGlance= 0
+
+            dashBtn.setOnClickListener {
+                lifecycleScope.launch(Dispatchers.IO){
+                    val dbCount= mPredictinViewModel.getDBcount()
+                    Log.d("existsGlance", mPredictinViewModel.searchDBGlance(symbol).isEmpty().toString())
+                    if (dbCount>=1){
+                        val addedSymbol= mPredictinViewModel.queryGlance().symbol
+                        if (!isPresentInGlance){
+                            withContext(Dispatchers.Main){
+                                customToast.makeText(this@prediction, "Remove ${addedSymbol.substringBefore('.')} to add this to Glance Dash", 2).show()
+                            }
+                        } else {
+                            if (touchCountGlance==0){
+                                withContext(Dispatchers.Main){
+                                    mPredictinViewModel.deleteGlance(glanceEntry)
+                                    customToast.makeText(this@prediction, "Successfully removed from Glance Dash", 1).show()
+                                    dashPred.setImageResource(R.drawable.baseline_leak_add_24)
+                                    touchCountGlance++
+                                }
+                            } else if (touchCountGlance>0){
+                                withContext(Dispatchers.Main){
+                                    customToast.makeText(this@prediction, "Already removed from Glance Dash", 2).show()
+                                }
+                            }
+                        }
+                    } else if (dbCount==0){
+                        val prediction_details= pred_glance(symbol, company, stockLTP.toDouble(), modelStr.toDouble(), remarks = findViewById<TextView>(R.id.lowVal).text.toString(),
+                            trend = findViewById<TextView>(R.id.highVal).text as String
+                        )
+                        mPredictinViewModel.addGlance(prediction_details)
+                        launch(Dispatchers.Main){
+                            customToast.makeText(this@prediction, "Successfully added to Glance", 1).show()
+                            dashPred.setImageResource(R.drawable.baseline_leak_remove_24)
+                        }
+
+                    }
                 }
             }
         }
@@ -225,7 +294,7 @@ class prediction : AppCompatActivity() {
             remarks.text= "Bearish stock performance"
         } else {
             trend.text= "Neutral"
-            remarks.text= "Not a strong upward force stock is performing as expected"
+            remarks.text= "Not a strong upward force, stock is performing as expected"
         }
     }
 }

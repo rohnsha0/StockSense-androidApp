@@ -63,25 +63,28 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
             }
             CoroutineScope(Dispatchers.IO + handler).launch{
                 val updateLTP= launch {
-                    delay(1000L)
-                    try {
-                        Log.e("indicesReq", "sending requests (${currentitem.symbol})....")
-                        val response= getStockData(currentitem.symbol)
-                        Log.e("indicesReq", "updating table (${currentitem.symbol})....")
-                        val stockChange = (response!!.regularMarketPrice-response!!.previousClose)
-                        val updateData= indices(currentitem.symbol, currentitem.company, response!!.regularMarketPrice.toDouble(), changeToStatus(stockChange))
-                        mIndicesVM.aupdateIndices(updateData)
-                        Log.e("indicesReq", "updated table (${currentitem.symbol})....")
-                        throw Exception("Finished WOrking")
-                    } catch (e: Exception){
-                        withContext(Dispatchers.Main){
-                            Log.e("indicesError", "sending errors....")
+                    while (true){
+                        delay(1000L)
+                        try {
+                            Log.e("indicesReq", "sending requests (${currentitem.symbol})....")
+                            val response= getStockData(currentitem.symbol)
+                            Log.e("indicesReq", "updating table (${currentitem.symbol})....")
+                            val stockChange = (response!!.regularMarketPrice-response!!.previousClose)
+                            val updateData= indices(currentitem.symbol, currentitem.company, response!!.regularMarketPrice.toDouble(), changeToStatus(stockChange))
+                            mIndicesVM.aupdateIndices(updateData)
+                            Log.e("indicesReq", "updated table (${currentitem.symbol})....")
+                            throw Exception("Finished WOrking")
+                        } catch (e: Exception){
+                            withContext(Dispatchers.Main){
+                                Log.e("indicesError", "sending errors....")
+                            }
                         }
+                        throw Exception("Finished WOrking")
                     }
-                    throw Exception("Finished WOrking")
                 }
                 delay(1000L)
-                updateLTP.cancelAndJoin()
+                updateLTP.cancel()
+                updateLTP.join()
                 Log.e("indicesReq", "cancelled....")
             }
 

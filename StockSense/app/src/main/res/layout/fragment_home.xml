@@ -93,7 +93,6 @@
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="14dp"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="+ Add more indices"
@@ -104,6 +103,57 @@
                     app:layout_constraintTop_toBottomOf="@id/rvIndicesHome"
                     app:strokeColor="@color/formAccentLight" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/predictedGlanceInit"
+                android:layout_width="0dp"
+                android:layout_marginTop="26sp"
+                android:layout_height="135dp"
+                android:layout_marginStart="24dp"
+                android:elevation="2dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/dash_btn"
+                app:layout_constraintTop_toBottomOf="@id/addIndices"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/blurred_glance"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/glanceInitStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="We're checking for saved scripts..."
+                    android:textSize="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:fontFamily="@font/titilliumweb_semi_bold"/>
+
+                <TextView
+                    style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_rectangle"
+                    android:fontFamily="@font/titillium_web_bold"
+                    android:padding="2dp"
+                    android:text="GLANCE DASH"
+                    android:textColor="@color/formAccentLight"
+                    android:textSize="8dp"
+                    android:layout_marginEnd="13dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/predictionGlance"
                     android:layout_width="0dp"
@@ -111,6 +161,7 @@
                     android:layout_height="135dp"
                     android:layout_marginStart="24dp"
                     android:elevation="2dp"
+                    android:visibility="invisible"
                     android:layout_marginEnd="24dp"
                     android:background="@drawable/dash_btn"
                     app:layout_constraintTop_toBottomOf="@id/addIndices"
@@ -120,13 +171,16 @@
                     <ImageView
                         android:id="@+id/imagePred"
                         android:layout_width="34dp"
+                        android:src="@drawable/prediction_btn"
                         android:background="@drawable/logo_bg"
+                        android:padding="5dp"
                         android:backgroundTint="@color/dash_bg"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginTop="13dp"
                         android:layout_marginStart="13dp"
-                        android:layout_height="34dp"/>
+                        android:layout_height="34dp"
+                        app:tint="@color/white" />
 
                     <TextView
                         android:id="@+id/glanceName"
@@ -143,7 +197,7 @@
                         app:layout_constraintStart_toEndOf="@+id/imagePred"/>
 
                     <TextView
-                        android:id="@+id/symbolTV"
+                        android:id="@+id/symbolGlanceTV"
                         android:layout_width="wrap_content"
                         android:textSize="15sp"
                         android:layout_height="wrap_content"
@@ -169,9 +223,9 @@
                         android:id="@+id/glanceStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="UPTREND"
+                        android:text="NEUTRAL"
                         android:elevation="2dp"
-                        android:textColor="#4CAF50"
+                        android:textColor="#6A666C"
                         android:fontFamily="@font/titilliumweb_semi_bold"
                         android:layout_marginBottom="8dp"
                         app:layout_constraintBottom_toBottomOf="@+id/glanceDash"
@@ -202,6 +256,7 @@
                         android:fontFamily="@font/titillium_web_bold"/>
 
                     <TextView
+                        android:id="@+id/glanceClose"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0000"
@@ -210,18 +265,19 @@
                         app:layout_constraintBottom_toBottomOf="@id/predCloseGlance"/>
 
                     <TextView
+                        style="@style/Widget.AppCompat.TextView.SpinnerItem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="LSTM"
-                        android:textSize="10dp"
-                        android:padding="2dp"
-                        android:textColor="@color/formAccentLight"
+                        android:layout_marginEnd="-2dp"
                         android:background="@drawable/round_rectangle"
-                        style="@style/Widget.AppCompat.TextView.SpinnerItem"
                         android:fontFamily="@font/titillium_web_bold"
-                        app:layout_constraintTop_toTopOf="@id/predCloseGlance"
-                        app:layout_constraintBottom_toBottomOf="@id/predCloseGlance"
-                        app:layout_constraintEnd_toEndOf="@id/glanceLtp"/>
+                        android:padding="2dp"
+                        android:text="GLANCE DASH"
+                        android:textColor="@color/formAccentLight"
+                        android:textSize="12dp"
+                        app:layout_constraintBottom_toTopOf="@+id/glanceRemarks"
+                        app:layout_constraintEnd_toEndOf="@id/glanceLtp"
+                        app:layout_constraintTop_toBottomOf="@id/glanceStatus" />
 
                     <TextView
                         android:id="@+id/predRemarkGlance"
@@ -235,6 +291,7 @@
                         android:fontFamily="@font/titillium_web_bold"/>
 
                     <TextView
+                        android:id="@+id/glanceRemarks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Stock Prediction Review"
@@ -295,7 +352,7 @@
                     android:id="@+id/viewWl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="19dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="20dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="See all Watchlists"
