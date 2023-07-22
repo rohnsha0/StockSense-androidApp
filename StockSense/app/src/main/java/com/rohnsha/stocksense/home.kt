@@ -150,7 +150,7 @@ class home : Fragment() {
                     view.findViewById<TextView>(R.id.glanceName).text= glanceData.company
                     view.findViewById<TextView>(R.id.symbolGlanceTV).text= glanceData.symbol.substringBefore('.')
                 }
-                val dynamicURLPred= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/prediction/${glanceData.symbol}"
+                val dynamicURLPred= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/prediction/${glanceData.symbol}"
                 try {
                     Log.d("glanceReq", "Sending prediction Request")
                     val responsePred= pred_object.predAPIservice.getModelData(dynamicURLPred)
@@ -260,11 +260,12 @@ class home : Fragment() {
                             }
                             val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
                             try {
-                                val response= ltpAPIService.getLTP(dynamicURL)
+                                //val response= ltpAPIService.getLTP(dynamicURL)
+                                val response= getLTPhome(indexSymbol)
                                 withContext(Dispatchers.Main){
-                                    indexPrice= response.ltp
+                                    indexPrice= response?.regularMarketPrice!!.toDouble()
                                     priceIndex.hint= indexPrice.toString()
-                                    indexStatus= response.change
+                                    indexStatus= response.change.toString()
                                     changeIndex.hint= indexStatus
                                     verifyBtn.visibility= View.GONE
                                     doneIndex.visibility= View.VISIBLE
@@ -312,8 +313,9 @@ class home : Fragment() {
                     val addIndicesScope= launch {
                         val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
                         try {
-                            val response= ltpAPIService.getLTP(dynamicURL)
-                            val indexData= indices(indexSymbol, indexName, response.ltp, response.change)
+                            //val response= ltpAPIService.getLTP(dynamicURL)
+                            val response= getLTPhome(indexSymbol)
+                            val indexData= indices(indexSymbol, indexName, response?.regularMarketPrice!!.toDouble(), response?.change.toString())
                             mIndicesViewModel.addIndices(indexData)
                             Log.e("addIndex", "collecting data...")
                         } catch (e: Exception){
@@ -440,6 +442,22 @@ class home : Fragment() {
         withContext(Dispatchers.IO){
             val glanceUpdateData= pred_glance(symbol = glanceData.symbol, company = glanceData.company, ltp =  ltp, prediction =  prediction, remarks = remarks?.text.toString(), trend = trend?.text.toString() )
             mPredictionViewModel.addGlance(glanceUpdateData)
+        }
+    }
+
+    suspend fun getLTPhome(symbol: String): Result.Meta?{
+        val url= "https://query1.finance.yahoo.com/v8/finance/chart/$symbol"
+        try {
+            val response = OkHttpClient().newCall(Request.Builder().url(url).build()).execute()
+            val responseBody= response.body
+            val json = responseBody?.string()
+            Log.d("stockDataFetcher","JSON Response: $json")
+            val gson = Gson()
+            val stockDataResponse = gson.fromJson(json, StockDataResponse::class.java)
+            return stockDataResponse.chart.result[0].meta
+        } catch (e: Exception){
+            Log.e("stockDataFetcher", "Error fetching stock data: ${e.message}")
+            return null
         }
     }
 }

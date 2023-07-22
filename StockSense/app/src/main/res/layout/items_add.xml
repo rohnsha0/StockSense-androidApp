@@ -164,7 +164,7 @@
         android:id="@+id/changeIndexH1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Market Price"
+        android:text="Current Market Trend"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/titilliumweb_semi_bold"

@@ -132,7 +132,7 @@ class prediction : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         lifecycleScope.launch(Dispatchers.IO){
-            val dynnamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/prediction/$symbol"
+            val dynnamicURL= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/prediction/$symbol"
 
             try {
                 Log.e("predReq", "sending request")
