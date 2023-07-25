@@ -12,7 +12,7 @@
     </style>
 
     <style name="Theme.StockSense" parent="Base.Theme.StockSense" />
-    
+
     <style name="FABCustom" parent="Widget.Design.FloatingActionButton">
         <item name="shapeAppearanceOverlay">@style/FAB</item>
     </style>

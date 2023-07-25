@@ -16,6 +16,22 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".stockDetail"
+            android:exported="false"
+            android:label="@string/title_activity_stock_detail"
+            android:theme="@style/Theme.StockSense" />
+        <activity
+            android:name=".HomeScreen"
+            android:exported="true"
+            android:label="@string/title_activity_home_screen"
+            android:theme="@style/Theme.StockSense">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".help_support"
             android:exported="false" />
         <activity
@@ -57,7 +73,7 @@
         <activity
             android:name=".homepage"
             android:exported="true"
-            android:theme="@style/Theme.StockSense" >
+            android:theme="@style/Theme.StockSense">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

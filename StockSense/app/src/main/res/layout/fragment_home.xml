@@ -112,6 +112,7 @@
                 android:elevation="2dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/dash_btn"
+                android:backgroundTint="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/addIndices"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -149,6 +150,7 @@
                     android:textSize="8dp"
                     android:layout_marginEnd="13dp"
                     android:layout_marginBottom="8dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 

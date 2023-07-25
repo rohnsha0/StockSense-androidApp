@@ -1,0 +1,37 @@
+package com.rohnsha.stocksense
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.rohnsha.stocksense.screens.Details
+import com.rohnsha.stocksense.ui.theme.StockSenseTheme
+
+class stockDetail : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            StockSenseTheme {
+                val inpSymbol = intent.getStringExtra("symbol").toString()
+                // A surface container using the 'background' color from the theme
+                Details(stockSymbol = inpSymbol, ltp = "0", change = "0", onClck = {
+                    onBackPressed()
+                })
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview2() {
+    StockSenseTheme {
+    }
+}

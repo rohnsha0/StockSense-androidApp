@@ -252,54 +252,39 @@ class home : Fragment() {
 
             verifyBtn.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val verifyScope= launch {
-                        while (true){
-                            delay(50L)
-                            withContext(Dispatchers.Main){
-                                customToast.makeText(requireContext(), "Fetching Additional Informations", 2).show()
-                            }
-                            val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
-                            try {
-                                //val response= ltpAPIService.getLTP(dynamicURL)
-                                val response= getLTPhome(indexSymbol)
-                                withContext(Dispatchers.Main){
-                                    indexPrice= response?.regularMarketPrice!!.toDouble()
-                                    priceIndex.hint= indexPrice.toString()
-                                    indexStatus= response.change.toString()
-                                    changeIndex.hint= indexStatus
-                                    verifyBtn.visibility= View.GONE
-                                    doneIndex.visibility= View.VISIBLE
-                                }
-                                Log.e("verifyLog", "verifying")
-                            } catch (e: Exception){
-                                withContext(Dispatchers.Main){
-                                    customToast.makeText(requireContext(), "Something went wrong. Please try again later!", 2).show()
-                                }
-                            }
+                    withContext(Dispatchers.Main){
+                        customToast.makeText(requireContext(), "Fetching Additional Informations", 2).show()
+                    }
+                    val dynamicURL= "https://45halapf2lg7zd42f33g6da7ci0kbjzo.lambda-url.ap-south-1.on.aws/ltp/$indexSymbol"
+                    try {
+                        //val response= ltpAPIService.getLTP(dynamicURL)
+                        val response= getLTPhome(indexSymbol)
+                        withContext(Dispatchers.Main){
+                            indexPrice= String.format("%.2f", response?.regularMarketPrice).toDouble()
+                            priceIndex.hint= indexPrice.toString()
+                            indexStatus= response?.change.toString()
+                            changeIndex.hint= indexStatus
+                            verifyBtn.visibility= View.GONE
+                            doneIndex.visibility= View.VISIBLE
+                        }
+                        Log.e("verifyLog", "verifying")
+                    } catch (e: Exception){
+                        withContext(Dispatchers.Main){
+                            customToast.makeText(requireContext(), "Something went wrong. Please try again later!", 2).show()
                         }
                     }
-                    delay(1500L)
-                    verifyScope.cancelAndJoin()
                 }
             }
 
             doneIndex.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO){
-                    val addDoneBtnIndexScope= launch {
-                        while (true){
-                            delay(50L)
-                            try {
-                                val indexData= indices(indexSymbol, indexName, indexPrice, indexStatus)
-                                mIndicesViewModel.addIndices(indexData)
-                            } catch (e: Exception){
-                                val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
-                                mIndicesViewModel.addIndices(indexData)
-                            }
-                        }
+                    try {
+                        val indexData= indices(indexSymbol, indexName, indexPrice, indexStatus)
+                        mIndicesViewModel.addIndices(indexData)
+                    } catch (e: Exception){
+                        val indexData= indices(indexSymbol, indexName, 0.0, "NEUTRAL")
+                        mIndicesViewModel.addIndices(indexData)
                     }
-
-                    delay(1000L)
-                    addDoneBtnIndexScope.cancelAndJoin()
 
                     withContext(Dispatchers.Main){
                         customToast.makeText(requireContext(), "Sucessfully added to tracking", 1).show()

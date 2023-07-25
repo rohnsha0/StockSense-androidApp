@@ -204,7 +204,7 @@ class stock_data : AppCompatActivity() {
         val adReEnableTimeMillis = 3 * 60 * 60 * 1000
         val sharedPreferences = this.getSharedPreferences("AdClickDataBanner", Context.MODE_PRIVATE)
 
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillis", 0)
+        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
         if (currentTimeMillis - lastAdClickTimeMillis < adReEnableTimeMillis) {
             return false
         }
