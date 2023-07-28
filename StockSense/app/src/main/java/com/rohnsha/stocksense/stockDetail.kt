@@ -21,9 +21,6 @@ class stockDetail : ComponentActivity() {
             StockSenseTheme {
                 val inpSymbol = intent.getStringExtra("symbol").toString()
                 // A surface container using the 'background' color from the theme
-                Details(stockSymbol = inpSymbol, ltp = "0", change = "0", onClck = {
-                    onBackPressed()
-                })
             }
         }
     }

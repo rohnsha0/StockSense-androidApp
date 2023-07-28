@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.rohnsha.stocksense.BottomBarScreen
@@ -52,10 +53,8 @@ var searchTexxt: MutableState<String> = mutableStateOf(value = "")
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun SearchScrn() {
+fun SearchScrn(navController: NavController) {
     var context= LocalContext.current
-    val navController: NavHostController = rememberNavController()
-    BottomNavGraph(navController = navController)
 
     Box(
         modifier = Modifier
@@ -68,15 +67,13 @@ fun SearchScrn() {
             UpdateValueText(newValue = newValue)
             },
             onCloseClicked = {
-                             searchTexxt.value= ""
+                searchTexxt.value= ""
             },
             onSearchClicked = {
                 Log.d("searchQuery", searchTexxt.value.uppercase()+".NS")
-                //navController.navigate(BottomBarScreen.StockDetails.route)
-                val intent= Intent(context, stockDetail::class.java)
-                val symbol= "${searchTexxt.value.uppercase()}.NS"
-                intent.putExtra("symbol", symbol)
-                context.startActivity(intent)
+                val inpSymbol= "${searchTexxt.value.uppercase()}.NS"
+                navController.navigate(route = "details/$inpSymbol")
+
                 searchTexxt.value= ""
             })
     }
@@ -157,5 +154,5 @@ fun UpdateValueText(newValue: String) {
 @Composable
 @Preview(showBackground = true)
 fun SearchUIPreview() {
-    SearchScrn()
+    SearchScrn(navController = rememberNavController())
 }

@@ -39,7 +39,7 @@ sealed class BottomBarScreen(
     )
 
     object StockDetails: BottomBarScreen(
-        route = "details",
+        route = "details/{symbol}",
         title = "Details",
         icon = Icons.Default.AccountBox
     )

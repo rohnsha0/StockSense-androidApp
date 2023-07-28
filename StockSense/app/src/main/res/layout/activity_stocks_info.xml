@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -40,8 +40,8 @@
                         android:id="@+id/backStockInfo"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:tint="@color/white"
                         android:src="@drawable/baseline_arrow_back_ios_new_24"
+                        android:tint="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -52,10 +52,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
                         android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:maxLength="18"
                         android:text="LTP"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:maxLength="18"
                         android:textSize="26sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loadingAnim"
@@ -199,8 +199,8 @@
             android:layout_height="165dp"
             android:layout_marginTop="124dp"
             android:paddingTop="10dp"
-            android:visibility="gone"
             android:paddingBottom="10dp"
+            android:visibility="visible"
             app:chart_axis="none"
             app:chart_gridEffect="dotted"
             app:chart_lineColor="@color/white"
@@ -215,7 +215,7 @@
             android:layout_width="match_parent"
             android:layout_height="438dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appbarLayDash">

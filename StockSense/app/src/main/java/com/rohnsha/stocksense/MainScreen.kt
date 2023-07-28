@@ -63,19 +63,25 @@ fun BottomBar(navController: NavHostController,) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination= navBackStackEntry?.destination
 
-    BottomNavigation(
-        modifier = Modifier
-            .padding(12.dp)
-            .height(81.dp)
-            .graphicsLayer {
-                shape = RoundedCornerShape(size = 20.dp)
-                clip = true
-            },
-        backgroundColor = Color(0xFFF4F5FA),
-        elevation = AppBarDefaults.BottomAppBarElevation
-    ) {
-        screens.forEach {screens ->
-            AddItem(screen = screens, currentDestination = currentDestination, navController = navController)
+    val bottomBarDestination= screens.any {
+        it.route == currentDestination?.route
+    }
+
+    if (bottomBarDestination){
+        BottomNavigation(
+            modifier = Modifier
+                .padding(12.dp)
+                .height(81.dp)
+                .graphicsLayer {
+                    shape = RoundedCornerShape(size = 20.dp)
+                    clip = true
+                },
+            backgroundColor = Color(0xFFF4F5FA),
+            elevation = AppBarDefaults.BottomAppBarElevation
+        ) {
+            screens.forEach {screens ->
+                AddItem(screen = screens, currentDestination = currentDestination, navController = navController)
+            }
         }
     }
 }
