@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class stock_details_viewModel: ViewModel() {
 
@@ -28,6 +30,13 @@ class stock_details_viewModel: ViewModel() {
             prevCls= response!!.previousClose.toString()
         }
         return listOf(ltp, prevCls)
+    }
+
+    fun updateTime(): String {
+        val currentTime= Date()
+        val formatter = SimpleDateFormat("HH:mm:ss")
+        val formattedTime = formatter.format(currentTime)
+        return formattedTime
     }
 
     private fun fetchStockData(symbol: String): com.rohnsha.stocksense.Result.Meta?{

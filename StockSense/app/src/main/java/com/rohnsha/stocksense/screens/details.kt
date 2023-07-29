@@ -2,11 +2,11 @@ package com.rohnsha.stocksense.screens
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.animation.core.animate
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,32 +16,34 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AccountBox
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -50,25 +52,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.db.williamchart.view.LineChartView
-import com.google.gson.Gson
 import com.rohnsha.stocksense.R
-import com.rohnsha.stocksense.StockDataResponse
+import com.rohnsha.stocksense.StockSenseIcon
 import com.rohnsha.stocksense.customToast
+import com.rohnsha.stocksense.previousCloseDC
+import com.rohnsha.stocksense.stocksenseicon.`Bar-chart`
+import com.rohnsha.stocksense.stocksenseicon.`Bar-chart-2`
+import com.rohnsha.stocksense.stocksenseicon.Cpu
+import com.rohnsha.stocksense.stocksenseicon.List
 import com.rohnsha.stocksense.ui.theme.DarkBlue
-import com.rohnsha.stocksense.ui.theme.Pink40
-import com.rohnsha.stocksense.ui.theme.Purple40
-import com.rohnsha.stocksense.ui.theme.Purple80
+import com.rohnsha.stocksense.ui.theme.DashButton
 import com.rohnsha.stocksense.view_models.stock_details_viewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
 @Composable
 fun Details(
@@ -82,6 +79,10 @@ fun Details(
     var change by remember {
         mutableStateOf("")
     }
+    var timeData by remember {
+        mutableStateOf(networkCallVM.updateTime())
+    }
+
     if (ltp.isNotBlank() || previousClose.isNotBlank()){
         change= String.format("%.2f", (ltp.toDouble()-previousClose.toDouble()))
     }
@@ -104,17 +105,10 @@ fun Details(
             stockSymbol = stockSymbol,
             ltp= ltp,
             change= change,
+            timeData= timeData,
             context= context
         )
-        Column(
-            modifier = Modifier
-                .height(750.dp)
-                .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                .fillMaxWidth()
-                .background(Color.White),
-        ) {
-
-        }
+        StocksInfoOptions()
     }
 }
 
@@ -124,6 +118,7 @@ fun ltpSection(
     stockSymbol: String,
     ltp: String,
     change: String,
+    timeData: String,
     context: Context
 ) {
     Column(
@@ -199,7 +194,7 @@ fun ltpSection(
             color = Color.White
         )
 
-        lineChart(
+        LineChart(
             listOf(10f, 1f, 23f, 12f, 8f, 6f, 19f)
         )
 
@@ -215,7 +210,7 @@ fun ltpSection(
                     .clip(RoundedCornerShape(size = 4.dp))
                     .background(Color.White.copy(alpha = .10f))
                     .padding(horizontal = 9.dp, vertical = 3.dp),
-                text = "Last Updated at: ",
+                text = "Last Updated at: $timeData",
                 color = Color.White,
                 fontFamily = FontFamily(Font(R.font.titilliumweb_semi_bold)),
                 fontSize = 14.sp
@@ -238,7 +233,7 @@ fun ltpSection(
 }
 
 @Composable
-fun lineChart(
+fun LineChart(
     dataPoints: List<Float>
 ) {
 
@@ -278,8 +273,196 @@ fun lineChart(
 
 }
 
-@Preview(showBackground = true)
+@Composable
+fun StocksInfoOptions() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+            .background(Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(top = 25.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            OptionItems(icon = StockSenseIcon.Cpu, inpText = "Prediction")
+            Spacer(modifier = Modifier.width(25.dp))
+            OptionItems(icon = StockSenseIcon.`Bar-chart-2`, inpText = "Statistics")
+            Spacer(modifier = Modifier.width(25.dp))
+            OptionItems(icon = StockSenseIcon.List, inpText = "Watchlist", boxWidth = 75)
+        }
+        PreviousCloses(
+            listOf(
+                previousCloseDC(2.0, +5.0, "POSITIVE"),
+                previousCloseDC(2.0, +5.0, "NEGATIVE"),
+                previousCloseDC(2.0, +5.0, "POSITIVE"),
+                previousCloseDC(2.0, +5.0, "NEGATIVE"),
+                previousCloseDC(2.0, +5.0, "POSITIVE")
+            )
+        )
+        Text(
+            modifier = Modifier
+                .padding(top = 6.dp),
+            text = "See more informations",
+            fontFamily = FontFamily(Font(R.font.titilliumweb_semi_bold)),
+            )
+        Spacer(modifier = Modifier.height(20.dp))
+
+    }
+}
+
+@Composable
+fun OptionItems(
+    icon: ImageVector,
+    inpText: String,
+    boxWidth: Int= 100
+) {
+    Column(
+        modifier = Modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .height(49.dp)
+                .width(boxWidth.dp)
+                .shadow(2.dp, shape = RoundedCornerShape(16.dp))
+                .background(DashButton),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = "predictionIcon",
+                modifier = Modifier
+                    .height(24.dp)
+                    .width(24.dp)
+            )
+        }
+        Text(
+            modifier = Modifier
+                .padding(top = 6.dp),
+            text = inpText,
+            fontSize = 15.sp
+        )
+    }
+}
+
+@Composable
+fun PreviousCloses(
+    dataList: List<previousCloseDC>
+) {
+    Column(
+        modifier = Modifier
+            .padding(top = 30.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(start = 25.dp, bottom = 20.dp),
+            text = "Previous Closes",
+            fontFamily = FontFamily(Font(R.font.titilliumweb_semi_bold)),
+            fontSize = 15.sp
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+        ){
+            items(dataList){item ->
+                PreviousClosePerItem(ltp = item.ltp, change = item.change, status = item.status)
+            }
+        }
+    }
+}
+
+@Composable
+fun PreviousClosePerItem(
+    ltp: Double,
+    change: Double,
+    status: String
+) {
+    Box(
+        modifier = Modifier
+            .height(60.dp)
+            .fillMaxWidth()
+            .padding(start = 25.dp, end = 25.dp)
+            .shadow(2.dp, shape = RoundedCornerShape(16.dp))
+            .background(DashButton),
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxSize(),
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 16.dp, bottom = 20.dp, end = 20.dp)
+                    .height(24.dp)
+                    .width(24.dp)
+                    .background(
+                        color = checkColor(change),
+                        shape = CircleShape
+                    )
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(.5f)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 8.dp),
+                    text = ltp.toString(),
+                    fontFamily = FontFamily(Font(R.font.titilliumweb_semi_bold)),
+                    fontSize = 15.sp
+                    )
+                Text(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp),
+                    text = change.toString(),
+                    fontFamily = FontFamily(Font(R.font.titilliumweb_regular)),
+                    fontSize = 15.sp
+                    )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(.5f)
+                    .padding(end = 18.dp),
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 8.dp),
+                    text = status,
+                    fontFamily = FontFamily(Font(R.font.titilliumweb_semi_bold)),
+                    color = checkColor(change)
+                    )
+                Text(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp),
+                    text = change.toString(),
+                    fontFamily = FontFamily(Font(R.font.titilliumweb_regular)),
+                    fontSize = 15.sp
+                )
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(14.dp))
+}
+
+fun checkColor(change: Double): Color{
+    if (change>0){
+        return Color.Green
+    } else if (change<0){
+        return Color.Red
+    }
+    return Color.Gray
+}
+
+@Preview()
 @Composable
 fun PreviewDetails() {
-    Details(navController = rememberNavController(), "")
+    //Details(navController = rememberNavController(), "")
+    StocksInfoOptions()
 }
