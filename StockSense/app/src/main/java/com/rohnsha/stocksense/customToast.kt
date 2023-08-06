@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class customToast(context: Context): Toast(context) {
 
@@ -33,17 +34,20 @@ class customToast(context: Context): Toast(context) {
                 toast.cancel()
             }
 
+            val green_custom= ContextCompat.getColor(context, R.color.green_custom)
+            val red_custom= ContextCompat.getColor(context, R.color.red_custom)
+
             val toastLogoBG= view.findViewById<ImageView>(R.id.toastLogo)
             toastLogoBG.setColorFilter(context.resources.getColor(android.R.color.white))
             if (level==1){
                 toastLogoBG.setImageResource(R.drawable.baseline_check_24)
-                toastLogoBG.backgroundTintList= ColorStateList.valueOf(Color.parseColor("#75BF72"))
+                toastLogoBG.backgroundTintList= ColorStateList.valueOf(green_custom)
             } else if (level==2){
                 toastLogoBG.setImageResource(R.drawable.baseline_error_outline_24)
                 toastLogoBG.backgroundTintList= ColorStateList.valueOf(Color.parseColor("#FFA500"))
             } else if (level==3){
                 toastLogoBG.setImageResource(R.drawable.baseline_clear_24)
-                toastLogoBG.backgroundTintList= ColorStateList.valueOf(Color.parseColor("#DF5060"))
+                toastLogoBG.backgroundTintList= ColorStateList.valueOf(red_custom)
             }
 
             return toast

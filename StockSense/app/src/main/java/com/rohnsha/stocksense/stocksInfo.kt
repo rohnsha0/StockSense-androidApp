@@ -2,6 +2,7 @@ package com.rohnsha.stocksense
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -318,6 +319,7 @@ class stocksInfo : AppCompatActivity() {
 
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
                      val change: Float = (stockDataBody.regularMarketPrice-stockDataBody.previousClose)
+                    mainContainer.setBackgroundColor(checkColor(change.toDouble()))
                     stockChange.text= String.format("%.2f", change).toFloat().toString()
                     val currentTime = Date()
                     val formatter = SimpleDateFormat("HH:mm:ss")
@@ -499,16 +501,40 @@ class stocksInfo : AppCompatActivity() {
         statusPrevious(t3, t4, R.id.trendTxt3)
         statusPrevious(t4, t5, R.id.trendTxt4)
         statusPrevious(t5, t6, R.id.trendTxt5)
+
+        changeIconColor(changePrice(t1, t2).toDouble(), R.id.trendIco1)
+        changeIconColor(changePrice(t2, t3).toDouble(), R.id.trendIco2)
+        changeIconColor(changePrice(t3, t4).toDouble(), R.id.trendIco3)
+        changeIconColor(changePrice(t4, t5).toDouble(), R.id.trendIco4)
+        changeIconColor(changePrice(t5, t6).toDouble(), R.id.trendIco5)
+    }
+
+    private fun changeIconColor(change: Double, id: Int){
+        val green_custom= ContextCompat.getColor(this, R.color.green_custom)
+        val red_custom= ContextCompat.getColor(this, R.color.red_custom)
+        val id= findViewById<ImageView>(id)
+        if (change>0){
+            id.backgroundTintList= ColorStateList.valueOf(green_custom)
+            id.setImageResource(R.drawable.baseline_add_24)
+        } else if (change<0){
+            id.backgroundTintList= ColorStateList.valueOf(red_custom)
+            id.setImageResource(R.drawable.baseline_remove_24)
+        } else {
+            id.backgroundTintList= ColorStateList.valueOf(Color.GRAY)
+            id.setImageResource(R.drawable.baseline_tag_24)
+        }
     }
 
     private fun statusPrevious(t1: Double, t2: Double, id: Int){
         val id= findViewById<TextView>(id)
+        val green_custom= ContextCompat.getColor(this, R.color.green_custom)
+        val red_custom= ContextCompat.getColor(this, R.color.red_custom)
         val change= changePrice(t1, t2).toDouble()
         if (change>0){
-            id.setTextColor(Color.GREEN)
+            id.setTextColor(green_custom)
             id.text= "POSITIVE"
         } else if (change<0){
-            id.setTextColor(Color.RED)
+            id.setTextColor(red_custom)
             id.text= "NEGATIVE"
         } else{
             id.setTextColor(Color.GRAY)
@@ -518,6 +544,15 @@ class stocksInfo : AppCompatActivity() {
 
     private fun changePrice(t1: Double, t2: Double): String{
         return String.format("%.2f", t1-t2)
+    }
+
+    private fun checkColor(change: Double): Int {
+        if (change>0){
+            return ContextCompat.getColor(this, R.color.green_custom)
+        } else if (change<0){
+            return ContextCompat.getColor(this, R.color.red_custom)
+        }
+        return ContextCompat.getColor(this, R.color.dash_bg)
     }
 
     override fun onPause() {

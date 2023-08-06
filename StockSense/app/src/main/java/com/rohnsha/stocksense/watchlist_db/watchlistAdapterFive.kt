@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -37,28 +38,31 @@ class watchlistAdapterFive: RecyclerView.Adapter<watchlistsAdapter.watchlistsVie
     }
 
     override fun getItemCount(): Int {
-        return minOf(watchlistsList.size, 5)
+        return minOf(watchlistsList.size, 3)
     }
 
     override fun onBindViewHolder(holder: watchlistsAdapter.watchlistsViewHolder, position: Int) {
         val currentitem= watchlistsList[position]
         holder.itemView.apply {
+            val green_custom= ContextCompat.getColor(context, R.color.green_custom)
+            val red_custom= ContextCompat.getColor(context, R.color.red_custom)
+
             findViewById<TextView>(R.id.symbolTV).text = currentitem.symbol
             findViewById<TextView>(R.id.sName).text = currentitem.company.limitText(20)
             findViewById<TextView>(R.id.rvLtp).text = String.format("%.2f", currentitem.ltp)
             findViewById<TextView>(R.id.rvStatus).text = currentitem.status
             findViewById<TextView>(R.id.logoInit).text = currentitem.symbol.substring(0, 1)
             if (currentitem.status == "POSITIVE") {
-                findViewById<TextView>(R.id.rvStatus).setTextColor(Color.GREEN)
+                findViewById<TextView>(R.id.rvStatus).setTextColor(green_custom)
                 findViewById<ImageView>(R.id.logoHistory).backgroundTintList =
                     ColorStateList.valueOf(
-                        Color.GREEN
+                        green_custom
                     )
             } else if (currentitem.status == "NEGATIVE") {
-                findViewById<TextView>(R.id.rvStatus).setTextColor(Color.RED)
+                findViewById<TextView>(R.id.rvStatus).setTextColor(red_custom)
                 findViewById<ImageView>(R.id.logoHistory).backgroundTintList =
                     ColorStateList.valueOf(
-                        Color.RED
+                        red_custom
                     )
             } else {
                 findViewById<TextView>(R.id.rvStatus).setTextColor(Color.GRAY)
@@ -134,7 +138,7 @@ class watchlistAdapterFive: RecyclerView.Adapter<watchlistsAdapter.watchlistsVie
     }
 
     fun setWatchlists(stocks: List<watchlists>){
-        this.watchlistsList= stocks.subList(0, minOf(stocks.size, 5))
+        this.watchlistsList= stocks.subList(0, minOf(stocks.size, 3))
         notifyDataSetChanged()
     }
 

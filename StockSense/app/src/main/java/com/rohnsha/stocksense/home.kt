@@ -19,6 +19,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -172,7 +173,7 @@ class home : Fragment() {
                     withContext(Dispatchers.Main){
                         glanceInit.visibility= View.GONE
                         glanceContainer.visibility= View.VISIBLE
-                        view.findViewById<TextView>(R.id.glanceLtp).text= glanceData.ltp.toString()
+                        view.findViewById<TextView>(R.id.glanceLtp).text= String.format("%.2f, glanceData.ltp")
                         view.findViewById<TextView>(R.id.glanceStatus).text= glanceData.trend.uppercase()
                         view.findViewById<TextView>(R.id.glanceClose).text= String.format("%.2f", glanceData.prediction)
                         view.findViewById<TextView>(R.id.glanceRemarks).text= glanceData.remarks
@@ -422,16 +423,18 @@ class home : Fragment() {
         val remarks= view?.findViewById<TextView>(R.id.glanceRemarks)
         val trend= view?.findViewById<TextView>(R.id.glanceStatus)
         val imagePred= view?.findViewById<ImageView>(R.id.imagePred)
+        val green_custom= ContextCompat.getColor(requireContext(), R.color.green_custom)
+        val red_custom= ContextCompat.getColor(requireContext(), R.color.red_custom)
         val change= ltp-prediction
         if (change>0){
             trend?.text= "UPTREND"
-            trend?.setTextColor(Color.GREEN)
-            imagePred?.backgroundTintList= ColorStateList.valueOf(Color.GREEN)
+            trend?.setTextColor(green_custom)
+            imagePred?.backgroundTintList= ColorStateList.valueOf(green_custom)
             remarks?.text= "Stock outperforming predictions"
         } else if (change<0){
             trend?.text= "DOWNTREND"
-            trend?.setTextColor(Color.RED)
-            imagePred?.backgroundTintList= ColorStateList.valueOf(Color.RED)
+            trend?.setTextColor(red_custom)
+            imagePred?.backgroundTintList= ColorStateList.valueOf(red_custom)
             remarks?.text= "Bearish stock performance"
         } else {
             trend?.text= "NEUTRAL"

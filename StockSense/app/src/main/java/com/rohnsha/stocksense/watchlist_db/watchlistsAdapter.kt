@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -39,17 +40,20 @@ class watchlistsAdapter: RecyclerView.Adapter<watchlistsAdapter.watchlistsViewHo
     override fun onBindViewHolder(holder: watchlistsViewHolder, position: Int) {
         val currentitem= watchlistsList[position]
         holder.itemView.apply {
+            val green_custom= ContextCompat.getColor(context, R.color.green_custom)
+            val red_custom= ContextCompat.getColor(context, R.color.red_custom)
+
             findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol
             findViewById<TextView>(R.id.sName).text= currentitem.company.limitText(20)
             findViewById<TextView>(R.id.rvLtp).text= String.format("%.2f", currentitem.ltp)
             findViewById<TextView>(R.id.rvStatus).text= currentitem.status
             findViewById<TextView>(R.id.logoInit).text= currentitem.symbol.substring(0, 1)
             if (currentitem.status=="POSITIVE"){
-                findViewById<TextView>(R.id.rvStatus).setTextColor(Color.GREEN)
-                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(Color.GREEN)
+                findViewById<TextView>(R.id.rvStatus).setTextColor(green_custom)
+                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(green_custom)
             } else if (currentitem.status=="NEGATIVE"){
-                findViewById<TextView>(R.id.rvStatus).setTextColor(Color.RED)
-                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(Color.RED)
+                findViewById<TextView>(R.id.rvStatus).setTextColor(red_custom)
+                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(red_custom)
             } else{
                 findViewById<TextView>(R.id.rvStatus).setTextColor(Color.GRAY)
                 findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(Color.GRAY)
