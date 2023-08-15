@@ -1,7 +1,9 @@
 package com.rohnsha.stocksense
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.telephony.ims.RcsUceAdapter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.rohnsha.stocksense.docs.data_docs
 
@@ -103,6 +106,10 @@ class moreFragment : Fragment() {
             emailImgBtn.visibility= View.GONE
             changeMail.visibility= View.VISIBLE
             emailImgTv.text= "Email id verified"
+            emailImgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.deactiveText))
+            view.findViewById<ConstraintLayout>(R.id.viewProfileEmail).backgroundTintList= ColorStateList.valueOf(
+                ContextCompat.getColor(requireContext(), R.color.viewDashLowOpac)
+            )
         } else {
             viewEmail.setOnClickListener {
                 auth.currentUser!!.sendEmailVerification()

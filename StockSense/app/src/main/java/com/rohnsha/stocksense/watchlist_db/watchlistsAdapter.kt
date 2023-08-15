@@ -43,20 +43,19 @@ class watchlistsAdapter: RecyclerView.Adapter<watchlistsAdapter.watchlistsViewHo
             val green_custom= ContextCompat.getColor(context, R.color.green_custom)
             val red_custom= ContextCompat.getColor(context, R.color.red_custom)
 
-            findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol
+            findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol.substringBefore('.')
             findViewById<TextView>(R.id.sName).text= currentitem.company.limitText(20)
             findViewById<TextView>(R.id.rvLtp).text= String.format("%.2f", currentitem.ltp)
             findViewById<TextView>(R.id.rvStatus).text= currentitem.status
             findViewById<TextView>(R.id.logoInit).text= currentitem.symbol.substring(0, 1)
-            if (currentitem.status=="POSITIVE"){
-                findViewById<TextView>(R.id.rvStatus).setTextColor(green_custom)
-                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(green_custom)
-            } else if (currentitem.status=="NEGATIVE"){
-                findViewById<TextView>(R.id.rvStatus).setTextColor(red_custom)
-                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(red_custom)
-            } else{
-                findViewById<TextView>(R.id.rvStatus).setTextColor(Color.GRAY)
-                findViewById<ImageView>(R.id.logoHistory).backgroundTintList= ColorStateList.valueOf(Color.GRAY)
+
+            val imgIndex= findViewById<ImageView>(R.id.stockLogoIndex)
+            imgIndex.visibility= View.VISIBLE
+            val stockIndex= currentitem.symbol.substringAfter('.')
+            if (stockIndex=="NS"){
+                imgIndex.setImageResource(R.drawable.nse_logo)
+            } else if (stockIndex=="BO"){
+                imgIndex.setImageResource(R.drawable.bse_logo)
             }
 
             var adRequest = AdRequest.Builder().build()

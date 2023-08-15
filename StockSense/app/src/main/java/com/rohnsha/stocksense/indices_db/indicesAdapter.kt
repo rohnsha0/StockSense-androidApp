@@ -94,7 +94,9 @@ class indicesAdapter(private val application: Application): RecyclerView.Adapter
 
             findViewById<TextView>(R.id.symbolTV).text= currentitem.symbol
             findViewById<TextView>(R.id.sName).text= currentitem.company
+            findViewById<TextView>(R.id.rvLtp).visibility= View.VISIBLE
             findViewById<TextView>(R.id.rvLtp).text= String.format("%.2f", currentitem.ltp)
+            findViewById<TextView>(R.id.rvStatus).visibility= View.VISIBLE
             findViewById<TextView>(R.id.rvStatus).text= currentitem.status.toString()
             findViewById<TextView>(R.id.logoInit).text= currentitem.company.substring(0, 1)
             if (currentitem.status=="POSITIVE"){

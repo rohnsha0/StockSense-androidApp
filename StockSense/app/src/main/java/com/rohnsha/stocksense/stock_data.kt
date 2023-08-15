@@ -145,8 +145,10 @@ class stock_data : AppCompatActivity() {
                     }
                 }
             } catch (e:Exception){
-                bindingData.errorViewData.visibility= View.VISIBLE
-                bindingData.loadingContainerData.visibility= View.GONE
+                withContext(Dispatchers.Main){
+                    bindingData.errorViewData.visibility= View.VISIBLE
+                    bindingData.loadingContainerData.visibility= View.GONE
+                }
                 Log.e("error", e.toString())
             }
         }

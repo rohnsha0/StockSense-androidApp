@@ -26,11 +26,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tvHomeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:text="Welcome to StockSense."
+                    android:text="@string/app_name"
                     android:textColor="@color/black"
                     android:textSize="26sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -144,6 +145,7 @@
                     android:background="@drawable/round_rectangle"
                     android:fontFamily="@font/titillium_web_bold"
                     android:padding="2dp"
+                    android:visibility="gone"
                     android:text="GLANCE DASH"
                     android:textColor="@color/formAccentLight"
                     android:textSize="8dp"
@@ -273,6 +275,7 @@
                         android:fontFamily="@font/titillium_web_bold"
                         android:padding="2dp"
                         android:text="GLANCE DASH"
+                        android:visibility="gone"
                         android:textColor="@color/formAccentLight"
                         android:textSize="12dp"
                         app:layout_constraintBottom_toTopOf="@+id/glanceRemarks"

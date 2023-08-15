@@ -1,6 +1,7 @@
 package com.rohnsha.stocksense
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -26,6 +27,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -74,6 +80,7 @@ class home : Fragment() {
     private var indexPrice by Delegates.notNull<Double>()
     private lateinit var indexStatus: String
     private lateinit var glanceData: pred_glance
+    private var mInterstitialAd: InterstitialAd?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,6 +147,54 @@ class home : Fragment() {
         val glanceInitStatus= view.findViewById<TextView>(R.id.glanceInitStatus)
         val glanceContainer= view.findViewById<ConstraintLayout>(R.id.predictionGlance)
 
+        val adRequest= AdRequest.Builder().build()
+        val adID= this.getString(R.string.interstitialID)
+
+        InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                adError?.toString()?.let { Log.d("TAG", it) }
+                mInterstitialAd = null
+                InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        adError?.toString()?.let { Log.d("TAG", it) }
+                        mInterstitialAd = null
+                    }
+
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        Log.d("TAG", "Ad was loaded.")
+                        mInterstitialAd = interstitialAd
+                    }
+                })
+            }
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("TAG", "Ad was loaded.")
+                mInterstitialAd = interstitialAd
+            }
+        })
+
+        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d("tag", "Ad was clicked.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                Log.d("TAG", "Ad dismissed fullscreen content.")
+                mInterstitialAd = null
+            }
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d("TAG", "Ad recorded an impression.")
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d("TAG", "Ad showed fullscreen content.")
+            }
+        }
+
         lifecycleScope.launch(Dispatchers.IO){
             val glanceDBCount= mPredictionViewModel.getDBcount()
             if (glanceDBCount==1){
@@ -147,6 +202,7 @@ class home : Fragment() {
                     glanceInitStatus.text= "We're gathering informations..."
                 }
                 glanceData= mPredictionViewModel.queryGlance()
+
                 withContext(Dispatchers.Main){
                     view.findViewById<TextView>(R.id.glanceName).text= glanceData.company
                     view.findViewById<TextView>(R.id.symbolGlanceTV).text= glanceData.symbol.substringBefore('.')
@@ -173,16 +229,32 @@ class home : Fragment() {
                     withContext(Dispatchers.Main){
                         glanceInit.visibility= View.GONE
                         glanceContainer.visibility= View.VISIBLE
-                        view.findViewById<TextView>(R.id.glanceLtp).text= String.format("%.2f, glanceData.ltp")
+                        view.findViewById<TextView>(R.id.glanceLtp).text= String.format("%.2f", glanceData.ltp)
                         view.findViewById<TextView>(R.id.glanceStatus).text= glanceData.trend.uppercase()
                         view.findViewById<TextView>(R.id.glanceClose).text= String.format("%.2f", glanceData.prediction)
                         view.findViewById<TextView>(R.id.glanceRemarks).text= glanceData.remarks
-                        customToast.makeText(requireContext(), "Unable to refresh Glance Dash", 2).show()
+                        customToast.makeText(requireContext(), "Unable to refresh Dashboard", 2).show()
+                    }
+                }
+
+                withContext(Dispatchers.Main){
+                    view.findViewById<ConstraintLayout>(R.id.predictionGlance).setOnClickListener {
+                        val intent= Intent(requireContext(), prediction::class.java)
+                        intent.putExtra("symbolStock", glanceData.symbol)
+                        intent.putExtra("ltp", String.format("%.2f", glanceData.ltp))
+                        Log.d("companyName", glanceData.company)
+                        intent.putExtra("company", glanceData.company)
+                        startActivity(intent)
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd?.show(requireContext() as Activity)
+                        } else {
+                            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+                        }
                     }
                 }
             } else if (glanceDBCount==0){
                 withContext(Dispatchers.Main){
-                    glanceInitStatus.text= "Add items to Glance Dash from Prediction page\n1. Search for possible scripts\n2. Tap on prediction button\n3. Add script to glance dash"
+                    glanceInitStatus.text= "Add items to Dashboard from Prediction page\n1. Search for possible scripts\n2. Tap on prediction button\n3. Add script to dashboard"
                 }
             } else {
                 withContext(Dispatchers.Main){
@@ -203,6 +275,8 @@ class home : Fragment() {
                         withContext(Dispatchers.Main){
                             viewWl.visibility=View.GONE
                             rvWatchlists.visibility=View.GONE
+                            val app_name= requireContext().getString(R.string.app_name)
+                            view.findViewById<TextView>(R.id.tvHomeTitle).text= "Welcome to $app_name"
                             lottie.visibility= View.VISIBLE
                             viewAddWl.visibility= View.VISIBLE
                         }

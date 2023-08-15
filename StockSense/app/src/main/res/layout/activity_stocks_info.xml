@@ -342,7 +342,8 @@
                         app:layout_constraintEnd_toEndOf="@+id/predictionView"
                         app:layout_constraintStart_toStartOf="@+id/predictionView"
                         app:layout_constraintTop_toTopOf="@+id/predictionView"
-                        app:srcCompat="@drawable/prediction_btn" />
+                        app:srcCompat="@drawable/prediction_btn"
+                        app:tint="@color/black" />
 
                     <TextView
                         android:id="@+id/btnPrediction"
@@ -375,7 +376,8 @@
                         app:layout_constraintEnd_toEndOf="@+id/technicalView"
                         app:layout_constraintStart_toStartOf="@+id/technicalView"
                         app:layout_constraintTop_toTopOf="@+id/technicalView"
-                        app:srcCompat="@drawable/baseline_multiline_chart_24" />
+                        app:srcCompat="@drawable/baseline_multiline_chart_24"
+                        app:tint="@color/black" />
 
                     <TextView
                         android:id="@+id/btnTechnical"
@@ -409,7 +411,8 @@
                         app:layout_constraintEnd_toEndOf="@+id/watchlistView"
                         app:layout_constraintStart_toStartOf="@+id/watchlistView"
                         app:layout_constraintTop_toTopOf="@+id/watchlistView"
-                        app:srcCompat="@drawable/baseline_bookmark_add_24" />
+                        app:srcCompat="@drawable/baseline_bookmark_add_24"
+                        app:tint="@color/black" />
 
                     <TextView
                         android:id="@+id/btnWatchlist"

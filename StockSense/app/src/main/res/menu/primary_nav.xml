@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/homeNav"
-        android:title="Home"
-        android:icon="@drawable/ic_home" />
+        android:title="Dashboard"
+        android:icon="@drawable/baseline_space_dashboard_24" />
     <item android:id="@+id/searchNav"
         android:title="Search"
         android:icon="@drawable/baseline_search_24"/>

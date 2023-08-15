@@ -69,14 +69,14 @@
             app:layout_constraintStart_toStartOf="@+id/modelError1"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_search_item_available" />
+            app:lottie_rawRes="@raw/not_found" />
 
         <TextView
             android:id="@+id/modelError1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/titilliumweb_semi_bold"
-            android:text="Oops! Model isn't available for the chosen symbol yet..."
+            android:text="Oops! Unable to fetch data..."
             android:textColor="@color/black"
             app:flow_verticalBias="0.64"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +104,7 @@
             android:layout_marginTop="6dp"
             android:fontFamily="@font/titilliumweb_semi_bold"
             android:gravity="center"
-            android:text="Note: Only NIFTY50 stocks are available\nfor prediction\n"
+            android:text="Note: As of now only NSE and BSE stock data are available\nWe're continously adding more stocks to the list!"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/modelError2"
             app:layout_constraintStart_toStartOf="@+id/modelError2"

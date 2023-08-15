@@ -10,4 +10,6 @@
     <color name="default_text_color">@color/black</color>
     <color name="green_custom">#75BF72</color>
     <color name="red_custom">#DF5060</color>
+    <color name="viewDashLowOpac">#F1F5FB</color>
+    <color name="deactiveText">#78839C</color>
 </resources>

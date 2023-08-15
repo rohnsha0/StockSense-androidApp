@@ -194,19 +194,19 @@ class prediction : AppCompatActivity() {
                         val addedSymbol= mPredictinViewModel.queryGlance().symbol
                         if (!isPresentInGlance){
                             withContext(Dispatchers.Main){
-                                customToast.makeText(this@prediction, "Remove ${addedSymbol.substringBefore('.')} to add this to Glance Dash", 2).show()
+                                customToast.makeText(this@prediction, "Remove ${addedSymbol.substringBefore('.')} to add this to Dashboard", 2).show()
                             }
                         } else {
                             if (touchCountGlance==0){
                                 withContext(Dispatchers.Main){
                                     mPredictinViewModel.deleteGlance(glanceEntry)
-                                    customToast.makeText(this@prediction, "Successfully removed from Glance Dash", 1).show()
+                                    customToast.makeText(this@prediction, "Successfully removed from Dashboard", 1).show()
                                     dashPred.setImageResource(R.drawable.baseline_leak_add_24)
                                     touchCountGlance++
                                 }
                             } else if (touchCountGlance>0){
                                 withContext(Dispatchers.Main){
-                                    customToast.makeText(this@prediction, "Already removed from Glance Dash", 2).show()
+                                    customToast.makeText(this@prediction, "Already removed from Dashboard", 2).show()
                                 }
                             }
                         }
@@ -216,7 +216,7 @@ class prediction : AppCompatActivity() {
                         )
                         mPredictinViewModel.addGlance(prediction_details)
                         launch(Dispatchers.Main){
-                            customToast.makeText(this@prediction, "Successfully added to Glance", 1).show()
+                            customToast.makeText(this@prediction, "Successfully added to Dashboard", 1).show()
                             dashPred.setImageResource(R.drawable.baseline_leak_remove_24)
                         }
 
