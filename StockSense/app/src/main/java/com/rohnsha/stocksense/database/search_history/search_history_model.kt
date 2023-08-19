@@ -25,6 +25,12 @@ class search_history_model(application: Application): AndroidViewModel(applicati
         }
     }
 
+    fun deleteSearch(search: search_history){
+        viewModelScope.launch(Dispatchers.IO){
+            searchRepo.dltSearch(search)
+        }
+    }
+
     suspend fun countDBquery(): Int{
         return withContext(Dispatchers.IO){
             searchRepo.countDB()

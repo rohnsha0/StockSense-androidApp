@@ -10,6 +10,10 @@ class search_history_repo(private val searchDAO: searchDAO) {
         searchDAO.addSearchHistory(searchHistory)
     }
 
+    suspend fun dltSearch(search: search_history){
+        searchDAO.deleteSearch(search)
+    }
+
     suspend fun countDB(): Int{
         return searchDAO.getDBcount()
     }

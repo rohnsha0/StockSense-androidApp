@@ -1,6 +1,7 @@
 package com.rohnsha.stocksense.database.search_history
 
 import android.app.Activity
+import android.app.Application
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,9 @@ import com.rohnsha.stocksense.R
 import com.rohnsha.stocksense.stocksInfo
 import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -18,7 +22,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
-class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHistoryViewHolder>() {
+class searchHistoryAdapter(private val application: Application): RecyclerView.Adapter<searchHistoryAdapter.searchHistoryViewHolder>() {
 
     private var searchHistoryList= emptyList<search_history>()
     private var mInterstitialAd: InterstitialAd? = null
@@ -97,6 +101,15 @@ class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHist
                 } else {
                     Log.d("TAG", "The interstitial ad wasn't ready yet.")
                 }
+            }
+
+            findViewById<ConstraintLayout>(R.id.searchLay).setOnLongClickListener {
+                Log.d("longClick", "long clicked at ${currentSearchItem.search_history.toString()}")
+
+                val deleteSheet= bottomSheetSearchDelete(id_search = currentSearchItem.id, search_symbol = currentSearchItem.search_history)
+                deleteSheet.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, deleteSheet.tag)
+
+                true
             }
         }
     }

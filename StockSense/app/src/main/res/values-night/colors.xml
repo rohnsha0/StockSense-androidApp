@@ -9,4 +9,5 @@
     <color name="default_text_color">@color/black</color>
     <color name="green_custom">#75BF72</color>
     <color name="red_custom">#DF5060</color>
+    <color name="viewDashLowOpac">#222222</color>
 </resources>

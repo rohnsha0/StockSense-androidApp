@@ -1,5 +1,6 @@
 package com.rohnsha.stocksense
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -132,7 +133,7 @@ class searchFragment : Fragment() {
             }
         })
 
-        val adapterSearch= searchHistoryAdapter()
+        val adapterSearch= searchHistoryAdapter(Application())
         recyclerViewSearch.adapter= adapterSearch
         recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
         mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner, Observer { history ->

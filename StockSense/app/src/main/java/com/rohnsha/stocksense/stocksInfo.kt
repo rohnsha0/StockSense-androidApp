@@ -261,14 +261,27 @@ class stocksInfo : AppCompatActivity() {
         val stockDataFtcher= stockDataFetcher()
         lifecycleScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
-            val dynamicUrl= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/query/${inpSymbol.uppercase()}"
+            val dynamicUrl= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/query/v2/${inpSymbol.uppercase()}"
             try {
                 Log.e("stockInfo", "sending requests....")
                 val stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
                 Log.e("stockInfo", "request sent....")
                 withContext(Dispatchers.Main){
                     stockInfoBrnd= stocksInfoResponse.stock_name
-                    previousCloses(stocksInfoResponse.t1,stocksInfoResponse.t2, stocksInfoResponse.t3, stocksInfoResponse.t4, stocksInfoResponse.t5, stocksInfoResponse.t6)
+                    previousCloses(
+                        stocksInfoResponse.t1,
+                        stocksInfoResponse.d1,
+                        stocksInfoResponse.t2,
+                        stocksInfoResponse.d2,
+                        stocksInfoResponse.t3,
+                        stocksInfoResponse.d3,
+                        stocksInfoResponse.t4,
+                        stocksInfoResponse.d4,
+                        stocksInfoResponse.t5,
+                        stocksInfoResponse.d5,
+                        stocksInfoResponse.t6,
+                        stocksInfoResponse.d6
+                    )
                     chartSet= listOf(
                         "T-6" to stocksInfoResponse.t6.toFloat(),
                         "T-5" to stocksInfoResponse.t5.toFloat(),
@@ -478,7 +491,20 @@ class stocksInfo : AppCompatActivity() {
         return (currentDay-previousDay)
     }
 
-    private fun previousCloses(t1: Double, t2: Double, t3: Double, t4: Double, t5: Double, t6: Double){
+    private fun previousCloses(
+        t1: Double,
+        d1: String,
+        t2: Double,
+        d2: String,
+        t3: Double,
+        d3: String,
+        t4: Double,
+        d4: String,
+        t5: Double,
+        d5: String,
+        t6: Double,
+        d6: String
+    ){
         findViewById<TextView>(R.id.trendPrice1).text= String.format("%.2f", t1)
         findViewById<TextView>(R.id.trendPrice2).text= String.format("%.2f", t2)
         findViewById<TextView>(R.id.trendPrice3).text= String.format("%.2f", t3)
@@ -490,6 +516,12 @@ class stocksInfo : AppCompatActivity() {
         findViewById<TextView>(R.id.trendChange3).text= changePrice(t3, t4)
         findViewById<TextView>(R.id.trendChange4).text= changePrice(t4, t5)
         findViewById<TextView>(R.id.trendChange5).text= changePrice(t5, t6)
+
+        findViewById<TextView>(R.id.trendDate1).text= d1
+        findViewById<TextView>(R.id.trendDate2).text= d2
+        findViewById<TextView>(R.id.trendDate3).text= d3
+        findViewById<TextView>(R.id.trendDate4).text= d4
+        findViewById<TextView>(R.id.trendDate5).text= d5
 
         statusPrevious(t1, t2, R.id.trendTxt1)
         statusPrevious(t2, t3, R.id.trendTxt2)
