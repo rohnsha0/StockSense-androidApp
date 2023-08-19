@@ -40,7 +40,7 @@ class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHist
         val currentSearchItem= searchHistoryList[position]
 
         holder.itemView.apply {
-            findViewById<TextView>(R.id.tvHistory).text= currentSearchItem.search_history
+            findViewById<TextView>(R.id.tvHistory).text= currentSearchItem.search_history?.substringBefore('.')
             //findViewById<TextView>(R.id.textSearchIcom).text= currentSearchItem.search_history?.substring(0, 1)
 
             var adRequest = AdRequest.Builder().build()
@@ -90,7 +90,7 @@ class searchHistoryAdapter: RecyclerView.Adapter<searchHistoryAdapter.searchHist
 
             setOnClickListener {
                 val intent= Intent(context, stocksInfo::class.java)
-                intent.putExtra("symbol", currentSearchItem.search_history.toString().uppercase()+".NS")
+                intent.putExtra("symbol", currentSearchItem.search_history.toString())
                 context.startActivity(intent)
                 if (mInterstitialAd != null) {
                     mInterstitialAd?.show(context as Activity)

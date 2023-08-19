@@ -124,9 +124,6 @@ class searchFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 performSearch(query)
-                lifecycleScope.launch(Dispatchers.IO){
-                    addHistoryToDB(query)
-                }
                 return false
             }
 
@@ -204,6 +201,9 @@ class searchFragment : Fragment() {
                 customToast.makeText(requireContext(), "Symbols cannot have spaces", 2).show()
             } else {
                 val inputSymbol = searchIndex(query)
+                lifecycleScope.launch(Dispatchers.IO){
+                    addHistoryToDB(inputSymbol)
+                }
                 val intent = Intent(requireContext(), stocksInfo::class.java)
                 intent.putExtra("symbol", inputSymbol)
                 startActivity(intent)

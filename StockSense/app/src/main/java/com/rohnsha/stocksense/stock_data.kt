@@ -169,7 +169,7 @@ class stock_data : AppCompatActivity() {
         editor.putLong("lastAdClickTimeMillisData", currentTimeMillis)
         editor.apply()
 
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillis", 0)
+        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
         if (currentTimeMillis - lastAdClickTimeMillis > adReEnableTimeMillis) {
             mBannerAdView.visibility = View.VISIBLE
             mBannerAdView2.visibility= View.VISIBLE
@@ -206,7 +206,7 @@ class stock_data : AppCompatActivity() {
         val adReEnableTimeMillis = 3 * 60 * 60 * 1000
         val sharedPreferences = this.getSharedPreferences("AdClickDataBanner", Context.MODE_PRIVATE)
 
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillis", 0)
+        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
         if (currentTimeMillis - lastAdClickTimeMillis < adReEnableTimeMillis) {
             return false
         }
