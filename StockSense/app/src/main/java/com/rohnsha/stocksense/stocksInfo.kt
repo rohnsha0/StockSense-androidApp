@@ -43,6 +43,7 @@ import com.rohnsha.stocksense.stock_infoAPI.object_stockInfo.stocksInfoAPIservic
 import com.rohnsha.stocksense.watchlist_db.watchlists
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.withContext
+import kotlin.properties.Delegates
 
 
 data class StockDataResponse(
@@ -100,6 +101,8 @@ class stocksInfo : AppCompatActivity() {
     lateinit var stockInfoBrnd: String
     private lateinit var mWatchlistModel: watchlistsVM
     private lateinit var chartSet: List<Pair<String, Float>>
+    private var isPresentWL by Delegates.notNull<Boolean>()
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -329,41 +332,33 @@ class stocksInfo : AppCompatActivity() {
                     startPriceUpdateLoop()
 
                     withContext(Dispatchers.IO){
-                        if (!mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase()).isEmpty()){
+                        isPresentWL= mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase()).isNotEmpty()
+                        if (isPresentWL){
+                            watchlistViewTXT.text= "Watchlisted"
+                            watchlistIcon.setImageResource(R.drawable.baseline_bookmark_remove_24)
+                        }
+                    }
+
+                    watchlistView.setOnClickListener {
+                        lifecycleScope.launch(Dispatchers.IO){
                             val data= mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase())
                             withContext(Dispatchers.Main){
-                                watchlistViewTXT.text= "Watchlisted"
-                                watchlistIcon.setImageResource(R.drawable.baseline_bookmark_remove_24)
-                                mWatchlistModel.updateWatchlists(watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble())))
-                                watchlistView.setOnClickListener {
-                                    if (wlBtnClickCount==0){
-                                        mWatchlistModel.deleteUser(data)
-                                        customToast.makeText(this@stocksInfo, "Successfully removed from Watchlists", 3).show()
-                                        watchlistViewTXT.text= "Watchlist"
-                                        watchlistIcon.setImageResource(R.drawable.baseline_bookmark_24)
-                                        wlBtnClickCount++
-                                    } else{
-                                        customToast.makeText(this@stocksInfo, "Already removed from Watchlists", 2).show()
-                                    }
-                                }
-                            }
-                        } else {
-                            withContext(Dispatchers.Main){
-                                watchlistView.setOnClickListener {
-                                    if (wlBtnClickCount==0){
+                                if (isPresentWL){
+                                    mWatchlistModel.deleteUser(data)
+                                    customToast.makeText(this@stocksInfo, "Successfully removed from Watchlists", 3).show()
+                                    watchlistViewTXT.text= "Watchlist"
+                                    watchlistIcon.setImageResource(R.drawable.baseline_bookmark_add_24)
+                                } else {
+                                    withContext(Dispatchers.IO){
                                         val stockData= watchlists(inpSymbol.uppercase(), stockInfoBrnd, stockDataBody.regularMarketPrice.toDouble(), changeStatus(change.toDouble()))
                                         mWatchlistModel.addWatchlists(stockData)
-                                        // Toast.makeText(this@stocksInfo, "Successfully watchlisted!", Toast.LENGTH_SHORT).show()
-                                        customToast.makeText(this@stocksInfo, "Successfully added to Watchlists", 1).show()
-                                        watchlistViewTXT.text= "Watchlisted"
-                                        watchlistIcon.setImageResource(R.drawable.baseline_bookmark_24)
-                                        wlBtnClickCount++
-                                    } else{
-                                        customToast.makeText(this@stocksInfo, "Already added to Watchlists", 2).show()
                                     }
-
+                                    customToast.makeText(this@stocksInfo, "Successfully added to Watchlists", 1).show()
+                                    watchlistViewTXT.text= "Watchlisted"
+                                    watchlistIcon.setImageResource(R.drawable.baseline_bookmark_remove_24)
                                 }
                             }
+                            isPresentWL= mWatchlistModel.searchWatchlistsDB(inpSymbol.uppercase()).isNotEmpty()
                         }
                     }
 
