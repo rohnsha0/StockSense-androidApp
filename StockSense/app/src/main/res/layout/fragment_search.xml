@@ -125,7 +125,8 @@
                         android:layout_marginStart="2dp"
                         android:src="@drawable/baseline_help_24"
                         app:layout_constraintStart_toEndOf="@id/verticalRadioSearch"
-                        app:layout_constraintTop_toTopOf="@id/verticalRadioSearch"/>
+                        app:layout_constraintTop_toTopOf="@id/verticalRadioSearch"
+                        app:tint="@color/black" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

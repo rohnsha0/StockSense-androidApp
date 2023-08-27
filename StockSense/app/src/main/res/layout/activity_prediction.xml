@@ -31,8 +31,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_back_ios_new_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:tint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -256,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:text="Date"
+                    android:text="Current Date"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -350,6 +350,19 @@
                     app:layout_constraintStart_toStartOf="@+id/predictedClose"
                     app:layout_constraintTop_toBottomOf="@+id/predictedClose" />
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/closeAnim"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toEndOf="@+id/closeVal"
+                    app:layout_constraintTop_toTopOf="@+id/closeVal"
+                    app:layout_constraintBottom_toBottomOf="@id/closeVal"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loading_anim" />
+
                 <TextView
                     android:id="@+id/predHigh"
                     style="@style/predTitle"
@@ -367,6 +380,19 @@
                     android:text="Neutral"
                     app:layout_constraintStart_toStartOf="@+id/predHigh"
                     app:layout_constraintTop_toBottomOf="@+id/predHigh" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/trendAnim"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@+id/highVal"
+                    app:layout_constraintTop_toTopOf="@+id/highVal"
+                    app:layout_constraintBottom_toBottomOf="@id/highVal"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loading_anim" />
 
                 <TextView
                     android:id="@+id/predLow"
@@ -386,6 +412,19 @@
                     app:layout_constraintStart_toStartOf="@+id/predLow"
                     app:layout_constraintTop_toBottomOf="@+id/predLow" />
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/remarkAnim"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toEndOf="@+id/lowVal"
+                    app:layout_constraintTop_toTopOf="@+id/lowVal"
+                    app:layout_constraintBottom_toBottomOf="@id/lowVal"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/loading_anim" />
+
                 <com.google.android.gms.ads.AdView
                     android:id="@+id/bannerAdPred"
                     android:layout_width="wrap_content"
@@ -400,7 +439,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lowVal" />
 
                 <View
-                    android:id="@+id/dashed2"
+                    android:id="@+id/dashed3"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginStart="24dp"
@@ -410,6 +449,64 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bannerAdPred" />
+
+                <TextView
+                    android:id="@+id/predictedDatetv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:layout_marginTop="14.5dp"
+                    android:text="Predicted for: (Date)"
+                    android:textColor="#B5BBC9"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dashed3" />
+
+                <TextView
+                    android:id="@+id/predictedDateVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/titilliumweb_regular"
+                    android:text="August 15, 2023"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="@+id/predictedDatetv"
+                    app:layout_constraintTop_toBottomOf="@+id/predictedDatetv" />
+
+                <TextView
+                    android:id="@+id/predictedTimeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Predicted for: (Time)"
+                    android:textColor="#B5BBC9"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="@+id/currentPrice"
+                    app:layout_constraintTop_toTopOf="@id/predictedDatetv" />
+
+                <TextView
+                    android:id="@+id/predictedTimeVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/titilliumweb_regular"
+                    android:text="NSE"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="@+id/predictedTimeTv"
+                    app:layout_constraintTop_toBottomOf="@+id/predictedTimeTv" />
+
+                <View
+                    android:id="@+id/dashed2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dashed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/predictedTimeVal" />
 
 
                 <TextView
@@ -486,25 +583,47 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/modelDateVal" />
 
-                <Button
-                    android:id="@+id/predIntentBTN"
+
+                <LinearLayout
+                    android:id="@+id/predBtnContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:lineHeight="24dp"
-                    android:text="Back to Homepage"
-                    android:textSize="19sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bannerAdPred2" />
+                    android:paddingTop="32dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/bannerAdPred2">
+
+                    <Button
+                        android:id="@+id/timeHorizonSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/baseline_av_timer_24"
+                        android:text="1H Prediction"
+                        android:lineHeight="24dp"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        android:id="@+id/predIntentBTN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.Material3.Button.Icon"
+                        app:icon="@drawable/baseline_space_dashboard_24"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:lineHeight="24dp"
+                        android:text="Dashboard"
+                        android:textSize="19sp" />
+
+                </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="37dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/predIntentBTN" />
+                    app:layout_constraintTop_toBottomOf="@id/predBtnContainer" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -515,12 +634,12 @@
         android:id="@+id/predTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
         android:fontFamily="@font/titilliumweb_semi_bold"
         android:text="Day Predictions"
         android:textColor="@color/dash_bg"
-        android:visibility="gone"
         android:textSize="19sp"
-        android:layout_marginTop="9dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/blueCircle" />

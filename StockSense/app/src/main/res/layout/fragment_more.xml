@@ -43,239 +43,339 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/containerMore"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewProfile"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/tvNameMore"
-            android:background="@drawable/dash_btn"
+        <ScrollView
+            android:id="@+id/containerScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Personal Details"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@id/viewProfile"
-                app:layout_constraintTop_toTopOf="@id/viewProfile"
-                app:layout_constraintBottom_toBottomOf="@id/viewProfile"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:padding="2dp"
-                android:src="@drawable/baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="@id/viewProfile"
-                app:layout_constraintTop_toTopOf="@id/viewProfile"
-                app:layout_constraintBottom_toBottomOf="@id/viewProfile"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewProfileEmail"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/viewProfile"
-            android:background="@drawable/dash_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <TextView
-                android:id="@+id/changeMail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/viewProfileEmail"
-                android:text="Change"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="19dp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/emailVerifyTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email id verification"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@id/viewProfileEmail"
-                app:layout_constraintTop_toTopOf="@id/viewProfileEmail"
-                app:layout_constraintBottom_toBottomOf="@id/viewProfileEmail"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewProfile"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/emailVerifyBtn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:padding="2dp"
-                android:src="@drawable/baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="@id/viewProfileEmail"
-                app:layout_constraintTop_toTopOf="@id/viewProfileEmail"
-                app:layout_constraintBottom_toBottomOf="@id/viewProfileEmail"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Personal Details"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewProfile"
+                        app:layout_constraintStart_toStartOf="@id/viewProfile"
+                        app:layout_constraintTop_toTopOf="@id/viewProfile" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@id/viewProfile"
+                        app:layout_constraintEnd_toEndOf="@id/viewProfile"
+                        app:layout_constraintTop_toTopOf="@id/viewProfile" />
 
-            <TextView
-                android:id="@+id/tvManageApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Manage Application"
-                app:layout_constraintTop_toBottomOf="@id/viewProfileEmail"
-                android:layout_marginTop="23dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                app:layout_constraintStart_toStartOf="@id/viewProfileEmail"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewProfileEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewProfile">
+
+                    <TextView
+                        android:id="@+id/changeMail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="19dp"
+                        android:text="Change"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/viewProfileEmail"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/emailVerifyTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Email id verification"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewProfileEmail"
+                        app:layout_constraintStart_toStartOf="@id/viewProfileEmail"
+                        app:layout_constraintTop_toTopOf="@id/viewProfileEmail" />
+
+                    <ImageView
+                        android:id="@+id/emailVerifyBtn"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@id/viewProfileEmail"
+                        app:layout_constraintEnd_toEndOf="@id/viewProfileEmail"
+                        app:layout_constraintTop_toTopOf="@id/viewProfileEmail" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tvManageApp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Manage Application"
+                    app:layout_constraintStart_toStartOf="@id/viewProfileEmail"
+                    app:layout_constraintTop_toBottomOf="@id/viewProfileEmail" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/accountDelete"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/tvManageApp"
-            android:background="@drawable/dash_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/accountDelete"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvManageApp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Logout and Account Deletion"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@id/accountDelete"
-                app:layout_constraintTop_toTopOf="@id/accountDelete"
-                app:layout_constraintBottom_toBottomOf="@id/accountDelete"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Logout and Account Deletion"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="@id/accountDelete"
+                        app:layout_constraintStart_toStartOf="@id/accountDelete"
+                        app:layout_constraintTop_toTopOf="@id/accountDelete" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:padding="2dp"
-                android:src="@drawable/baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="@id/accountDelete"
-                app:layout_constraintTop_toTopOf="@id/accountDelete"
-                app:layout_constraintBottom_toBottomOf="@id/accountDelete"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@id/accountDelete"
+                        app:layout_constraintEnd_toEndOf="@id/accountDelete"
+                        app:layout_constraintTop_toTopOf="@id/accountDelete" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewPrivacy"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/accountDelete"
-            android:background="@drawable/dash_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewPrivacy"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/accountDelete">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Data Policy"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@id/viewPrivacy"
-                app:layout_constraintTop_toTopOf="@id/viewPrivacy"
-                app:layout_constraintBottom_toBottomOf="@id/viewPrivacy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Data Policy"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewPrivacy"
+                        app:layout_constraintStart_toStartOf="@id/viewPrivacy"
+                        app:layout_constraintTop_toTopOf="@id/viewPrivacy" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:padding="2dp"
-                android:src="@drawable/baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="@id/viewPrivacy"
-                app:layout_constraintTop_toTopOf="@id/viewPrivacy"
-                app:layout_constraintBottom_toBottomOf="@id/viewPrivacy"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@id/viewPrivacy"
+                        app:layout_constraintEnd_toEndOf="@id/viewPrivacy"
+                        app:layout_constraintTop_toTopOf="@id/viewPrivacy" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewStatus"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/viewPrivacy"
-            android:background="@drawable/dash_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewPrivacy">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Service Status"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@id/viewStatus"
-                app:layout_constraintTop_toTopOf="@id/viewStatus"
-                app:layout_constraintBottom_toBottomOf="@id/viewStatus"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Service Status"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewStatus"
+                        app:layout_constraintStart_toStartOf="@id/viewStatus"
+                        app:layout_constraintTop_toTopOf="@id/viewStatus" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:padding="2dp"
-                android:src="@drawable/baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="@id/viewStatus"
-                app:layout_constraintTop_toTopOf="@id/viewStatus"
-                app:layout_constraintBottom_toBottomOf="@id/viewStatus"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@id/viewStatus"
+                        app:layout_constraintEnd_toEndOf="@id/viewStatus"
+                        app:layout_constraintTop_toTopOf="@id/viewStatus" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewHelp"
-            android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@id/viewStatus"
-            android:background="@drawable/dash_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewHelp"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewStatus">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Help and Support"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="@id/viewHelp"
-                app:layout_constraintTop_toTopOf="@id/viewHelp"
-                app:layout_constraintBottom_toBottomOf="@id/viewHelp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Help and Support"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewHelp"
+                        app:layout_constraintStart_toStartOf="@id/viewHelp"
+                        app:layout_constraintTop_toTopOf="@id/viewHelp" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="16dp"
-                android:padding="2dp"
-                android:src="@drawable/baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="@id/viewHelp"
-                app:layout_constraintTop_toTopOf="@id/viewHelp"
-                app:layout_constraintBottom_toBottomOf="@id/viewHelp"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@id/viewHelp"
+                        app:layout_constraintEnd_toEndOf="@id/viewHelp"
+                        app:layout_constraintTop_toTopOf="@id/viewHelp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/appInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="125dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/dash_btn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewHelp">
+
+                    <TextView
+                        android:id="@+id/versionHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="13dp"
+                        android:elevation="2dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:maxLength="24"
+                        android:text="Version: "
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/versionInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 Passiflora"
+                        app:layout_constraintBottom_toBottomOf="@id/versionHead"
+                        app:layout_constraintStart_toEndOf="@id/versionHead"
+                        app:layout_constraintTop_toTopOf="@id/versionHead" />
+
+                    <TextView
+                        android:id="@+id/buildHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Build Number: "
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="@id/versionHead"
+                        app:layout_constraintTop_toBottomOf="@id/versionHead" />
+
+                    <TextView
+                        android:id="@+id/buildInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2023.9.1.2"
+                        app:layout_constraintBottom_toBottomOf="@id/buildHead"
+                        app:layout_constraintStart_toEndOf="@id/buildHead"
+                        app:layout_constraintTop_toTopOf="@id/buildHead" />
+
+                    <TextView
+                        android:id="@+id/learnMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:elevation="2dp"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:text="Learn More >>"
+                        android:textColor="#6A666C"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/versionHead" />
+
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/plassifora"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

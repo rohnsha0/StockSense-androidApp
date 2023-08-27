@@ -3,7 +3,9 @@ package com.rohnsha.stocksense
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -17,6 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -30,6 +33,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.properties.Delegates
@@ -39,11 +43,14 @@ class prediction : AppCompatActivity() {
     lateinit var stockLTP: String
     lateinit var company: String
     var modelStr by Delegates.notNull<Float>()
+    var modelStrHR by Delegates.notNull<Float>()
     lateinit var mBannerAdView: AdView
     lateinit var mBannerAdView2: AdView
     private lateinit var mPredictinViewModel: glance_view_model
     private var isPresentInGlance by Delegates.notNull<Boolean>()
     private lateinit var glanceEntry: List<pred_glance>
+    private lateinit var predDate: TextView
+    private lateinit var predTime: TextView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +80,11 @@ class prediction : AppCompatActivity() {
         val symbolStock= findViewById<TextView>(R.id.stockSymbolVal)
         val stockLTPInfo= findViewById<TextView>(R.id.currentPriceValue)
         val backBtnPred= findViewById<ImageView>(R.id.backPred)
+        val timeHorizon= findViewById<Button>(R.id.timeHorizonSwitch)
+        val predictedDate= findViewById<TextView>(R.id.predictedDateVal)
+        var is1Dpred=true
+        var needToSendReq1H= true
+
         mBannerAdView= findViewById(R.id.bannerAdPred)
         mBannerAdView2= findViewById(R.id.bannerAdPred2)
         val dashBtn= findViewById<ImageView>(R.id.dashPred)
@@ -156,6 +168,7 @@ class prediction : AppCompatActivity() {
                         stockLTPInfo.text= stockLTP
                         symbolStock.text= symbol.substringBefore('.')
                         trendRemarks(predCloseVal, stockLTP.toFloat())
+                        predictedDateTime()
                         Log.e("response", modelStr.toString())
                         Log.d("resultsMinus", (stockLTP.toFloat()- predCloseVal).toString())
                     } else {
@@ -185,6 +198,80 @@ class prediction : AppCompatActivity() {
                 }
             }
             var touchCountGlance= 0
+
+            timeHorizon.setOnClickListener {
+                val trendTV= findViewById<TextView>(R.id.highVal)
+                val remarksTV= findViewById<TextView>(R.id.lowVal)
+                val unavailableText= this@prediction.getString(R.string.not_available)
+                val closeAnimation= findViewById<LottieAnimationView>(R.id.closeAnim)
+                val trendAnimation= findViewById<LottieAnimationView>(R.id.trendAnim)
+                val remarkAnimation= findViewById<LottieAnimationView>(R.id.remarkAnim)
+                if (is1Dpred){
+                    timeHorizon.text= "1D Prediction"
+                    timeHorizon.isEnabled= false
+                    predTitle.text= "Hourly Predictions"
+                    lifecycleScope.launch {
+                        if (needToSendReq1H){
+                            withContext(Dispatchers.Main){
+                                closeAnimation.visibility= View.VISIBLE
+                                trendAnimation.visibility= View.VISIBLE
+                                remarkAnimation.visibility= View.VISIBLE
+                            }
+                            val dynamicURLhourly= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/prediction/hr/$symbol"
+                            try {
+                                val responseHR= predAPIservice.getModelData(dynamicURLhourly)
+                                modelStrHR= responseHR.predicted_close
+                                withContext(Dispatchers.Main){
+                                    closeAnimation.visibility= View.GONE
+                                    trendAnimation.visibility= View.GONE
+                                    remarkAnimation.visibility= View.GONE
+                                    val predCloseValHR= String.format("%.2f", modelStrHR).toFloat()
+                                    predClose.text= predCloseValHR.toString()
+                                    trendRemarks(predCloseValHR, stockLTP.toFloat())
+                                }
+                                needToSendReq1H= false
+                                predictedDateTime(is1Dactive = false)
+                            } catch (e: Exception){
+                                Log.d("hrException", e.toString())
+                                closeAnimation.visibility= View.GONE
+                                trendAnimation.visibility= View.GONE
+                                remarkAnimation.visibility= View.GONE
+                                predClose.text= unavailableText
+                                predClose.setTypeface(null, Typeface.ITALIC)
+                                remarksTV.text= unavailableText
+                                remarksTV.setTypeface(null, Typeface.ITALIC)
+                                trendTV.text= unavailableText
+                                trendTV.setTypeface(null, Typeface.ITALIC)
+                            }
+                        } else {
+                            try {
+                                val predCloseValueHR= String.format("%.2f", modelStrHR).toFloat()
+                                predClose.text= predCloseValueHR.toString()
+                                trendRemarks(predCloseValueHR, stockLTP.toFloat())
+                                predictedDateTime(is1Dactive = false)
+                            } catch (e: Exception){
+                                Log.d("hrException", e.toString())
+                                predClose.text= unavailableText
+                                predClose.setTypeface(null, Typeface.ITALIC)
+                                remarksTV.text= unavailableText
+                                remarksTV.setTypeface(null, Typeface.ITALIC)
+                                trendTV.text= unavailableText
+                                trendTV.setTypeface(null, Typeface.ITALIC)
+                            }
+                        }
+                    }
+                    is1Dpred= false
+                    timeHorizon.isEnabled= true
+                } else{
+                    timeHorizon.text= "1H Prediction"
+                    predTitle.text= "Day Predictions"
+                    val predCloseValue= String.format("%.2f", modelStr).toFloat()
+                    predClose.text= predCloseValue.toString()
+                    trendRemarks(predCloseValue, stockLTP.toFloat())
+                    predictedDateTime(is1Dactive = true)
+                    is1Dpred= true
+                }
+            }
 
             dashBtn.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO){
@@ -247,7 +334,7 @@ class prediction : AppCompatActivity() {
     }
 
     private fun systemDate(): String {
-        val dateFormat= SimpleDateFormat("MMMM d, yyyy", Locale.US)
+        val dateFormat= SimpleDateFormat("MMM d, yyyy", Locale.US)
         val currentDate= Date(System.currentTimeMillis())
         return dateFormat.format(currentDate)
     }
@@ -280,6 +367,105 @@ class prediction : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun predictedDateTime(is1Dactive: Boolean= true){
+        predTime= findViewById(R.id.predictedTimeVal)
+        predDate= findViewById(R.id.predictedDateVal)
+        val currentTime = Calendar.getInstance().time
+
+        if (is1Dactive){
+            Log.d("checkHoliday", isHoliday(Date()).toString())
+            predTime.text= formattedTime(thresholdTime(15, 15))
+            checkDayStatus()
+        } else {
+            val current_day= SimpleDateFormat("EEEE", Locale.getDefault()).format(Date())
+
+            if (isHoliday(Date()) || current_day== "Saturday" || current_day=="Sunday"){
+                predTime.text= formattedTime(thresholdTime(9,15))
+            } else {
+                if (currentTime.after(thresholdTime(0,0)) && currentTime.before(thresholdTime(9,15))){
+                    predTime.text= formattedTime(thresholdTime(9,15))
+                } else if (currentTime.after(thresholdTime(15,15)) && currentTime.before(thresholdTime(23,59))){
+                    predTime.text= formattedTime(thresholdTime(9,15))
+                    predDate.text= formattedDate(1)
+                } else if (currentTime.after(thresholdTime(9,15)) && currentTime.before(thresholdTime(10,15))){
+                    predTime.text= formattedTime(thresholdTime(10,15))
+                } else if (currentTime.after(thresholdTime(10,15)) && currentTime.before(thresholdTime(11,15))){
+                    predTime.text= formattedTime(thresholdTime(11,15))
+                } else if (currentTime.after(thresholdTime(11,15)) && currentTime.before(thresholdTime(12,15))){
+                    predTime.text= formattedTime(thresholdTime(12,15))
+                } else if (currentTime.after(thresholdTime(12,15)) && currentTime.before(thresholdTime(13,15))){
+                    predTime.text= formattedTime(thresholdTime(13,15))
+                } else if (currentTime.after(thresholdTime(13,15)) && currentTime.before(thresholdTime(14,15))){
+                    predTime.text= formattedTime(thresholdTime(14,15))
+                } else if (currentTime.after(thresholdTime(14,15)) && currentTime.before(thresholdTime(15,15))){
+                    predTime.text= formattedTime(thresholdTime(15,15))
+                }
+            }
+        }
+    }
+
+    private fun checkDayStatus(){
+        val current_day= SimpleDateFormat("EEEE", Locale.getDefault()).format(Date())
+        Log.d("day", current_day)
+        if (current_day=="Saturday"){
+            predDate.text= formattedDate(2)
+        } else if (current_day=="Sunday"){
+            predDate.text= formattedDate(1)
+        } else if (isHoliday(Date())){
+            predDate.text= formattedDate(1)
+        } else {
+            predDate.text= SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date())
+        }
+    }
+
+    private fun thresholdTime(hour:  Int, min: Int): Date {
+        val thresholdCal= Calendar.getInstance()
+        thresholdCal.apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, min)
+        }
+        return thresholdCal.time
+    }
+
+    private fun formattedTime(time: Date): String {
+        val timeFormat = DateFormat.getTimeFormat(applicationContext)
+        return timeFormat.format(time)
+    }
+
+    private fun formattedDate(dateIntrimented: Int): String {
+        val calenderInst= Calendar.getInstance()
+        calenderInst.time= Date()
+        calenderInst.add(Calendar.DAY_OF_YEAR, dateIntrimented)
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val twoDaysAfter = dateFormat.format(calenderInst.time)
+        return twoDaysAfter
+    }
+
+    private fun isHoliday(date: Date): Boolean {
+        val holidayDates = listOf(
+            "Jan 26, 2023",
+            "Mar 07, 2023",
+            "Mar 30, 2023",
+            "Apr 04, 2023",
+            "Apr 07, 2023",
+            "Apr 14, 2023",
+            "May 01, 2023",
+            "Jun 29, 2023",
+            "Aug 15, 2023",
+            "Sep 19, 2023",
+            "Oct 02, 2023",
+            "Oct 24, 2023",
+            "Nov 14, 2023",
+            "Nov 27, 2023",
+            "Dec 25, 2023",
+        )
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val dateStr = dateFormat.format(date)
+        Log.d("day", dateStr)
+
+        return dateStr in holidayDates
     }
 
     private fun trendRemarks(predictPrice:Float, ltp:Float){

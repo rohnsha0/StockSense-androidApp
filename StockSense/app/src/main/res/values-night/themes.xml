@@ -2,9 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.StockSense" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">#0D47A1</item>
-        <item name="android:colorAccent">@color/white</item>
-        <item name="textFillColor">@color/white</item>
+        <item name="colorPrimary">#5C6BC0</item>
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>
