@@ -1,9 +1,8 @@
 package com.rohnsha.stocksense
 
+import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,27 +12,25 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.SearchView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.rohnsha.stocksense.database.search_history.searchDAO
 import com.rohnsha.stocksense.database.search_history.searchHistoryAdapter
 import com.rohnsha.stocksense.database.search_history.search_history
 import com.rohnsha.stocksense.database.search_history.search_history_model
+import com.rohnsha.stocksense.database.search_history.search_suggestions.stocksModel
+import com.rohnsha.stocksense.database.search_history.search_suggestions.stocksSearchAdapter
 import com.rohnsha.stocksense.docs.searchbar_docs
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,6 +51,7 @@ class searchFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var mSearchHistoryModel: search_history_model
+    private lateinit var mStocksViewModel: stocksModel
     private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,13 +97,24 @@ class searchFragment : Fragment() {
         val recyclerViewSearch= view.findViewById<RecyclerView>(R.id.searchHistoryRV)
         val initBoiler= view.findViewById<ConstraintLayout>(R.id.searchInit)
         val loadingSearch= view.findViewById<ConstraintLayout>(R.id.loadingSearch)
+        val filterNotice= view.findViewById<TextView>(R.id.filterSearchNotice)
         val qManual= view.findViewById<ImageView>(R.id.qManual)
         mSearchHistoryModel= ViewModelProvider(this)[search_history_model::class.java]
+        mStocksViewModel= ViewModelProvider(this)[stocksModel::class.java]
+
+        searchView.isIconified= false
+        searchView.background= null
+
+        val adapterSearch= searchHistoryAdapter(Application())
+        recyclerViewSearch.adapter= adapterSearch
+        recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
+        mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner, Observer { history ->
+            adapterSearch.setSearchHistory(history)
+        })
 
         qManual.setOnClickListener {
             startActivity(Intent(requireContext(), searchbar_docs::class.java))
         }
-
 
         lifecycleScope.launch(Dispatchers.IO){
             val searchDBscope= launch {
@@ -117,6 +126,7 @@ class searchFragment : Fragment() {
                     }
                 }
             }
+
             delay(2000L)
             searchDBscope.cancelAndJoin()
             Log.e("countDBsearhc", "stoopingCounting")
@@ -128,16 +138,37 @@ class searchFragment : Fragment() {
                 return false
             }
 
+            @SuppressLint("SuspiciousIndentation")
             override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrBlank()){
+                    val adapterStock= stocksSearchAdapter(Application())
+                    recyclerViewSearch.adapter= adapterStock
+                    recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
+                    val query= "%$newText%"
+                    lifecycleScope.launch(Dispatchers.IO){
+                        val stockData= mStocksViewModel.searchStocksDB(query)
+                            withContext(Dispatchers.Main){
+                                recyclerViewSearch.setPadding(0, 0, 0, dp2px(15))
+                                filterNotice.visibility= View.VISIBLE
+                                stockData.observe(viewLifecycleOwner) { queryInp ->
+                                    queryInp.let {
+                                        adapterStock.setStocksList(it)
+                                    }
+                                }
+                            }
+                    }
+                } else {
+                    recyclerViewSearch.setPadding(0, 0, 0, dp2px(0))
+                    filterNotice.visibility= View.GONE
+                    val adapterSearch= searchHistoryAdapter(Application())
+                    recyclerViewSearch.adapter= adapterSearch
+                    recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
+                    mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner, Observer { history ->
+                        adapterSearch.setSearchHistory(history)
+                    })
+                }
                 return true
             }
-        })
-
-        val adapterSearch= searchHistoryAdapter(Application())
-        recyclerViewSearch.adapter= adapterSearch
-        recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
-        mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner, Observer { history ->
-            adapterSearch.setSearchHistory(history)
         })
 
         var adRequest = AdRequest.Builder().build()
@@ -186,7 +217,7 @@ class searchFragment : Fragment() {
         }
     }
 
-    suspend fun addHistoryToDB(query: String?){
+    fun addHistoryToDB(query: String?){
         val queryDB= search_history(0, query)
         mSearchHistoryModel.addHistory(queryDB)
     }
@@ -218,6 +249,11 @@ class searchFragment : Fragment() {
         return true
     }
 
+    fun dp2px(px: Int): Int {
+        val density = resources.displayMetrics.density
+        return (px * density).toInt()
+    }
+
     private fun searchIndex(stockSymbol: String): String{
         val rbNSE= view?.findViewById<RadioButton>(R.id.rbNSE)
         val rbBSE= view?.findViewById<RadioButton>(R.id.rbBSE)
@@ -232,6 +268,10 @@ class searchFragment : Fragment() {
             symbol= stockSymbol
         }
         return symbol
+    }
+
+    private fun searchDatabaseForStocks(query: String){
+        val search_query= "%$query%"
     }
 
     override fun onPause() {

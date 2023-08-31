@@ -159,6 +159,7 @@ class watchListFRAG : Fragment() {
                         })
                         resetUI()
                         lastState= R.id.alphaRadio
+                        lastStateV= R.id.rbAsc
                     }
                 } else if (rbAlphabet.isChecked && rbDesc.isChecked){
                     mWatchlistModel.readWatchlistsDesc.observe(viewLifecycleOwner, Observer { stocks ->

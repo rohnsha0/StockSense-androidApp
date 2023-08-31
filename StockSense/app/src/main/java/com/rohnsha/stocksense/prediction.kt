@@ -69,6 +69,7 @@ class prediction : AppCompatActivity() {
         val mainContainenr= findViewById<LinearLayout>(R.id.mainContent)
         val topBar= findViewById<LinearLayout>(R.id.titleBlock)
         val iconPred= findViewById<ImageView>(R.id.iconPredSVG)
+        val data_range= findViewById<TextView>(R.id.modelDateVal)
         val iconPredBG= findViewById<ImageView>(R.id.blueCircle)
         val loadingView= findViewById<ConstraintLayout>(R.id.loadingContainer)
         val errorView= findViewById<ConstraintLayout>(R.id.errorViewPred)
@@ -227,6 +228,7 @@ class prediction : AppCompatActivity() {
                                     remarkAnimation.visibility= View.GONE
                                     val predCloseValHR= String.format("%.2f", modelStrHR).toFloat()
                                     predClose.text= predCloseValHR.toString()
+                                    data_range.text= "Sep 2021 - Sep 2023"
                                     trendRemarks(predCloseValHR, stockLTP.toFloat())
                                 }
                                 needToSendReq1H= false
@@ -248,6 +250,7 @@ class prediction : AppCompatActivity() {
                                 val predCloseValueHR= String.format("%.2f", modelStrHR).toFloat()
                                 predClose.text= predCloseValueHR.toString()
                                 trendRemarks(predCloseValueHR, stockLTP.toFloat())
+                                data_range.text= "Sep 2021 - Sep 2023"
                                 predictedDateTime(is1Dactive = false)
                             } catch (e: Exception){
                                 Log.d("hrException", e.toString())
@@ -266,6 +269,7 @@ class prediction : AppCompatActivity() {
                     timeHorizon.text= "1H Prediction"
                     predTitle.text= "Day Predictions"
                     val predCloseValue= String.format("%.2f", modelStr).toFloat()
+                    data_range.text= "2002 - January 26, 2023"
                     predClose.text= predCloseValue.toString()
                     trendRemarks(predCloseValue, stockLTP.toFloat())
                     predictedDateTime(is1Dactive = true)

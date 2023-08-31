@@ -59,4 +59,17 @@
         app:layout_constraintTop_toTopOf="@+id/logoHistory"
         app:layout_constraintBottom_toBottomOf="@id/logoHistory"/>
 
+    <TextView
+        android:id="@+id/tvIndexSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="from NSE"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tvHistory"
+        app:layout_constraintStart_toEndOf="@id/tvHistory"
+        android:layout_marginStart="6dp"
+        android:textSize="12dp"
+        android:textStyle="italic"
+        android:fontFamily="@font/titilliumweb_semi_bold"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
