@@ -5,10 +5,15 @@ import kotlinx.coroutines.flow.Flow
 
 class stocksRepo(private val stocksDAO: stocksDAO) {
 
-    var readAllStocks: LiveData<List<search>> = stocksDAO.readStocks()
+    var readAllStocks: LiveData<List<search>> = stocksDAO.readStocksNSE()
+    var readBSEStocks: LiveData<List<search>> = stocksDAO.readStocksBSE()
 
-    fun searchStocks(searchQuery: String): Flow<List<search>> {
-        return stocksDAO.searchDatabase(searchQuery)
+    fun searchStocksNSE(searchQuery: String): Flow<List<search>> {
+        return stocksDAO.searchDatabaseNSE(searchQuery)
+    }
+
+    fun searchStocksBSE(searchQuery: String): Flow<List<search>> {
+        return stocksDAO.searchDatabaseBSE(searchQuery)
     }
 
 }

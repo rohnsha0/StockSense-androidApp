@@ -306,6 +306,7 @@
 
                 <TextView
                     android:id="@+id/tvExplore"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24sp"
@@ -317,6 +318,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/exploreTabs"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -441,7 +443,7 @@
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="Watchlists"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/exploreTabs" />
+                    app:layout_constraintTop_toBottomOf="@id/predictionGlance" />
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottieAnimationHome"

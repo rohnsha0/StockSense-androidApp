@@ -44,7 +44,17 @@ class searchHistoryAdapter(private val application: Application): RecyclerView.A
         val currentSearchItem= searchHistoryList[position]
 
         holder.itemView.apply {
-            findViewById<TextView>(R.id.tvHistory).text= currentSearchItem.search_history?.substringBefore('.')
+            findViewById<TextView>(R.id.tvHistory).text= currentSearchItem.search_history?.substringBefore('.')?.lowercase()
+
+            val index= findViewById<TextView>(R.id.tvIndexSearch)
+            index.visibility= View.VISIBLE
+            val indexSuffix= currentSearchItem.search_history?.substringAfter('.')
+            if (indexSuffix=="NS"){
+                index.text= "in NSE"
+            } else if (indexSuffix== "BO"){
+                index.text= "in BSE"
+            }
+
             //findViewById<TextView>(R.id.textSearchIcom).text= currentSearchItem.search_history?.substring(0, 1)
 
             var adRequest = AdRequest.Builder().build()

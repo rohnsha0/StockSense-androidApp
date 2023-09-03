@@ -7,9 +7,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface stocksDAO {
-    @Query("SELECT * FROM stocks_search ORDER BY symbol DESC")
-    fun readStocks(): LiveData<List<search>>
+    @Query("SELECT * FROM stocksBSE ORDER BY company ASC")
+    fun readStocksNSE(): LiveData<List<search>>
 
-    @Query("SELECT * FROM stocks_search WHERE company LIKE :serchQuery")
-    fun searchDatabase(serchQuery: String): Flow<List<search>>
+    @Query("SELECT * FROM stocksNSE ORDER BY company ASC")
+    fun readStocksBSE(): LiveData<List<search>>
+
+    @Query("SELECT * FROM stocksNSE WHERE company LIKE :serchQuery OR symbol LIKE :serchQuery")
+    fun searchDatabaseNSE(serchQuery: String): Flow<List<search>>
+
+    @Query("SELECT * FROM stocksBSE WHERE company LIKE :serchQuery OR symbol LIKE :serchQuery")
+    fun searchDatabaseBSE(serchQuery: String): Flow<List<search>>
 }

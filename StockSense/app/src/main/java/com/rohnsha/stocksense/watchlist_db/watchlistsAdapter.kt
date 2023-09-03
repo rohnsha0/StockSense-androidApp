@@ -123,5 +123,9 @@ class watchlistsAdapter: RecyclerView.Adapter<watchlistsAdapter.watchlistsViewHo
 }
 
 fun String.limitText(maxChar: Int): String {
-    return this.take(maxChar)
+    return if (this.length <= maxChar) {
+        this
+    } else {
+        this.take(maxChar) + "..."
+    }
 }

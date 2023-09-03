@@ -5,7 +5,7 @@
         android:icon="@drawable/baseline_space_dashboard_24" />
     <item android:id="@+id/searchNav"
         android:title="Search"
-        android:icon="@drawable/baseline_search_24"/>
+        android:icon="@drawable/baseline_query_stats_24"/>
     <item android:id="@+id/watchList"
         android:title="Watchlist"
         android:icon="@drawable/ic_track"/>
