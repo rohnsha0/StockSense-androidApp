@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +19,15 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.rohnsha.stocksense.R
+import com.rohnsha.stocksense.database.search_history.bottomSheetSearchDelete
 import com.rohnsha.stocksense.database.search_history.search_history
 import com.rohnsha.stocksense.database.search_history.search_history_model
-import com.rohnsha.stocksense.indices_db.indicesViewModel
-import com.rohnsha.stocksense.searchFragment
 import com.rohnsha.stocksense.stocksInfo
-import com.rohnsha.stocksense.watchlist_db.limitText
+import com.rohnsha.stocksense.watchlist_db.watchlistsVM
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class stocksSearchAdapter(private val application: Application): RecyclerView.Adapter<stocksSearchAdapter.stockSearchViewHolder>() {
 
@@ -33,6 +37,11 @@ class stocksSearchAdapter(private val application: Application): RecyclerView.Ad
         .create(
         search_history_model::class.java
     )
+    private val mWatchlistViewModel: watchlistsVM= ViewModelProvider.AndroidViewModelFactory
+        .getInstance(application)
+        .create(
+            watchlistsVM::class.java
+        )
     private var mInterstitialAd: InterstitialAd? = null
     private final var TAG = "stockSearchAD"
 
@@ -103,6 +112,25 @@ class stocksSearchAdapter(private val application: Application): RecyclerView.Ad
                     // Called when ad is shown.
                     Log.d(TAG, "Ad showed fullscreen content.")
                 }
+            }
+
+            setOnLongClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val wlData= mWatchlistViewModel.searchWatchlistsDB(currentStock.yFinanceSymbol.uppercase())
+                    Log.d("searchWL", wlData.isEmpty().toString())
+                    withContext(Dispatchers.Main){
+                        val deleteSheet= bottomSheetSearchDelete(
+                            id_search = 0,
+                            search_symbol = currentStock.yFinanceSymbol,
+                            isSearch = false,
+                            brandName= currentStock.company,
+                            wlData= wlData,
+                            isPresent = wlData.isNotEmpty()
+                            )
+                        deleteSheet.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, deleteSheet.tag)
+                    }
+                }
+                true
             }
 
             setOnClickListener {

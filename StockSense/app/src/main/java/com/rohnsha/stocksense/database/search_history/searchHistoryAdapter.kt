@@ -10,12 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.rohnsha.stocksense.R
 import com.rohnsha.stocksense.stocksInfo
-import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -116,7 +113,10 @@ class searchHistoryAdapter(private val application: Application): RecyclerView.A
             findViewById<ConstraintLayout>(R.id.searchLay).setOnLongClickListener {
                 Log.d("longClick", "long clicked at ${currentSearchItem.search_history.toString()}")
 
-                val deleteSheet= bottomSheetSearchDelete(id_search = currentSearchItem.id, search_symbol = currentSearchItem.search_history)
+                val deleteSheet= bottomSheetSearchDelete(
+                    id_search = currentSearchItem.id,
+                    search_symbol = currentSearchItem.search_history
+                )
                 deleteSheet.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, deleteSheet.tag)
 
                 true
