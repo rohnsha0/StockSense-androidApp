@@ -39,7 +39,9 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.rohnsha.stocksense.stock_infoAPI.dataclass_stocksInfo
 import com.rohnsha.stocksense.stock_infoAPI.object_stockInfo.stocksInfoAPIservice
+import com.rohnsha.stocksense.watchlist_db.limitText
 import com.rohnsha.stocksense.watchlist_db.watchlists
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.withContext
@@ -55,7 +57,9 @@ data class Chart(
 )
 
 data class Result(
-    val meta: Meta
+    val meta: Meta,
+    val timestamp: List<Long>,
+    val indicators: Indicators
 ) {
     data class Meta(
         val symbol: String,
@@ -67,6 +71,13 @@ data class Result(
         val stockVolume: Int
     )
 }
+data class Indicators(
+    val quote: List<Quote>
+)
+
+data class Quote(
+    val close: List<Double>
+)
 
 class stockDataFetcher{
     suspend fun getStockData(symbol: String): Result.Meta?{
@@ -102,6 +113,7 @@ class stocksInfo : AppCompatActivity() {
     private lateinit var mWatchlistModel: watchlistsVM
     private lateinit var chartSet: List<Pair<String, Float>>
     private var isPresentWL by Delegates.notNull<Boolean>()
+    private lateinit var stocksInfoResponse: dataclass_stocksInfo
 
 
     @SuppressLint("MissingInflatedId")
@@ -261,13 +273,13 @@ class stocksInfo : AppCompatActivity() {
         val stockDataFtcher= stockDataFetcher()
         lifecycleScope.launch(Dispatchers.IO){
             val stockDataBody= stockDataFtcher.getStockData(inpSymbol)
-            val dynamicUrl= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/query/v2/${inpSymbol.uppercase()}"
+            val dynamicUrl= "https://quuicqg435fkhjzpkawkhg4exi0vjslb.lambda-url.ap-south-1.on.aws/query/v3/${inpSymbol.uppercase()}"
             try {
                 Log.e("stockInfo", "sending requests....")
-                val stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
+                stocksInfoResponse= stocksInfoAPIservice.getStockInfo(dynamicUrl)
                 Log.e("stockInfo", "request sent....")
                 withContext(Dispatchers.Main){
-                    stockInfoBrnd= stocksInfoResponse.stock_name
+                    stockInfoBrnd= stocksInfoResponse.company
                     previousCloses(
                         stocksInfoResponse.t1,
                         stocksInfoResponse.d1,
@@ -289,7 +301,6 @@ class stocksInfo : AppCompatActivity() {
                         "T-3" to stocksInfoResponse.t3.toFloat(),
                         "T-2" to stocksInfoResponse.t2.toFloat(),
                         "T-1" to stocksInfoResponse.t1.toFloat(),
-                        "T" to stockDataBody!!.regularMarketPrice
                     )
                     lineChart.animation.duration= 1000L
                 }
@@ -342,6 +353,17 @@ class stocksInfo : AppCompatActivity() {
                     val formattedTime = formatter.format(currentTime)
                     stockMarketTime.text= "Last Updated at: $formattedTime"
 
+                    setAdditionStockInfo(
+                        change.toDouble(),
+                        inpSymbol,
+                        dayHigh = stocksInfoResponse.dayHigh,
+                        dayLow = stocksInfoResponse.dayLow,
+                        isin = stocksInfoResponse.isin,
+                        W52High = stocksInfoResponse.W52High,
+                        W52wLow = stocksInfoResponse.W52Low,
+                        sector = stocksInfoResponse.indusry,
+                        fv = stocksInfoResponse.face_value
+                    )
                     startPriceUpdateLoop()
 
                     withContext(Dispatchers.IO){
@@ -534,6 +556,67 @@ class stocksInfo : AppCompatActivity() {
         changeIconColor(changePrice(t3, t4).toDouble(), R.id.trendIco3)
         changeIconColor(changePrice(t4, t5).toDouble(), R.id.trendIco4)
         changeIconColor(changePrice(t5, t6).toDouble(), R.id.trendIco5)
+    }
+
+    private fun setAdditionStockInfo(
+        change: Double,
+        symbolInp: String,
+        W52High: Double,
+        W52wLow: Double,
+        isin: String,
+        fv: Int,
+        sector: String,
+        dayHigh: Double,
+        dayLow: Double
+    ){
+        val stockInforImg= findViewById<ImageView>(R.id.imageStockInfo)
+        val stockInfoStatus= findViewById<TextView>(R.id.stockInfoStatus)
+        val symbol= findViewById<TextView>(R.id.symbolTvStockInfo)
+        val indexTradedIn= findViewById<TextView>(R.id.symbolIndex)
+        symbol.text= symbolInp.substringBefore('.')
+        indexTradedIn.text= getIndex(symbolInp)
+
+        findViewById<TextView>(R.id.ISINtv).text= isin
+        findViewById<TextView>(R.id.fv).text= fv.toString()
+        findViewById<TextView>(R.id.sectorTVtxt).text= sector
+        findViewById<TextView>(R.id.W52Range).text= "${String.format("%.1f", W52High)} - ${String.format("%.1f", W52wLow)}"
+        findViewById<TextView>(R.id.dayRangeTv).text= "${String.format("%.1f", dayHigh)} - ${String.format("%.1f", dayLow)}"
+
+        val green_custom= ContextCompat.getColor(this, R.color.green_custom)
+        val red_custom= ContextCompat.getColor(this, R.color.red_custom)
+
+        stockInfoStatus.text= checkStatusText(change)
+
+        if (change>0){
+            stockInforImg.backgroundTintList= ColorStateList.valueOf(green_custom)
+            stockInfoStatus.setTextColor(green_custom)
+        } else if (change<0){
+            stockInforImg.backgroundTintList= ColorStateList.valueOf(red_custom)
+            stockInfoStatus.setTextColor(red_custom)
+        } else {
+            stockInforImg.backgroundTintList= ColorStateList.valueOf(Color.GRAY)
+            stockInfoStatus.setTextColor(Color.GRAY)
+        }
+    }
+
+    private fun getIndex(symbol: String): String {
+        val symbolCheck= symbol.substringAfter('.')
+        val indexTradedIn= findViewById<TextView>(R.id.symbolIndex)
+        if (symbolCheck=="NS"){
+            return "in NSE"
+        } else if (symbolCheck=="BO"){
+            return "in BSE"
+        }
+        return "unidentified"
+    }
+
+    private fun checkStatusText(change: Double): String {
+        if (change>0){
+            return "POSITIVE"
+        } else if (change<0){
+            return "NEGATIVE"
+        }
+        return "NEUTRAL"
     }
 
     private fun changeIconColor(change: Double, id: Int){

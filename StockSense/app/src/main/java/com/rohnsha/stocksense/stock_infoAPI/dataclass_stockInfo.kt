@@ -1,8 +1,8 @@
 package com.rohnsha.stocksense.stock_infoAPI
 
-data class dataclass_stocksInfo(
-    val W52High: Double,
-    val W52Low: Double,
+data class dataclass_stockInfo(
+    val `52Dhigh`: Double,
+    val `52Dlow`: Double,
     val company: String,
     val d1: String,
     val d2: String,
@@ -20,6 +20,5 @@ data class dataclass_stocksInfo(
     val t3: Double,
     val t4: Double,
     val t5: Double,
-    val t6: Double,
-    val dayOpen: Double
+    val t6: Double
 )

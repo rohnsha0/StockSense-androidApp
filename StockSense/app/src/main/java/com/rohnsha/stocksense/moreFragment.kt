@@ -87,7 +87,8 @@ class moreFragment : Fragment() {
         }
 
         view.findViewById<ConstraintLayout>(R.id.viewStatus).setOnClickListener {
-            customToast.makeText(requireContext(), "Services, up and running!", 1).show()
+            startActivity(Intent(requireContext(), service_status::class.java))
+            //customToast.makeText(requireContext(), "Services, up and running!", 1).show()
         }
 
         accountDelete.setOnClickListener {

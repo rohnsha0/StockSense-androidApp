@@ -16,6 +16,9 @@
         android:theme="@style/Theme.StockSense"
         tools:targetApi="31">
         <activity
+            android:name=".service_status"
+            android:exported="false" />
+        <activity
             android:name=".help_support"
             android:exported="false" />
         <activity
@@ -57,7 +60,7 @@
         <activity
             android:name=".homepage"
             android:exported="true"
-            android:theme="@style/Theme.StockSense" >
+            android:theme="@style/Theme.StockSense">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
