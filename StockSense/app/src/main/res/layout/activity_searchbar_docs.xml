@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:text="Docs"
+                    android:text="Search Help"
                     android:textSize="26sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

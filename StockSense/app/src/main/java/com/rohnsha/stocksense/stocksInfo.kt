@@ -138,7 +138,7 @@ class stocksInfo : AppCompatActivity() {
         val predView= findViewById<View>(R.id.predictionView)
         val tecchView= findViewById<View>(R.id.technicalView)
         val watchlistView= findViewById<View>(R.id.watchlistView)
-        val mainContainer= findViewById<ScrollView>(R.id.scrollContainer)
+        val mainContainer= findViewById<ConstraintLayout>(R.id.scrollContainer)
         val toolbar= findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarDash)
         val toolbarTitle= findViewById<TextView>(R.id.dashTitle)
         val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)

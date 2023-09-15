@@ -326,7 +326,7 @@
                         android:id="@+id/versionInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3 Passiflora"
+                        android:text="3.0 Rose Blossoms"
                         app:layout_constraintBottom_toBottomOf="@id/versionHead"
                         app:layout_constraintStart_toEndOf="@id/versionHead"
                         app:layout_constraintTop_toTopOf="@id/versionHead" />
@@ -345,7 +345,7 @@
                         android:id="@+id/buildInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2024.1.6.1"
+                        android:text="2024.2.11.17"
                         app:layout_constraintBottom_toBottomOf="@id/buildHead"
                         app:layout_constraintStart_toEndOf="@id/buildHead"
                         app:layout_constraintTop_toTopOf="@id/buildHead" />
@@ -354,20 +354,31 @@
                         android:id="@+id/learnMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="10dp"
                         android:elevation="2dp"
                         android:fontFamily="@font/titilliumweb_semi_bold"
-                        android:text="Learn More >>"
+                        android:text="Maintainer: "
                         android:textColor="#6A666C"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@id/versionHead" />
+
+                    <TextView
+                        android:id="@+id/devName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rohan Shaw"
+                        android:textColor="#6A666C"
+                        app:layout_constraintBottom_toBottomOf="@id/learnMore"
+                        app:layout_constraintStart_toEndOf="@id/learnMore"
+                        app:layout_constraintTop_toTopOf="@id/learnMore" />
 
 
                     <ImageView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:src="@drawable/plassifora"
+                        android:src="@drawable/rose_flowers_roses_flower_preview"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        android:padding="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_percent="0.4" />

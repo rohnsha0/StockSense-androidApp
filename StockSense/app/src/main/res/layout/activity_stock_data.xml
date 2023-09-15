@@ -62,14 +62,15 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieData"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:layout_constraintBottom_toTopOf="@+id/modelError1"
-            app:layout_constraintEnd_toEndOf="@+id/modelError1"
-            app:layout_constraintStart_toStartOf="@+id/modelError1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/not_found" />
+            app:lottie_rawRes="@raw/pred_error" />
 
         <TextView
             android:id="@+id/modelError1"
@@ -78,6 +79,7 @@
             android:fontFamily="@font/titilliumweb_semi_bold"
             android:text="Oops! Unable to fetch data..."
             android:textColor="@color/black"
+            android:visibility="gone"
             app:flow_verticalBias="0.64"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,6 +95,7 @@
             android:gravity="center"
             android:text="Please try again later!!!"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/modelError1"
             app:layout_constraintStart_toStartOf="@+id/modelError1"
             app:layout_constraintTop_toBottomOf="@+id/modelError1" />
@@ -102,13 +105,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/titilliumweb_semi_bold"
             android:gravity="center"
-            android:text="Note: As of now only NSE and BSE stock data are available\nWe're continously adding more stocks to the list!"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/modelError2"
-            app:layout_constraintStart_toStartOf="@+id/modelError2"
-            app:layout_constraintTop_toBottomOf="@+id/modelError2" />
+            android:text="Oops! We were unable to resolve the query"
+            android:textColor="@color/formAccentLight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,27 +128,28 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animtnLoading"
-            android:layout_width="wrap_content"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/loadTxt"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_animation" />
+            app:lottie_rawRes="@raw/statistics_loading" />
 
         <TextView
             android:id="@+id/loadTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/titilliumweb_semi_bold"
             android:gravity="center"
-            android:text="Hold on! We're sending requests to our servers..."
-            android:textColor="@color/black"
+            android:text="Hold on! Loading stock insights..."
+            android:textColor="@color/formAccentLight"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,1007 +1,473 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollContainer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:scrollbars="none"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_main"
     tools:context=".stocksInfo">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbarLayDash"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loadingAnim"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/search_load" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarDash"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="4dp">
+        <TextView
+            android:id="@+id/loadingTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/titilliumweb_semi_bold"
+            android:gravity="center"
+            android:text="Crunching the numbers... Almost there!"
+            android:textColor="@color/formAccentLight"
+            app:flow_verticalAlign="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/backStockInfo"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/baseline_arrow_back_ios_new_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/dashTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
-                        android:fontFamily="@font/titilliumweb_semi_bold"
-                        android:maxLength="18"
-                        android:text="LTP"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="26sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/errorAnim"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loader_error" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/errorImageView"
+            android:layout_width="47dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="173dp"
+            android:layout_marginTop="348dp"
+            android:layout_marginEnd="173dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Error"
+            android:src="@drawable/ic_error"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/errorMSG"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
-            </androidx.appcompat.widget.Toolbar>
+        <TextView
+            android:id="@+id/errorMSG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/titilliumweb_semi_bold"
+            android:gravity="center"
+            android:text="The stock market is unpredictable. Sometimes, things don't go as planned, consider trying again later!"
+            android:textColor="@color/formAccentLight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="9dp"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/errorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/errorAnim"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="240dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/errorMSG"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/error"
-                tools:ignore="MissingConstraints" />
-
-            <ImageView
-                android:id="@+id/errorImageView"
-                android:layout_width="47dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="173dp"
-                android:layout_marginTop="348dp"
-                android:layout_marginEnd="173dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="Error"
-                android:src="@drawable/ic_error"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbarLayDash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/errorMSG"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/errorMSG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:gravity="center"
-                android:text="We were unable to fetch stocks info based on your input\n1. Check your symbol \n2. Check your internet connection\n3. Try again later"
-                app:layout_constraintTop_toBottomOf="@id/errorAnim" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/loadingView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/loadingAnim"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="280dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/search_load" />
-
-            <TextView
-                android:id="@+id/loadingTxt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/titilliumweb_semi_bold"
-                android:gravity="center"
-                android:text="Hold on! We're fetching stuffs..."
-                android:textColor="@color/black"
-                app:flow_verticalAlign="center"
-                app:layout_constraintTop_toBottomOf="@+id/loadingAnim" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/topBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/backBTN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_back" />
-
-                <TextView
-                    android:id="@+id/tvName"
-                    style="@style/brandSetups"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:gravity="center"
-                    android:paddingStart="0dp"
-                    android:text="stockPrice"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
-        <com.db.williamchart.view.LineChartView
-            android:id="@+id/lineChart"
-            android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:layout_marginTop="124dp"
-            android:paddingTop="10dp"
-            android:visibility="gone"
-            android:paddingBottom="10dp"
-            app:chart_axis="none"
-            app:chart_gridEffect="dotted"
-            app:chart_lineColor="@color/white"
-            app:chart_lineThickness="3dp"
-            app:chart_smoothLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/LTPLayout" />
-
-        <LinearLayout
-            android:id="@+id/LTPLayout"
-            android:layout_width="match_parent"
-            android:layout_height="438dp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbarLayDash">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/stockPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/titillium_web_bold"
-                    android:text="LTP"
-                    android:textColor="@color/white"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/change"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="change"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="@+id/stockPrice"
-                    app:layout_constraintStart_toStartOf="@+id/stockPrice"
-                    app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
-
-                <LinearLayout
-                    android:id="@+id/updationPane"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <TextView
-                        android:id="@+id/updationnTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/tag_bg"
-                        android:fontFamily="@font/titilliumweb_semi_bold"
-                        android:paddingStart="9dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="9dp"
-                        android:paddingBottom="3dp"
-                        android:text="Last Updated: "
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/timeHorizon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:background="@drawable/tag_bg"
-                        android:fontFamily="@font/titilliumweb_regular"
-                        android:paddingStart="9dp"
-                        android:paddingTop="3dp"
-                        android:paddingEnd="9dp"
-                        android:paddingBottom="3dp"
-                        android:text="7D trendline"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                    <ImageView
-                        android:id="@+id/refreshTag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="18dp"
-                        android:layout_gravity="left"
-                        android:contentDescription="refesh"
-                        android:src="@drawable/ic_refresh"
-                        android:visibility="gone" />
-
-
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/background_main_dash"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/dashboard_white_bg"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/LTPLayout">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center">
-
-                    <View
-                        android:id="@+id/predictionView"
-                        android:layout_width="100dp"
-                        android:layout_height="49dp"
-                        android:layout_marginTop="25dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="37dp"
-                        android:layout_height="33dp"
-                        android:elevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/predictionView"
-                        app:layout_constraintEnd_toEndOf="@+id/predictionView"
-                        app:layout_constraintStart_toStartOf="@+id/predictionView"
-                        app:layout_constraintTop_toTopOf="@+id/predictionView"
-                        app:srcCompat="@drawable/prediction_btn"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/btnPrediction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Predictions"
-                        android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="@+id/predictionView"
-                        app:layout_constraintStart_toStartOf="@+id/predictionView"
-                        app:layout_constraintTop_toBottomOf="@+id/predictionView" />
-
-                    <View
-                        android:id="@+id/technicalView"
-                        android:layout_width="100dp"
-                        android:layout_height="49dp"
-                        android:layout_marginStart="25dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/predictionView"
-                        app:layout_constraintStart_toEndOf="@+id/predictionView"
-                        app:layout_constraintTop_toTopOf="@+id/predictionView" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="37dp"
-                        android:layout_height="33dp"
-                        android:elevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/technicalView"
-                        app:layout_constraintEnd_toEndOf="@+id/technicalView"
-                        app:layout_constraintStart_toStartOf="@+id/technicalView"
-                        app:layout_constraintTop_toTopOf="@+id/technicalView"
-                        app:srcCompat="@drawable/baseline_multiline_chart_24"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/btnTechnical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Statistics"
-                        android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="@+id/technicalView"
-                        app:layout_constraintStart_toStartOf="@+id/technicalView"
-                        app:layout_constraintTop_toBottomOf="@+id/technicalView" />
-
-                    <View
-                        android:id="@+id/watchlistView"
-                        android:layout_width="75dp"
-                        android:layout_height="49dp"
-                        android:layout_marginStart="25dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/predictionView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/technicalView"
-                        app:layout_constraintTop_toTopOf="@+id/predictionView" />
-
-                    <ImageView
-                        android:id="@+id/watchlistIcon"
-                        android:layout_width="37dp"
-                        android:layout_height="33dp"
-                        android:elevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/watchlistView"
-                        app:layout_constraintEnd_toEndOf="@+id/watchlistView"
-                        app:layout_constraintStart_toStartOf="@+id/watchlistView"
-                        app:layout_constraintTop_toTopOf="@+id/watchlistView"
-                        app:srcCompat="@drawable/baseline_bookmark_add_24"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/btnWatchlist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Watchlist"
-                        android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="@+id/watchlistView"
-                        app:layout_constraintStart_toStartOf="@+id/watchlistView"
-                        app:layout_constraintTop_toBottomOf="@+id/watchlistView" />
-
-                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Predictions"
-                        android:visibility="gone"
-                        app:icon="@drawable/prediction_btn"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.505"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/predBTN"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="14dp"
-                        android:background="@drawable/pred_btn"
-                        android:elevation="5dp"
-                        android:text="Predictions"
-                        android:visibility="gone"
-                        app:icon="@drawable/prediction_btn"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <com.google.android.gms.ads.AdView
-                    android:id="@+id/bannerAdSI"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    app:adSize="BANNER"
-                    app:adUnitId="@string/bannerID"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lowVal" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbarDash"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="135dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="26sp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
 
                         <ImageView
-                            android:id="@+id/imageStockInfo"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:layout_marginStart="13dp"
-                            android:layout_marginTop="13dp"
-                            android:background="@drawable/logo_bg"
-                            android:backgroundTint="@color/dash_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/baseline_dataset_linked_24"
+                            android:id="@+id/backStockInfo"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/baseline_arrow_back_ios_new_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:tint="@color/white" />
 
                         <TextView
-                            android:id="@+id/symbolTvStockInfo"
+                            android:id="@+id/dashTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="13dp"
-                            android:layout_marginTop="8dp"
-                            android:elevation="2dp"
+                            android:layout_marginEnd="12dp"
                             android:fontFamily="@font/titilliumweb_semi_bold"
                             android:maxLength="24"
-                            android:text="SYMBOL"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageStockInfo"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/symbolIndex"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-3dp"
-                            android:text="in NSE"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toStartOf="@+id/symbolTvStockInfo"
-                            app:layout_constraintTop_toBottomOf="@id/symbolTvStockInfo" />
-
-                        <TextView
-                            android:id="@+id/stockInfoStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="18dp"
-                            android:layout_marginBottom="8dp"
-                            android:elevation="2dp"
-                            android:fontFamily="@font/titilliumweb_semi_bold"
-                            android:text="NEUTRAL"
-                            android:textColor="#6A666C"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/symbolTvStockInfo" />
-
-                        <TextView
-                            android:id="@+id/dayRangeTv"
-                            style="@style/trendDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:elevation="2dp"
-                            android:text="0000 - 0000"
-                            app:layout_constraintEnd_toEndOf="@+id/stockInfoStatus"
-                            app:layout_constraintTop_toBottomOf="@+id/stockInfoStatus" />
-
-                        <View
-                            android:id="@+id/stockInfoDash"
-                            android:layout_width="0dp"
-                            android:layout_height="2dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="13dp"
-                            android:layout_marginEnd="6dp"
-                            android:background="@color/white"
-                            android:visibility="invisible"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/imageStockInfo" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="6dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/stockInfoDash"
-                            app:layout_constraintWidth_percent="0.5">
-
-                            <TextView
-                                android:id="@+id/ISIN"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="13dp"
-                                android:layout_marginTop="13dp"
-                                android:fontFamily="@font/titillium_web_bold"
-                                android:text="ISIN: "
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/ISINtv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="INE117A01022"
-                                app:layout_constraintBottom_toBottomOf="@id/ISIN"
-                                app:layout_constraintStart_toEndOf="@id/ISIN"
-                                app:layout_constraintTop_toTopOf="@id/ISIN" />
-
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <TextView
-                            android:id="@+id/sectorTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="13dp"
-                            android:layout_marginBottom="13dp"
-                            android:fontFamily="@font/titillium_web_bold"
-                            android:text="Sector: "
+                            android:text="LTP"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="26sp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/ISIN" />
-
-                        <TextView
-                            android:id="@+id/sectorTVtxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Industrials"
-                            app:layout_constraintBottom_toBottomOf="@id/sectorTV"
-                            app:layout_constraintStart_toEndOf="@id/sectorTV"
-                            app:layout_constraintTop_toTopOf="@id/sectorTV" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/stockInfoDash"
-                            app:layout_constraintWidth_percent="0.5">
-
-                            <TextView
-                                android:id="@+id/predCloseGlance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:layout_marginTop="13dp"
-                                android:fontFamily="@font/titillium_web_bold"
-                                android:text="Face Value: "
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/fv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2"
-                                app:layout_constraintBottom_toBottomOf="@id/predCloseGlance"
-                                app:layout_constraintStart_toEndOf="@id/predCloseGlance"
-                                app:layout_constraintTop_toTopOf="@id/predCloseGlance" />
-
-                            <TextView
-                                android:id="@+id/predRemarkGlance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:layout_marginBottom="13dp"
-                                android:fontFamily="@font/titillium_web_bold"
-                                android:text="52W H/L: "
-                                android:visibility="gone"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent" />
-
-                            <TextView
-                                android:id="@+id/W52Range"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0000 - 0000"
-                                android:visibility="gone"
-                                app:layout_constraintBottom_toBottomOf="@id/predRemarkGlance"
-                                app:layout_constraintStart_toEndOf="@id/predRemarkGlance"
-                                app:layout_constraintTop_toTopOf="@id/predRemarkGlance" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <LinearLayout
+                android:id="@+id/topBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/backBTN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_back" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        style="@style/brandSetups"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/titilliumweb_semi_bold"
+                        android:gravity="center"
+                        android:paddingStart="0dp"
+                        android:text="stockPrice"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <com.db.williamchart.view.LineChartView
+                android:id="@+id/lineChart"
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:layout_marginTop="124dp"
+                android:paddingTop="10dp"
+                android:visibility="gone"
+                android:paddingBottom="10dp"
+                app:chart_axis="none"
+                app:chart_gridEffect="dotted"
+                app:chart_lineColor="@color/white"
+                app:chart_lineThickness="3dp"
+                app:chart_smoothLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/LTPLayout" />
+
+            <LinearLayout
+                android:id="@+id/LTPLayout"
+                android:layout_width="match_parent"
+                android:layout_height="438dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appbarLayDash">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/stockPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/titilliumweb_semi_bold"
-                        android:text="Recent Closures"
-                        android:textSize="15sp"
+                        android:fontFamily="@font/titillium_web_bold"
+                        android:text="LTP"
+                        android:textColor="@color/white"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
-                        android:id="@+id/recentClosure1"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="23dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
+                    <TextView
+                        android:id="@+id/change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="15dp"
+                        android:text="change"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/stockPrice"
+                        app:layout_constraintStart_toStartOf="@+id/stockPrice"
+                        app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
+
+                    <LinearLayout
+                        android:id="@+id/updationPane"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/textView"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                        app:layout_constraintStart_toStartOf="parent">
 
-                    <ImageView
-                        android:id="@+id/trendIco1"
-                        style="@style/iconDash"
-                        android:background="@drawable/icon_round_bg"
-                        android:elevation="2dp"
-                        android:src="@drawable/baseline_add_24"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure1"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure1"
-                        app:tint="@color/white" />
+                        <TextView
+                            android:id="@+id/updationnTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/tag_bg"
+                            android:fontFamily="@font/titilliumweb_semi_bold"
+                            android:paddingStart="9dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="9dp"
+                            android:paddingBottom="3dp"
+                            android:text="Last Updated: "
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/trendPrice1"
-                        style="@style/priceDash"
+                        <TextView
+                            android:id="@+id/timeHorizon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:background="@drawable/tag_bg"
+                            android:fontFamily="@font/titilliumweb_regular"
+                            android:paddingStart="9dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="9dp"
+                            android:paddingBottom="3dp"
+                            android:text="7D trendline"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/refreshTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:layout_gravity="left"
+                            android:contentDescription="refesh"
+                            android:src="@drawable/ic_refresh"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/background_main_dash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dashboard_white_bg"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/LTPLayout">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="@string/na"
-                        app:layout_constraintBottom_toBottomOf="@+id/recentClosure1"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure1"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure1" />
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
 
-                    <TextView
-                        android:id="@+id/trendChange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-3dp"
-                        android:elevation="2dp"
-                        android:text="+-0"
-                        app:layout_constraintStart_toStartOf="@+id/trendPrice1"
-                        app:layout_constraintTop_toBottomOf="@+id/trendPrice1" />
+                        <View
+                            android:id="@+id/predictionView"
+                            android:layout_width="100dp"
+                            android:layout_height="49dp"
+                            android:layout_marginTop="25dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/trendTxt1"
-                        style="@style/upTrendTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="POSITIVE"
-                        app:layout_constraintEnd_toEndOf="@+id/recentClosure1"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure1" />
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="37dp"
+                            android:layout_height="33dp"
+                            android:elevation="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/predictionView"
+                            app:layout_constraintEnd_toEndOf="@+id/predictionView"
+                            app:layout_constraintStart_toStartOf="@+id/predictionView"
+                            app:layout_constraintTop_toTopOf="@+id/predictionView"
+                            app:srcCompat="@drawable/prediction_btn"
+                            app:tint="@color/black" />
 
-                    <TextView
-                        android:id="@+id/trendDate1"
-                        style="@style/trendDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="T-1 Day"
-                        app:layout_constraintEnd_toEndOf="@+id/trendTxt1"
-                        app:layout_constraintTop_toBottomOf="@+id/trendTxt1" />
+                        <TextView
+                            android:id="@+id/btnPrediction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Predictions"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="@+id/predictionView"
+                            app:layout_constraintStart_toStartOf="@+id/predictionView"
+                            app:layout_constraintTop_toBottomOf="@+id/predictionView" />
 
-                    <View
-                        android:id="@+id/recentClosure2"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="23dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure1"
-                        app:layout_constraintTop_toBottomOf="@+id/recentClosure1" />
+                        <View
+                            android:id="@+id/technicalView"
+                            android:layout_width="100dp"
+                            android:layout_height="49dp"
+                            android:layout_marginStart="25dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/predictionView"
+                            app:layout_constraintStart_toEndOf="@+id/predictionView"
+                            app:layout_constraintTop_toTopOf="@+id/predictionView" />
 
-                    <ImageView
-                        android:id="@+id/trendIco2"
-                        style="@style/iconDash"
-                        android:background="@drawable/icon_round_bg"
-                        android:elevation="2dp"
-                        android:src="@drawable/baseline_add_24"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure2"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure2"
-                        app:tint="@color/white" />
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="37dp"
+                            android:layout_height="33dp"
+                            android:elevation="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/technicalView"
+                            app:layout_constraintEnd_toEndOf="@+id/technicalView"
+                            app:layout_constraintStart_toStartOf="@+id/technicalView"
+                            app:layout_constraintTop_toTopOf="@+id/technicalView"
+                            app:srcCompat="@drawable/baseline_multiline_chart_24"
+                            app:tint="@color/black" />
 
-                    <TextView
-                        android:id="@+id/trendPrice2"
-                        style="@style/priceDash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="@string/na"
-                        app:layout_constraintBottom_toBottomOf="@+id/recentClosure2"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure2"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure2" />
+                        <TextView
+                            android:id="@+id/btnTechnical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Statistics"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="@+id/technicalView"
+                            app:layout_constraintStart_toStartOf="@+id/technicalView"
+                            app:layout_constraintTop_toBottomOf="@+id/technicalView" />
 
-                    <TextView
-                        android:id="@+id/trendChange2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-3dp"
-                        android:elevation="2dp"
-                        android:text="+-0"
-                        app:layout_constraintStart_toStartOf="@+id/trendPrice2"
-                        app:layout_constraintTop_toBottomOf="@+id/trendPrice2" />
+                        <View
+                            android:id="@+id/watchlistView"
+                            android:layout_width="75dp"
+                            android:layout_height="49dp"
+                            android:layout_marginStart="25dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/predictionView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/technicalView"
+                            app:layout_constraintTop_toTopOf="@+id/predictionView" />
 
-                    <TextView
-                        android:id="@+id/trendTxt2"
-                        style="@style/upTrendTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="POSITIVE"
-                        app:layout_constraintEnd_toEndOf="@+id/recentClosure2"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure2" />
+                        <ImageView
+                            android:id="@+id/watchlistIcon"
+                            android:layout_width="37dp"
+                            android:layout_height="33dp"
+                            android:elevation="2dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/watchlistView"
+                            app:layout_constraintEnd_toEndOf="@+id/watchlistView"
+                            app:layout_constraintStart_toStartOf="@+id/watchlistView"
+                            app:layout_constraintTop_toTopOf="@+id/watchlistView"
+                            app:srcCompat="@drawable/baseline_bookmark_add_24"
+                            app:tint="@color/black" />
 
-                    <TextView
-                        android:id="@+id/trendDate2"
-                        style="@style/trendDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="T-2 Day"
-                        app:layout_constraintEnd_toEndOf="@+id/trendTxt2"
-                        app:layout_constraintTop_toBottomOf="@+id/trendTxt2" />
+                        <TextView
+                            android:id="@+id/btnWatchlist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Watchlist"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="@+id/watchlistView"
+                            app:layout_constraintStart_toStartOf="@+id/watchlistView"
+                            app:layout_constraintTop_toBottomOf="@+id/watchlistView" />
 
-                    <View
-                        android:id="@+id/recentClosure3"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="23dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure2"
-                        app:layout_constraintTop_toBottomOf="@+id/recentClosure2" />
+                        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Predictions"
+                            android:visibility="gone"
+                            app:icon="@drawable/prediction_btn"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.505"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/trendIco3"
-                        style="@style/iconDash"
-                        android:background="@drawable/downtrend_ico"
-                        android:elevation="2dp"
-                        android:src="@drawable/baseline_trending_down_24"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure3"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure3"
-                        app:tint="@color/white" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/predBTN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="14dp"
+                            android:background="@drawable/pred_btn"
+                            android:elevation="5dp"
+                            android:text="Predictions"
+                            android:visibility="gone"
+                            app:icon="@drawable/prediction_btn"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-                    <TextView
-                        android:id="@+id/trendPrice3"
-                        style="@style/priceDash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="@string/na"
-                        app:layout_constraintBottom_toBottomOf="@+id/recentClosure3"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure3"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure3" />
-
-                    <TextView
-                        android:id="@+id/trendChange3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-3dp"
-                        android:elevation="2dp"
-                        android:text="+-0"
-                        app:layout_constraintStart_toStartOf="@+id/trendPrice3"
-                        app:layout_constraintTop_toBottomOf="@+id/trendPrice3" />
-
-                    <TextView
-                        android:id="@+id/trendTxt3"
-                        style="@style/downTrend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="NEGATIVE"
-                        app:layout_constraintEnd_toEndOf="@+id/recentClosure3"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure3" />
-
-                    <TextView
-                        android:id="@+id/trendDate3"
-                        style="@style/trendDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="T-3 Day"
-                        app:layout_constraintEnd_toEndOf="@+id/trendTxt3"
-                        app:layout_constraintTop_toBottomOf="@+id/trendTxt3" />
-
-                    <View
-                        android:id="@+id/recentClosure4"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="23dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure3"
-                        app:layout_constraintTop_toBottomOf="@+id/recentClosure3" />
-
-                    <ImageView
-                        android:id="@+id/trendIco4"
-                        style="@style/iconDash"
-                        android:background="@drawable/icon_round_bg"
-                        android:elevation="2dp"
-                        android:src="@drawable/baseline_add_24"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure4"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure4"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/trendPrice4"
-                        style="@style/priceDash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="@string/na"
-                        app:layout_constraintBottom_toBottomOf="@+id/recentClosure4"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure4"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure4" />
-
-                    <TextView
-                        android:id="@+id/trendChange4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-3dp"
-                        android:elevation="2dp"
-                        android:text="+-0"
-                        app:layout_constraintStart_toStartOf="@+id/trendPrice4"
-                        app:layout_constraintTop_toBottomOf="@+id/trendPrice4" />
-
-                    <TextView
-                        android:id="@+id/trendTxt4"
-                        style="@style/upTrendTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="POSITIVE"
-                        app:layout_constraintEnd_toEndOf="@+id/recentClosure4"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure4" />
-
-                    <TextView
-                        android:id="@+id/trendDate4"
-                        style="@style/trendDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="T-4 Day"
-                        app:layout_constraintEnd_toEndOf="@+id/trendTxt4"
-                        app:layout_constraintTop_toBottomOf="@+id/trendTxt4" />
-
-                    <View
-                        android:id="@+id/recentClosure5"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="23dp"
-                        android:background="@drawable/dash_btn"
-                        android:elevation="2dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure4"
-                        app:layout_constraintTop_toBottomOf="@+id/recentClosure4" />
-
-                    <ImageView
-                        android:id="@+id/trendIco5"
-                        style="@style/iconDash"
-                        android:background="@drawable/downtrend_ico"
-                        android:elevation="2dp"
-                        android:src="@drawable/baseline_trending_down_24"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure5"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure5"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/trendPrice5"
-                        style="@style/priceDash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="@string/na"
-                        app:layout_constraintBottom_toBottomOf="@+id/recentClosure5"
-                        app:layout_constraintStart_toStartOf="@+id/recentClosure5"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure5" />
-
-                    <TextView
-                        android:id="@+id/trendChange5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-3dp"
-                        android:elevation="2dp"
-                        android:text="+-0"
-                        app:layout_constraintStart_toStartOf="@+id/trendPrice5"
-                        app:layout_constraintTop_toBottomOf="@+id/trendPrice5" />
-
-                    <TextView
-                        android:id="@+id/trendTxt5"
-                        style="@style/downTrend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="NEGATIVE"
-                        app:layout_constraintEnd_toEndOf="@+id/recentClosure5"
-                        app:layout_constraintTop_toTopOf="@+id/recentClosure5" />
-
-                    <TextView
-                        android:id="@+id/trendDate5"
-                        style="@style/trendDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elevation="2dp"
-                        android:text="T-5 Day"
-                        app:layout_constraintEnd_toEndOf="@+id/trendTxt5"
-                        app:layout_constraintTop_toBottomOf="@+id/trendTxt5" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <com.google.android.gms.ads.AdView
-                        android:id="@+id/bannerAdSI2"
+                        android:id="@+id/bannerAdSI"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -1012,28 +478,576 @@
                         app:adUnitId="@string/bannerID"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/recentClosure5" />
+                        app:layout_constraintTop_toBottomOf="@+id/lowVal" />
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="19dp"
-                        android:layout_marginBottom="20dp"
-                        android:fontFamily="@font/titilliumweb_semi_bold"
-                        android:text="See All Informations"
-                        android:textColor="@color/dash_bg"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/bannerAdSI2" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_height="135dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="26sp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageStockInfo"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginTop="13dp"
+                                android:background="@drawable/logo_bg"
+                                android:backgroundTint="@color/dash_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/baseline_dataset_linked_24"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/white" />
+
+                            <TextView
+                                android:id="@+id/symbolTvStockInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginTop="8dp"
+                                android:elevation="2dp"
+                                android:fontFamily="@font/titilliumweb_semi_bold"
+                                android:maxLength="24"
+                                android:text="SYMBOL"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toEndOf="@+id/imageStockInfo"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/symbolIndex"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-3dp"
+                                android:text="in NSE"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toStartOf="@+id/symbolTvStockInfo"
+                                app:layout_constraintTop_toBottomOf="@id/symbolTvStockInfo" />
+
+                            <TextView
+                                android:id="@+id/stockInfoStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="18dp"
+                                android:layout_marginBottom="8dp"
+                                android:elevation="2dp"
+                                android:fontFamily="@font/titilliumweb_semi_bold"
+                                android:text="NEUTRAL"
+                                android:textColor="#6A666C"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/symbolTvStockInfo" />
+
+                            <TextView
+                                android:id="@+id/dayRangeTv"
+                                style="@style/trendDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:elevation="2dp"
+                                android:text="0000 - 0000"
+                                app:layout_constraintEnd_toEndOf="@+id/stockInfoStatus"
+                                app:layout_constraintTop_toBottomOf="@+id/stockInfoStatus" />
+
+                            <View
+                                android:id="@+id/stockInfoDash"
+                                android:layout_width="0dp"
+                                android:layout_height="2dp"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginTop="13dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@color/white"
+                                android:visibility="invisible"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/imageStockInfo" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:paddingEnd="6dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/stockInfoDash"
+                                app:layout_constraintWidth_percent="0.5">
+
+                                <TextView
+                                    android:id="@+id/ISIN"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="13dp"
+                                    android:layout_marginTop="13dp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:text="ISIN: "
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/ISINtv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="INE117A01022"
+                                    app:layout_constraintBottom_toBottomOf="@id/ISIN"
+                                    app:layout_constraintStart_toEndOf="@id/ISIN"
+                                    app:layout_constraintTop_toTopOf="@id/ISIN" />
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <TextView
+                                android:id="@+id/sectorTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginBottom="13dp"
+                                android:fontFamily="@font/titillium_web_bold"
+                                android:text="Sector: "
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/ISIN" />
+
+                            <TextView
+                                android:id="@+id/sectorTVtxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Industrials"
+                                app:layout_constraintBottom_toBottomOf="@id/sectorTV"
+                                app:layout_constraintStart_toEndOf="@id/sectorTV"
+                                app:layout_constraintTop_toTopOf="@id/sectorTV" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/stockInfoDash"
+                                app:layout_constraintWidth_percent="0.5">
+
+                                <TextView
+                                    android:id="@+id/predCloseGlance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_marginTop="13dp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:text="Face Value: "
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/fv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2"
+                                    app:layout_constraintBottom_toBottomOf="@id/predCloseGlance"
+                                    app:layout_constraintStart_toEndOf="@id/predCloseGlance"
+                                    app:layout_constraintTop_toTopOf="@id/predCloseGlance" />
+
+                                <TextView
+                                    android:id="@+id/predRemarkGlance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_marginBottom="13dp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:text="52W H/L: "
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/W52Range"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0000 - 0000"
+                                    android:visibility="gone"
+                                    app:layout_constraintBottom_toBottomOf="@id/predRemarkGlance"
+                                    app:layout_constraintStart_toEndOf="@id/predRemarkGlance"
+                                    app:layout_constraintTop_toTopOf="@id/predRemarkGlance" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/titilliumweb_semi_bold"
+                            android:text="Recent Closures"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/recentClosure1"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="23dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/textView"
+                            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                        <ImageView
+                            android:id="@+id/trendIco1"
+                            style="@style/iconDash"
+                            android:background="@drawable/icon_round_bg"
+                            android:elevation="2dp"
+                            android:src="@drawable/baseline_add_24"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure1"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure1"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/trendPrice1"
+                            style="@style/priceDash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="@string/na"
+                            app:layout_constraintBottom_toBottomOf="@+id/recentClosure1"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure1"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure1" />
+
+                        <TextView
+                            android:id="@+id/trendChange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-3dp"
+                            android:elevation="2dp"
+                            android:text="+-0"
+                            app:layout_constraintStart_toStartOf="@+id/trendPrice1"
+                            app:layout_constraintTop_toBottomOf="@+id/trendPrice1" />
+
+                        <TextView
+                            android:id="@+id/trendTxt1"
+                            style="@style/upTrendTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="POSITIVE"
+                            app:layout_constraintEnd_toEndOf="@+id/recentClosure1"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure1" />
+
+                        <TextView
+                            android:id="@+id/trendDate1"
+                            style="@style/trendDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="T-1 Day"
+                            app:layout_constraintEnd_toEndOf="@+id/trendTxt1"
+                            app:layout_constraintTop_toBottomOf="@+id/trendTxt1" />
+
+                        <View
+                            android:id="@+id/recentClosure2"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginEnd="23dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure1"
+                            app:layout_constraintTop_toBottomOf="@+id/recentClosure1" />
+
+                        <ImageView
+                            android:id="@+id/trendIco2"
+                            style="@style/iconDash"
+                            android:background="@drawable/icon_round_bg"
+                            android:elevation="2dp"
+                            android:src="@drawable/baseline_add_24"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure2"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure2"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/trendPrice2"
+                            style="@style/priceDash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="@string/na"
+                            app:layout_constraintBottom_toBottomOf="@+id/recentClosure2"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure2"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure2" />
+
+                        <TextView
+                            android:id="@+id/trendChange2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-3dp"
+                            android:elevation="2dp"
+                            android:text="+-0"
+                            app:layout_constraintStart_toStartOf="@+id/trendPrice2"
+                            app:layout_constraintTop_toBottomOf="@+id/trendPrice2" />
+
+                        <TextView
+                            android:id="@+id/trendTxt2"
+                            style="@style/upTrendTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="POSITIVE"
+                            app:layout_constraintEnd_toEndOf="@+id/recentClosure2"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure2" />
+
+                        <TextView
+                            android:id="@+id/trendDate2"
+                            style="@style/trendDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="T-2 Day"
+                            app:layout_constraintEnd_toEndOf="@+id/trendTxt2"
+                            app:layout_constraintTop_toBottomOf="@+id/trendTxt2" />
+
+                        <View
+                            android:id="@+id/recentClosure3"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginEnd="23dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure2"
+                            app:layout_constraintTop_toBottomOf="@+id/recentClosure2" />
+
+                        <ImageView
+                            android:id="@+id/trendIco3"
+                            style="@style/iconDash"
+                            android:background="@drawable/downtrend_ico"
+                            android:elevation="2dp"
+                            android:src="@drawable/baseline_trending_down_24"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure3"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure3"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/trendPrice3"
+                            style="@style/priceDash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="@string/na"
+                            app:layout_constraintBottom_toBottomOf="@+id/recentClosure3"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure3"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure3" />
+
+                        <TextView
+                            android:id="@+id/trendChange3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-3dp"
+                            android:elevation="2dp"
+                            android:text="+-0"
+                            app:layout_constraintStart_toStartOf="@+id/trendPrice3"
+                            app:layout_constraintTop_toBottomOf="@+id/trendPrice3" />
+
+                        <TextView
+                            android:id="@+id/trendTxt3"
+                            style="@style/downTrend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="NEGATIVE"
+                            app:layout_constraintEnd_toEndOf="@+id/recentClosure3"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure3" />
+
+                        <TextView
+                            android:id="@+id/trendDate3"
+                            style="@style/trendDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="T-3 Day"
+                            app:layout_constraintEnd_toEndOf="@+id/trendTxt3"
+                            app:layout_constraintTop_toBottomOf="@+id/trendTxt3" />
+
+                        <View
+                            android:id="@+id/recentClosure4"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginEnd="23dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure3"
+                            app:layout_constraintTop_toBottomOf="@+id/recentClosure3" />
+
+                        <ImageView
+                            android:id="@+id/trendIco4"
+                            style="@style/iconDash"
+                            android:background="@drawable/icon_round_bg"
+                            android:elevation="2dp"
+                            android:src="@drawable/baseline_add_24"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure4"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure4"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/trendPrice4"
+                            style="@style/priceDash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="@string/na"
+                            app:layout_constraintBottom_toBottomOf="@+id/recentClosure4"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure4"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure4" />
+
+                        <TextView
+                            android:id="@+id/trendChange4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-3dp"
+                            android:elevation="2dp"
+                            android:text="+-0"
+                            app:layout_constraintStart_toStartOf="@+id/trendPrice4"
+                            app:layout_constraintTop_toBottomOf="@+id/trendPrice4" />
+
+                        <TextView
+                            android:id="@+id/trendTxt4"
+                            style="@style/upTrendTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="POSITIVE"
+                            app:layout_constraintEnd_toEndOf="@+id/recentClosure4"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure4" />
+
+                        <TextView
+                            android:id="@+id/trendDate4"
+                            style="@style/trendDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="T-4 Day"
+                            app:layout_constraintEnd_toEndOf="@+id/trendTxt4"
+                            app:layout_constraintTop_toBottomOf="@+id/trendTxt4" />
+
+                        <View
+                            android:id="@+id/recentClosure5"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginEnd="23dp"
+                            android:background="@drawable/dash_btn"
+                            android:elevation="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure4"
+                            app:layout_constraintTop_toBottomOf="@+id/recentClosure4" />
+
+                        <ImageView
+                            android:id="@+id/trendIco5"
+                            style="@style/iconDash"
+                            android:background="@drawable/downtrend_ico"
+                            android:elevation="2dp"
+                            android:src="@drawable/baseline_trending_down_24"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure5"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure5"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/trendPrice5"
+                            style="@style/priceDash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="@string/na"
+                            app:layout_constraintBottom_toBottomOf="@+id/recentClosure5"
+                            app:layout_constraintStart_toStartOf="@+id/recentClosure5"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure5" />
+
+                        <TextView
+                            android:id="@+id/trendChange5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-3dp"
+                            android:elevation="2dp"
+                            android:text="+-0"
+                            app:layout_constraintStart_toStartOf="@+id/trendPrice5"
+                            app:layout_constraintTop_toBottomOf="@+id/trendPrice5" />
+
+                        <TextView
+                            android:id="@+id/trendTxt5"
+                            style="@style/downTrend"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="NEGATIVE"
+                            app:layout_constraintEnd_toEndOf="@+id/recentClosure5"
+                            app:layout_constraintTop_toTopOf="@+id/recentClosure5" />
+
+                        <TextView
+                            android:id="@+id/trendDate5"
+                            style="@style/trendDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text="T-5 Day"
+                            app:layout_constraintEnd_toEndOf="@+id/trendTxt5"
+                            app:layout_constraintTop_toBottomOf="@+id/trendTxt5" />
+
+                        <com.google.android.gms.ads.AdView
+                            android:id="@+id/bannerAdSI2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            app:adSize="BANNER"
+                            app:adUnitId="@string/bannerID"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/recentClosure5" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="19dp"
+                            android:layout_marginBottom="20dp"
+                            android:fontFamily="@font/titilliumweb_semi_bold"
+                            android:text="See All Informations"
+                            android:textColor="@color/dash_bg"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/bannerAdSI2" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

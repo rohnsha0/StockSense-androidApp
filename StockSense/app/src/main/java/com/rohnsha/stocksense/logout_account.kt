@@ -35,6 +35,10 @@ class logout_account : AppCompatActivity() {
         val logoutBtn= findViewById<ConstraintLayout>(R.id.viewLogout)
         val backBtn= findViewById<ImageView>(R.id.backDlt)
 
+        findViewById<ConstraintLayout>(R.id.viewDeleteInfo).setOnClickListener {
+            startActivity(Intent(this, account_deletion_docs::class.java))
+        }
+
         backBtn.setOnClickListener {
             onBackPressed()
         }
