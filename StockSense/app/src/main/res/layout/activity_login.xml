@@ -89,6 +89,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense"
             android:textColorHint="#3D4C63"
             android:textSize="19sp"
             android:autofillHints="password"
@@ -97,7 +98,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/forgot_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="167dp"
@@ -117,7 +118,7 @@
             android:backgroundTint="@color/dash_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/forgot_email" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"

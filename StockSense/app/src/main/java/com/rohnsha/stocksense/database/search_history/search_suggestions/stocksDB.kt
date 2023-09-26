@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [search::class, stocksNSE::class], version = 1, exportSchema = true)
+@Database(entities = [search::class, stocksNSE::class], version = 1, exportSchema = false)
 abstract class stocksDB: RoomDatabase() {
 
     abstract fun stocksDAO(): stocksDAO

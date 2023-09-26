@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,9 +30,40 @@ class login : AppCompatActivity() {
 
         val signUpTXT= findViewById<TextView>(R.id.signUpTxt)
         val loginBTN= findViewById<Button>(R.id.loginBTN)
+        val forgot_pass= findViewById<TextView>(R.id.forgot_email)
+
+        forgot_pass.setOnClickListener {
+            val viewPassReset: View= layoutInflater.inflate(R.layout.reset_password, null)
+            val dialogReset= BottomSheetDialog(this)
+            dialogReset.setContentView(viewPassReset)
+
+            val send_mail= viewPassReset.findViewById<TextView>(R.id.resetEmailBtn)
+            val reset_email= viewPassReset.findViewById<EditText>(R.id.resetEmailEt)
+
+            send_mail.setOnClickListener {
+                if (!reset_email.text.isNullOrBlank() || !reset_email.text.isNullOrEmpty()){
+                    if (isEmailValid(reset_email.text.toString())){
+                        auth.sendPasswordResetEmail(reset_email.text.toString())
+                            .addOnCompleteListener {
+                                if (it.isSuccessful){
+                                    customToast.makeText(this, "Email sent successfully! Check mail!", 1).show()
+                                    dialogReset.dismiss()
+                                } else {
+                                    customToast.makeText(this, "Password reset mail failed to be sent! Try again!", 2).show()
+                                }
+                            }
+                    } else {
+                        customToast.makeText(this, "Enter a valid email id!", 2).show()
+                    }
+                } else{
+                    customToast.makeText(this, "Field cannot be empty!", 2).show()
+                }
+            }
+
+            dialogReset.show()
+        }
 
         loginBTN.setOnClickListener {
-            customToast.makeText(this, "Logging you in...", 2).show()
             loginUser()
         }
 
@@ -82,6 +115,12 @@ class login : AppCompatActivity() {
         }
         return true
     }
+
+    fun isEmailValid(email: String): Boolean {
+        val regexPattern = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+        return regexPattern.matches(email)
+    }
+
 
     private fun checkPass(): Boolean {
         val password= findViewById<EditText>(R.id.etPass).text.toString()
