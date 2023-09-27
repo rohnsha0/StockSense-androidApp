@@ -274,7 +274,7 @@
                     android:text="Symbol"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@+id/facevalue"
+                    app:layout_constraintStart_toStartOf="@+id/EMA50"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -288,30 +288,6 @@
                     app:layout_constraintStart_toStartOf="@+id/symbolData"
                     app:layout_constraintTop_toBottomOf="@+id/symbolData" />
 
-                <TextView
-                    android:id="@+id/facevalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14.5dp"
-                    android:layout_marginEnd="80dp"
-                    android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:text="Face Value"
-                    android:textColor="#B5BBC9"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
-
-                <TextView
-                    android:id="@+id/currentPriceValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-1dp"
-                    android:fontFamily="@font/titilliumweb_regular"
-                    android:text="Face Value"
-                    android:textSize="19sp"
-                    app:layout_constraintStart_toStartOf="@+id/facevalue"
-                    app:layout_constraintTop_toBottomOf="@+id/facevalue" />
-
                 <View
                     android:id="@+id/view"
                     android:layout_width="0dp"
@@ -324,74 +300,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dateVal" />
 
-                <TextView
-                    android:id="@+id/ISIN"
-                    style="@style/predTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14.5dp"
-                    android:text="ISIN Number"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
-
-                <TextView
-                    android:id="@+id/ISINVal"
-                    style="@style/predSubTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0000"
-                    app:layout_constraintStart_toStartOf="@+id/ISIN"
-                    app:layout_constraintTop_toBottomOf="@+id/ISIN" />
-
-                <TextView
-                    android:id="@+id/stockName"
-                    style="@style/predTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Stock Name"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ISINVal" />
-
-                <TextView
-                    android:id="@+id/stockNameVal"
-                    style="@style/predSubTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Neutral"
-                    app:layout_constraintStart_toStartOf="@+id/stockName"
-                    app:layout_constraintTop_toBottomOf="@+id/stockName" />
-
-                <TextView
-                    android:id="@+id/industry"
-                    style="@style/predTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Industry"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/stockNameVal" />
-
-                <TextView
-                    android:id="@+id/indstryVal"
-                    style="@style/predSubTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Indusrty Name"
-                    app:layout_constraintStart_toStartOf="@+id/industry"
-                    app:layout_constraintTop_toBottomOf="@+id/industry" />
-
-                <com.google.android.gms.ads.AdView
-                    android:id="@+id/bannerAdData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    app:adSize="BANNER"
-                    app:adUnitId="@string/bannerID"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/indstryVal" />
-
                 <View
                     android:id="@+id/dashed2"
                     android:layout_width="0dp"
@@ -402,7 +310,7 @@
                     android:background="@drawable/dashed"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bannerAdData" />
+                    app:layout_constraintTop_toBottomOf="@+id/dateVal" />
 
 
                 <TextView
@@ -430,11 +338,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14.5dp"
+                    android:layout_marginEnd="101dp"
                     android:fontFamily="@font/titilliumweb_semi_bold"
-                    android:text="EMA50"
+                    android:text="FMA50"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@+id/currentPriceValue"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dashed2" />
 
                 <TextView
@@ -474,7 +383,7 @@
                     android:text="EMA100"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@+id/currentPriceValue"
+                    app:layout_constraintStart_toStartOf="@+id/EMA50"
                     app:layout_constraintTop_toTopOf="@+id/SMA100" />
 
                 <TextView
@@ -514,7 +423,7 @@
                     android:text="EMA100"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@+id/currentPriceValue"
+                    app:layout_constraintStart_toStartOf="@+id/EMA50"
                     app:layout_constraintTop_toTopOf="@+id/SMA200" />
 
                 <TextView
@@ -582,7 +491,7 @@
                     android:text="MACD"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@+id/currentPriceValue"
+                    app:layout_constraintStart_toStartOf="@+id/EMA50"
                     app:layout_constraintTop_toBottomOf="@+id/dashed3" />
 
                 <TextView
@@ -640,7 +549,7 @@
                     android:text="Bolinger Band (L)"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="@+id/currentPriceValue"
+                    app:layout_constraintStart_toStartOf="@+id/EMA50"
                     app:layout_constraintTop_toTopOf="@+id/BBUpper" />
 
                 <TextView
@@ -682,9 +591,9 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="37dp"
-                    app:layout_constraintTop_toBottomOf="@id/dataIntentBTN"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/dataIntentBTN" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

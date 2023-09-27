@@ -25,7 +25,6 @@ import java.util.Locale
 class stock_data : AppCompatActivity() {
 
     private lateinit var bindingData: ActivityStockDataBinding
-    lateinit var mBannerAdView: AdView
     lateinit var mBannerAdView2: AdView
     lateinit var mBannerAdView3: AdView
 
@@ -38,33 +37,14 @@ class stock_data : AppCompatActivity() {
         val symbol= intent.getStringExtra("symbolStock").toString().uppercase()
         val name=intent.getStringExtra("nameStock").toString()
 
-        mBannerAdView= bindingData.bannerAdData
         mBannerAdView2= bindingData.bannerAdData2
         mBannerAdView3= bindingData.bannerAdData3
 
         var adClickCount = 0
 
         val adRequest= AdRequest.Builder().build()
-        mBannerAdView.loadAd(adRequest)
         mBannerAdView2.loadAd(adRequest)
         mBannerAdView3.loadAd(adRequest)
-        mBannerAdView.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                mBannerAdView.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    mBannerAdView.visibility= View.VISIBLE
-                }else{
-                    mBannerAdView.visibility= View.GONE
-                }
-            }
-        }
 
         mBannerAdView2.adListener = object: AdListener() {
             override fun onAdClicked() {
@@ -118,10 +98,6 @@ class stock_data : AppCompatActivity() {
 
                     bindingData.dateVal.text= systemDate()
                     bindingData.symbolVal.text= symbol.substringBefore('.')
-                    bindingData.ISINVal.text= response.ISIN
-                    bindingData.currentPriceValue.text= response.faceValue.toString()
-                    bindingData.indstryVal.text= response.industry
-                    bindingData.stockNameVal.text= name
                     bindingData.SMA50Val.text= String.format("%.2f", response.sma50)
                     bindingData.SMA100Val.text= String.format("%.2f", response.sma100)
                     bindingData.SMA200Val.text= String.format("%.2f", response.sma200)
@@ -171,7 +147,6 @@ class stock_data : AppCompatActivity() {
 
         val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
         if (currentTimeMillis - lastAdClickTimeMillis > adReEnableTimeMillis) {
-            mBannerAdView.visibility = View.VISIBLE
             mBannerAdView2.visibility= View.VISIBLE
             mBannerAdView3.visibility= View.VISIBLE
         }
@@ -190,7 +165,6 @@ class stock_data : AppCompatActivity() {
             val currentTimeMillis = System.currentTimeMillis()
             val lastAdClickTimeMillis = getLastAdClickTimeMillis()
             if (currentTimeMillis - lastAdClickTimeMillis <= adClickTimeLimitMillis) {
-                mBannerAdView.visibility = View.GONE
                 mBannerAdView2.visibility= View.GONE
                 mBannerAdView3.visibility= View.GONE
                 customToast.makeText(this@stock_data, "You're abusing app usage policy. It might lead to account suspension!", 2).show()
