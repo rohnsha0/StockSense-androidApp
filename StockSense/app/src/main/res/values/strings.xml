@@ -7,10 +7,10 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="not_available">unavailable</string>
-    <string name="bannerID">ca-app-pub-3940256099942544/6300978111</string> <!-- Test AdMob Banner -->
-    <string name="bannerIDreal">ca-app-pub-9534797608454346/1360206480</string> <!-- Real AdMob Banner -->
-    <string name="interstitialID">"ca-app-pub-3940256099942544/1033173712"</string> <!-- Test AdMob Interstitial -->
-    <string name="interstitialIDreal">ca-app-pub-9534797608454346/1015649609</string> <!-- Real AdMob Interstitial -->
+    <string name="bannerIDtest">ca-app-pub-3940256099942544/6300978111</string> <!-- Test AdMob Banner -->
+    <string name="bannerID">ca-app-pub-9534797608454346/1360206480</string> <!-- Real AdMob Banner -->
+    <string name="interstitialIDtest">"ca-app-pub-3940256099942544/1033173712"</string> <!-- Test AdMob Interstitial -->
+    <string name="interstitialID">ca-app-pub-9534797608454346/1015649609</string> <!-- Real AdMob Interstitial -->
     <string name="na">n/a</string>
     <string name="previous">Previous</string>
     <string name="profileTxt">

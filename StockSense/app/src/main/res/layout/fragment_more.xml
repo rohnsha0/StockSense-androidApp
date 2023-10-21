@@ -345,7 +345,7 @@
                         android:id="@+id/buildInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2024.2.11.17"
+                        android:text="2024.2.22.308"
                         app:layout_constraintBottom_toBottomOf="@id/buildHead"
                         app:layout_constraintStart_toEndOf="@id/buildHead"
                         app:layout_constraintTop_toTopOf="@id/buildHead" />

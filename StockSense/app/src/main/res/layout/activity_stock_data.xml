@@ -606,7 +606,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:fontFamily="@font/titilliumweb_semi_bold"
-        android:text="Technical Details"
+        android:text="Statistics"
         android:textColor="@color/dash_bg"
         android:textSize="19sp"
         android:visibility="gone"
