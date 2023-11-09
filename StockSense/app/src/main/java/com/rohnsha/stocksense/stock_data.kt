@@ -1,21 +1,14 @@
 package com.rohnsha.stocksense
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
 import com.rohnsha.stocksense.databinding.ActivityStockDataBinding
 import com.rohnsha.stocksense.technical_api.object_technical.technicalAPIservice
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -25,8 +18,6 @@ import java.util.Locale
 class stock_data : AppCompatActivity() {
 
     private lateinit var bindingData: ActivityStockDataBinding
-    lateinit var mBannerAdView2: AdView
-    lateinit var mBannerAdView3: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,51 +27,6 @@ class stock_data : AppCompatActivity() {
 
         val symbol= intent.getStringExtra("symbolStock").toString().uppercase()
         val name=intent.getStringExtra("nameStock").toString()
-
-        mBannerAdView2= bindingData.bannerAdData2
-        mBannerAdView3= bindingData.bannerAdData3
-
-        var adClickCount = 0
-
-        val adRequest= AdRequest.Builder().build()
-        mBannerAdView2.loadAd(adRequest)
-        mBannerAdView3.loadAd(adRequest)
-
-        mBannerAdView2.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                mBannerAdView2.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    mBannerAdView2.visibility= View.VISIBLE
-                } else{
-                    mBannerAdView2.visibility= View.GONE
-                }
-            }
-        }
-
-        mBannerAdView3.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                mBannerAdView3.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    mBannerAdView3.visibility= View.VISIBLE
-                } else{
-                    mBannerAdView3.visibility= View.GONE
-                }
-            }
-        }
 
         lifecycleScope.launch(Dispatchers.IO){
             Log.e("stockData", "sending requests....")
@@ -137,53 +83,4 @@ class stock_data : AppCompatActivity() {
         return dateFormat.format(currentDate)
     }
 
-    private fun updateLastAdClickTimeMillis(currentTimeMillis: Long) {
-        val currentTimeMillis = System.currentTimeMillis()
-        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
-        val sharedPreferences = this.getSharedPreferences("AdClickDataBanner", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putLong("lastAdClickTimeMillisData", currentTimeMillis)
-        editor.apply()
-
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
-        if (currentTimeMillis - lastAdClickTimeMillis > adReEnableTimeMillis) {
-            mBannerAdView2.visibility= View.VISIBLE
-            mBannerAdView3.visibility= View.VISIBLE
-        }
-    }
-
-    private fun getLastAdClickTimeMillis(): Long {
-        val sharedPreferences = this.getSharedPreferences("AdClickDataBanner", Context.MODE_PRIVATE)
-        return sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
-    }
-
-    private fun clickProcess(clickCount: Int): Int{
-        var adClickCount= clickCount
-        val adClickTimeLimitMillis = 2 * 60 * 60 * 1000
-        adClickCount++
-        if (adClickCount >= 5) {
-            val currentTimeMillis = System.currentTimeMillis()
-            val lastAdClickTimeMillis = getLastAdClickTimeMillis()
-            if (currentTimeMillis - lastAdClickTimeMillis <= adClickTimeLimitMillis) {
-                mBannerAdView2.visibility= View.GONE
-                mBannerAdView3.visibility= View.GONE
-                customToast.makeText(this@stock_data, "You're abusing app usage policy. It might lead to account suspension!", 2).show()
-                adClickCount= 0
-            }
-        }
-        updateLastAdClickTimeMillis(System.currentTimeMillis())
-        return adClickCount
-    }
-
-    private fun checkAdStatus(): Boolean {
-        val currentTimeMillis = System.currentTimeMillis()
-        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
-        val sharedPreferences = this.getSharedPreferences("AdClickDataBanner", Context.MODE_PRIVATE)
-
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisData", 0)
-        if (currentTimeMillis - lastAdClickTimeMillis < adReEnableTimeMillis) {
-            return false
-        }
-        return true
-    }
 }

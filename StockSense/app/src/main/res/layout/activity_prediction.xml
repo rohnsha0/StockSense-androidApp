@@ -141,14 +141,14 @@
             android:id="@+id/loadTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/titilliumweb_semi_bold"
             android:gravity="center"
             android:text="Unleashing AI's magic to predict your stock's future. Sit tight!"
             android:textColor="@color/formAccentLight"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -348,11 +348,11 @@
                     android:id="@+id/closeAnim"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:visibility="gone"
                     android:layout_marginStart="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/closeVal"
                     app:layout_constraintStart_toEndOf="@+id/closeVal"
                     app:layout_constraintTop_toTopOf="@+id/closeVal"
-                    app:layout_constraintBottom_toBottomOf="@id/closeVal"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/loading_anim" />
@@ -381,9 +381,9 @@
                     android:layout_height="15dp"
                     android:layout_marginStart="5dp"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/highVal"
                     app:layout_constraintStart_toEndOf="@+id/highVal"
                     app:layout_constraintTop_toTopOf="@+id/highVal"
-                    app:layout_constraintBottom_toBottomOf="@id/highVal"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/loading_anim" />
@@ -410,27 +410,14 @@
                     android:id="@+id/remarkAnim"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:visibility="gone"
                     android:layout_marginStart="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/lowVal"
                     app:layout_constraintStart_toEndOf="@+id/lowVal"
                     app:layout_constraintTop_toTopOf="@+id/lowVal"
-                    app:layout_constraintBottom_toBottomOf="@id/lowVal"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/loading_anim" />
-
-                <com.google.android.gms.ads.AdView
-                    android:id="@+id/bannerAdPred"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    app:adSize="BANNER"
-                    app:adUnitId="@string/bannerID"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lowVal" />
 
                 <View
                     android:id="@+id/dashed3"
@@ -442,15 +429,15 @@
                     android:background="@drawable/dashed"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bannerAdPred" />
+                    app:layout_constraintTop_toBottomOf="@+id/lowVal" />
 
                 <TextView
                     android:id="@+id/predictedDatetv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:fontFamily="@font/titilliumweb_semi_bold"
                     android:layout_marginTop="14.5dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="Predicted for: (Date)"
                     android:textColor="#B5BBC9"
                     android:textSize="15sp"
@@ -564,51 +551,38 @@
                     app:layout_constraintStart_toStartOf="@+id/modelDate"
                     app:layout_constraintTop_toBottomOf="@+id/modelDate" />
 
-                <com.google.android.gms.ads.AdView
-                    android:id="@+id/bannerAdPred2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    app:adSize="BANNER"
-                    app:adUnitId="@string/bannerID"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/modelDateVal" />
-
 
                 <LinearLayout
                     android:id="@+id/predBtnContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:paddingTop="32dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/bannerAdPred2">
+                    android:paddingTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/modelDateVal">
 
                     <Button
                         android:id="@+id/timeHorizonSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_marginEnd="8dp"
                         style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                        app:icon="@drawable/baseline_av_timer_24"
-                        android:text="1H Prediction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:lineHeight="24dp"
-                        android:layout_height="wrap_content"/>
+                        android:text="1H Prediction"
+                        app:icon="@drawable/baseline_av_timer_24" />
 
                     <Button
                         android:id="@+id/predIntentBTN"
+                        style="@style/Widget.Material3.Button.Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.Material3.Button.Icon"
-                        app:icon="@drawable/baseline_space_dashboard_24"
                         android:fontFamily="@font/titilliumweb_semi_bold"
                         android:lineHeight="24dp"
                         android:text="Dashboard"
-                        android:textSize="19sp" />
+                        android:textSize="19sp"
+                        app:icon="@drawable/baseline_space_dashboard_24" />
 
                 </LinearLayout>
 

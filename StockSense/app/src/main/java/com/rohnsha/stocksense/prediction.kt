@@ -1,7 +1,6 @@
 package com.rohnsha.stocksense
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,24 +11,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.airbnb.lottie.LottieAnimationView
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.material.appbar.AppBarLayout
 import com.rohnsha.stocksense.pred_glance_db.glance_view_model
 import com.rohnsha.stocksense.pred_glance_db.pred_glance
 import com.rohnsha.stocksense.prediction_api.pred_object.predAPIservice
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -44,8 +36,6 @@ class prediction : AppCompatActivity() {
     lateinit var company: String
     var modelStr by Delegates.notNull<Float>()
     var modelStrHR by Delegates.notNull<Float>()
-    lateinit var mBannerAdView: AdView
-    lateinit var mBannerAdView2: AdView
     private lateinit var mPredictinViewModel: glance_view_model
     private var isPresentInGlance by Delegates.notNull<Boolean>()
     private lateinit var glanceEntry: List<pred_glance>
@@ -86,8 +76,6 @@ class prediction : AppCompatActivity() {
         var is1Dpred=true
         var needToSendReq1H= true
 
-        mBannerAdView= findViewById(R.id.bannerAdPred)
-        mBannerAdView2= findViewById(R.id.bannerAdPred2)
         val dashBtn= findViewById<ImageView>(R.id.dashPred)
         mPredictinViewModel= ViewModelProvider(this)[glance_view_model::class.java]
 
@@ -102,45 +90,6 @@ class prediction : AppCompatActivity() {
         }
 
         var adClickCount = 0
-
-        val adRequest= AdRequest.Builder().build()
-        mBannerAdView.loadAd(adRequest)
-        mBannerAdView2.loadAd(adRequest)
-        mBannerAdView.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                mBannerAdView.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    mBannerAdView.visibility= View.VISIBLE
-                }else{
-                    mBannerAdView.visibility= View.GONE
-                }
-            }
-        }
-
-        mBannerAdView2.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                mBannerAdView2.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    mBannerAdView2.visibility= View.VISIBLE
-                } else{
-                    mBannerAdView2.visibility= View.GONE
-                }
-            }
-        }
 
         setSupportActionBar(toolbar)
 
@@ -317,60 +266,10 @@ class prediction : AppCompatActivity() {
         }
     }
 
-    private fun updateLastAdClickTimeMillis(currentTimeMillis: Long) {
-        val currentTimeMillis = System.currentTimeMillis()
-        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
-        val sharedPreferences = this.getSharedPreferences("AdClickPredBanner", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putLong("lastAdClickTimeMillis", currentTimeMillis)
-        editor.apply()
-
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillis", 0)
-        if (currentTimeMillis - lastAdClickTimeMillis > adReEnableTimeMillis) {
-            mBannerAdView.visibility = View.VISIBLE
-            mBannerAdView2.visibility= View.VISIBLE
-        }
-    }
-
-    private fun getLastAdClickTimeMillis(): Long {
-        val sharedPreferences = this.getSharedPreferences("AdClickPredBanner", Context.MODE_PRIVATE)
-        return sharedPreferences.getLong("lastAdClickTimeMillis", 0)
-    }
-
     private fun systemDate(): String {
         val dateFormat= SimpleDateFormat("MMM d, yyyy", Locale.US)
         val currentDate= Date(System.currentTimeMillis())
         return dateFormat.format(currentDate)
-    }
-
-    private fun clickProcess(clickCount: Int): Int{
-        var adClickCount= clickCount
-        val adClickTimeLimitMillis = 2 * 60 * 60 * 1000
-        adClickCount++
-        if (adClickCount >= 5) {
-            val currentTimeMillis = System.currentTimeMillis()
-            val lastAdClickTimeMillis = getLastAdClickTimeMillis()
-            if (currentTimeMillis - lastAdClickTimeMillis <= adClickTimeLimitMillis) {
-                mBannerAdView.visibility = View.GONE
-                mBannerAdView2.visibility= View.GONE
-                Toast.makeText(this@prediction, "You're abusing app usage policy. It might lead to account suspension!", Toast.LENGTH_LONG).show()
-                adClickCount= 0
-            }
-        }
-        updateLastAdClickTimeMillis(System.currentTimeMillis())
-        return adClickCount
-    }
-
-    private fun checkAdStatus(): Boolean {
-        val currentTimeMillis = System.currentTimeMillis()
-        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
-        val sharedPreferences = this.getSharedPreferences("AdClickPredBanner", Context.MODE_PRIVATE)
-
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillis", 0)
-        if (currentTimeMillis - lastAdClickTimeMillis < adReEnableTimeMillis) {
-            return false
-        }
-        return true
     }
 
     private fun predictedDateTime(is1Dactive: Boolean= true){

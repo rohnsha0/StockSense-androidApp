@@ -2,30 +2,23 @@ package com.rohnsha.stocksense
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.rohnsha.stocksense.database.search_history.searchHistoryAdapter
 import com.rohnsha.stocksense.database.search_history.search_history
 import com.rohnsha.stocksense.database.search_history.search_history_model
@@ -59,8 +52,6 @@ class searchFragment : Fragment() {
     private lateinit var rbBSE: RadioButton
     private lateinit var recyclerViewSearch: RecyclerView
     private lateinit var filterNotice: TextView
-
-    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -189,51 +180,6 @@ class searchFragment : Fragment() {
                 return true
             }
         })
-
-        var adRequest = AdRequest.Builder().build()
-
-        val adID= requireContext().getString(R.string.interstitialID)
-        InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                adError?.toString()?.let { Log.d("erroredAd", it) }
-                mInterstitialAd = null
-                InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        adError?.toString()?.let { Log.d("erroredAd", it) }
-                        mInterstitialAd = null
-                    }
-
-                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                        Log.d("adLoaded", "Ad was loaded.")
-                        mInterstitialAd = interstitialAd
-                    }
-                })
-            }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Log.d("adLoaded", "Ad was loaded.")
-                mInterstitialAd = interstitialAd
-            }
-        })
-        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-            override fun onAdClicked() {
-                // Called when a click is recorded for an ad.
-                Log.d("TAG", "Ad was clicked.")
-            }
-            override fun onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                Log.d("TAG", "Ad dismissed fullscreen content.")
-                mInterstitialAd = null
-            }
-            override fun onAdImpression() {
-                // Called when an impression is recorded for an ad.
-                Log.d("TAG", "Ad recorded an impression.")
-            }
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d("TAG", "Ad showed fullscreen content.")
-            }
-        }
     }
 
     fun addHistoryToDB(query: String?){
@@ -258,11 +204,6 @@ class searchFragment : Fragment() {
                 val intent = Intent(requireContext(), stocksInfo::class.java)
                 intent.putExtra("symbol", inputSymbol)
                 startActivity(intent)
-                if (mInterstitialAd != null) {
-                    mInterstitialAd?.show(requireActivity())
-                } else {
-                    Log.d("TAG", "The interstitial ad wasn't ready yet.")
-                }
             }
         }
         return true

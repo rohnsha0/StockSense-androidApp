@@ -1,7 +1,6 @@
 package com.rohnsha.stocksense.indices_db
 
 import android.app.Application
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
@@ -12,34 +11,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.rohnsha.stocksense.R
-import com.rohnsha.stocksense.customToast
-import com.rohnsha.stocksense.ltpAPI.object_ltp
-import com.rohnsha.stocksense.watchlist_db.watchlists
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
+import com.rohnsha.stocksense.R
 import com.rohnsha.stocksense.StockDataResponse
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import kotlin.Exception
 
 class indicesAdapter(private val application: Application): RecyclerView.Adapter<indicesAdapter.indicesViewHolder>(){
 
     private var indicesList= emptyList<indices>()
-    private var mInterstitialAd: InterstitialAd? = null
     private val mIndicesVM: indicesViewModel= ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(indicesViewModel::class.java)
     private final var TAG = "watchlistsAD"
 

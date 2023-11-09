@@ -466,20 +466,6 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <com.google.android.gms.ads.AdView
-                        android:id="@+id/bannerAdSI"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        app:adSize="BANNER"
-                        app:adUnitId="@string/bannerID"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lowVal" />
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -1012,20 +998,6 @@
                             app:layout_constraintEnd_toEndOf="@+id/trendTxt5"
                             app:layout_constraintTop_toBottomOf="@+id/trendTxt5" />
 
-                        <com.google.android.gms.ads.AdView
-                            android:id="@+id/bannerAdSI2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            app:adSize="BANNER"
-                            app:adUnitId="@string/bannerID"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/recentClosure5" />
-
                         <TextView
                             android:id="@+id/textView2"
                             android:layout_width="wrap_content"
@@ -1039,7 +1011,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/bannerAdSI2" />
+                            app:layout_constraintTop_toBottomOf="@+id/recentClosure5" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

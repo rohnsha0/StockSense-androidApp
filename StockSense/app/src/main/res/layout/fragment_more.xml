@@ -326,7 +326,7 @@
                         android:id="@+id/versionInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3.0 Rose Blossoms"
+                        android:text="3.5 Rose Blossoms"
                         app:layout_constraintBottom_toBottomOf="@id/versionHead"
                         app:layout_constraintStart_toEndOf="@id/versionHead"
                         app:layout_constraintTop_toTopOf="@id/versionHead" />
@@ -345,7 +345,7 @@
                         android:id="@+id/buildInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2024.2.22.308"
+                        android:text="2024.3.9.244"
                         app:layout_constraintBottom_toBottomOf="@id/buildHead"
                         app:layout_constraintStart_toEndOf="@id/buildHead"
                         app:layout_constraintTop_toTopOf="@id/buildHead" />

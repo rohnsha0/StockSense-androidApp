@@ -1,7 +1,6 @@
 package com.rohnsha.stocksense
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -9,7 +8,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,17 +19,13 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -39,14 +33,12 @@ import com.rohnsha.stocksense.database.search_history.search_history_model
 import com.rohnsha.stocksense.indices_db.indices
 import com.rohnsha.stocksense.indices_db.indicesAdapter
 import com.rohnsha.stocksense.indices_db.indicesViewModel
-import com.rohnsha.stocksense.ltpAPI.object_ltp.ltpAPIService
 import com.rohnsha.stocksense.pred_glance_db.glance_view_model
 import com.rohnsha.stocksense.pred_glance_db.pred_glance
 import com.rohnsha.stocksense.prediction_api.pred_object
 import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
 import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -80,7 +72,6 @@ class home : Fragment() {
     private var indexPrice by Delegates.notNull<Double>()
     private lateinit var indexStatus: String
     private lateinit var glanceData: pred_glance
-    private var mInterstitialAd: InterstitialAd?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,54 +138,6 @@ class home : Fragment() {
         val glanceInitStatus= view.findViewById<TextView>(R.id.glanceInitStatus)
         val glanceContainer= view.findViewById<ConstraintLayout>(R.id.predictionGlance)
 
-        val adRequest= AdRequest.Builder().build()
-        val adID= this.getString(R.string.interstitialID)
-
-        InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                adError?.toString()?.let { Log.d("TAG", it) }
-                mInterstitialAd = null
-                InterstitialAd.load(requireContext(),adID, adRequest, object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        adError?.toString()?.let { Log.d("TAG", it) }
-                        mInterstitialAd = null
-                    }
-
-                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                        Log.d("TAG", "Ad was loaded.")
-                        mInterstitialAd = interstitialAd
-                    }
-                })
-            }
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Log.d("TAG", "Ad was loaded.")
-                mInterstitialAd = interstitialAd
-            }
-        })
-
-        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-            override fun onAdClicked() {
-                // Called when a click is recorded for an ad.
-                Log.d("tag", "Ad was clicked.")
-            }
-
-            override fun onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                Log.d("TAG", "Ad dismissed fullscreen content.")
-                mInterstitialAd = null
-            }
-
-            override fun onAdImpression() {
-                // Called when an impression is recorded for an ad.
-                Log.d("TAG", "Ad recorded an impression.")
-            }
-
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d("TAG", "Ad showed fullscreen content.")
-            }
-        }
-
         lifecycleScope.launch(Dispatchers.IO){
             val glanceDBCount= mPredictionViewModel.getDBcount()
             if (glanceDBCount==1){
@@ -245,11 +188,6 @@ class home : Fragment() {
                         Log.d("companyName", glanceData.company)
                         intent.putExtra("company", glanceData.company)
                         startActivity(intent)
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd?.show(requireContext() as Activity)
-                        } else {
-                            Log.d("TAG", "The interstitial ad wasn't ready yet.")
-                        }
                     }
                 }
             } else if (glanceDBCount==0){

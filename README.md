@@ -4,7 +4,7 @@ Welcome to StockSense, an open-source app leveraging advanced deep neural networ
 
 ## Download from the Play Store
 
-Get StockSense on the Play Store: [Download StockSense]([play_store_link](https://play.google.com/store/apps/details?id=com.rohnsha.stocksense))
+Get StockSense on the Play Store: [Download StockSense](https://play.google.com/store/apps/details?id=com.rohnsha.stocksense)
 
 ## Key Features
 
@@ -24,7 +24,7 @@ Get StockSense on the Play Store: [Download StockSense]([play_store_link](https:
 
 1. Clone the repository:
    ```bash
-   git clone [repository_link]
+   git clone [https://github.com/rohnsha0/stocksense]
    ```
 
 2. Install dependencies:
@@ -51,8 +51,11 @@ We welcome contributions! Join us on GitHub to enhance and shape the future of S
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
+![Screenshot 1](docs/screenshots/image1.png)
+![Screenshot 2](docs/screenshots/image2.png)
+![Screenshot 3](docs/screenshots/image3.png)
+![Screenshot 4](docs/screenshots/image4.png)
+![Screenshot 5](docs/screenshots/image5.png)
 
 ## License
 

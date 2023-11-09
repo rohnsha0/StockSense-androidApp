@@ -1,50 +1,38 @@
 package com.rohnsha.stocksense
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.db.williamchart.view.LineChartView
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
+import com.rohnsha.stocksense.stock_infoAPI.dataclass_stocksInfo
+import com.rohnsha.stocksense.stock_infoAPI.object_stockInfo.stocksInfoAPIservice
+import com.rohnsha.stocksense.watchlist_db.watchlists
+import com.rohnsha.stocksense.watchlist_db.watchlistsVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.rohnsha.stocksense.stock_infoAPI.dataclass_stocksInfo
-import com.rohnsha.stocksense.stock_infoAPI.object_stockInfo.stocksInfoAPIservice
-import com.rohnsha.stocksense.watchlist_db.limitText
-import com.rohnsha.stocksense.watchlist_db.watchlists
-import com.rohnsha.stocksense.watchlist_db.watchlistsVM
-import kotlinx.coroutines.withContext
 import kotlin.properties.Delegates
 
 
@@ -106,9 +94,6 @@ class stockDataFetcher{
 
 
 class stocksInfo : AppCompatActivity() {
-    lateinit var adViewBanner: AdView
-    lateinit var adViewBanner2: AdView
-    private var mInterstitialAd: InterstitialAd?=null
     lateinit var stockInfoBrnd: String
     private lateinit var mWatchlistModel: watchlistsVM
     private lateinit var chartSet: List<Pair<String, Float>>
@@ -142,8 +127,6 @@ class stocksInfo : AppCompatActivity() {
         val toolbar= findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarDash)
         val toolbarTitle= findViewById<TextView>(R.id.dashTitle)
         val appbarLay= findViewById<AppBarLayout>(R.id.appbarLayDash)
-        adViewBanner= findViewById(R.id.bannerAdSI)
-        adViewBanner2= findViewById(R.id.bannerAdSI2)
         val watchlistViewTXT= findViewById<TextView>(R.id.btnWatchlist)
         val watchlistIcon= findViewById<ImageView>(R.id.watchlistIcon)
         mWatchlistModel= ViewModelProvider(this)[watchlistsVM::class.java]
@@ -160,106 +143,10 @@ class stocksInfo : AppCompatActivity() {
             intent.putExtra("symbolStock", inpSymbol)
             intent.putExtra("nameStock", stockInfoBrnd)
             startActivity(intent)
-            if (mInterstitialAd != null) {
-                mInterstitialAd?.show(this@stocksInfo)
-            } else {
-                Log.d("TAG", "The interstitial ad wasn't ready yet.")
-            }
         }
 
         backStockInfo.setOnClickListener {
             onBackPressed()
-        }
-
-
-        var wlBtnClickCount = 0
-        var adClickCount = 0
-
-        val adRequest= AdRequest.Builder().build()
-
-        val adID= this.getString(R.string.interstitialID)
-
-        InterstitialAd.load(this,adID, adRequest, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                adError?.toString()?.let { Log.d("TAG", it) }
-                mInterstitialAd = null
-                InterstitialAd.load(this@stocksInfo,adID, adRequest, object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        adError?.toString()?.let { Log.d("TAG", it) }
-                        mInterstitialAd = null
-                    }
-
-                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                        Log.d("TAG", "Ad was loaded.")
-                        mInterstitialAd = interstitialAd
-                    }
-                })
-            }
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Log.d("TAG", "Ad was loaded.")
-                mInterstitialAd = interstitialAd
-            }
-        })
-
-        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-            override fun onAdClicked() {
-                // Called when a click is recorded for an ad.
-                Log.d("tag", "Ad was clicked.")
-            }
-
-            override fun onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                Log.d("TAG", "Ad dismissed fullscreen content.")
-                mInterstitialAd = null
-            }
-
-            override fun onAdImpression() {
-                // Called when an impression is recorded for an ad.
-                Log.d("TAG", "Ad recorded an impression.")
-            }
-
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d("TAG", "Ad showed fullscreen content.")
-            }
-        }
-
-        adViewBanner.loadAd(adRequest)
-        adViewBanner.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                adViewBanner.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    adViewBanner.visibility= View.VISIBLE
-                }else{
-                    adViewBanner.visibility= View.GONE
-                }
-            }
-        }
-
-        adViewBanner2.loadAd(adRequest)
-        adViewBanner2.adListener = object: AdListener() {
-            override fun onAdClicked() {
-                super.onAdClicked()
-                adClickCount= clickProcess(adClickCount)
-            }
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                super.onAdFailedToLoad(adError)
-                adViewBanner2.loadAd(adRequest)
-            }
-            override fun onAdLoaded() {
-                if (checkAdStatus()){
-                    adViewBanner2.visibility= View.VISIBLE
-                }else{
-                    adViewBanner2.visibility= View.GONE
-                }
-            }
         }
 
         setSupportActionBar(toolbar)
@@ -337,11 +224,6 @@ class stocksInfo : AppCompatActivity() {
                         Log.d("companyName", stockInfoBrnd)
                         intent.putExtra("company", stockInfoBrnd)
                         startActivity(intent)
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd?.show(this@stocksInfo)
-                        } else {
-                            Log.d("TAG", "The interstitial ad wasn't ready yet.")
-                        }
                     }
 
                     stockLTP.text= stockDataBody.regularMarketPrice.toString()
@@ -400,7 +282,6 @@ class stocksInfo : AppCompatActivity() {
                     updateLTP.setOnClickListener {
                         updateStockPrice(inpSymbol)
                     }
-                    Log.e("predictionStatus", predStats(inpSymbol).toString())
 
                 } else{
                     errorTxt.visibility= View.VISIBLE
@@ -447,66 +328,6 @@ class stocksInfo : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    fun predStats(stockSymbol: String): String? {
-        val fileName= "$stockSymbol.tflite"
-        val file = File("res/data/$fileName")
-        val fileExists= file.exists()
-        var prediction: String? = null
-
-        if (fileExists){
-            prediction= "model found"
-            val length = prediction?.length
-        }
-        return prediction
-    }
-
-    private fun getLastAdClickTimeMillis(): Long {
-        val sharedPreferences = this.getSharedPreferences("AdClickSIBanner", Context.MODE_PRIVATE)
-        return sharedPreferences.getLong("lastAdClickTimeMillisSI", 0)
-    }
-
-    private fun clickProcess(clickCount: Int): Int{
-        var adClickCount= clickCount
-        val adClickTimeLimitMillis = 2 * 60 * 60 * 1000
-        adClickCount++
-        if (adClickCount >= 5) {
-            val currentTimeMillis = System.currentTimeMillis()
-            val lastAdClickTimeMillis = getLastAdClickTimeMillis()
-            if (currentTimeMillis - lastAdClickTimeMillis <= adClickTimeLimitMillis) {
-                adViewBanner.visibility = View.GONE
-                Toast.makeText(this@stocksInfo, "You're abusing app usage policy. It might lead to account suspension!", Toast.LENGTH_LONG).show()
-                adClickCount= 0
-            }
-        }
-        updateLastAdClickTimeMillis(System.currentTimeMillis())
-        return adClickCount
-    }
-    private fun updateLastAdClickTimeMillis(currentTimeMillis: Long) {
-        val currentTimeMillis = System.currentTimeMillis()
-        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
-        val sharedPreferences = this.getSharedPreferences("AdClickSIBanner", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putLong("lastAdClickTimeMillisSI", currentTimeMillis)
-        editor.apply()
-
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisSI", 0)
-        if (currentTimeMillis - lastAdClickTimeMillis > adReEnableTimeMillis) {
-            adViewBanner.visibility = View.VISIBLE
-        }
-    }
-
-    private fun checkAdStatus(): Boolean {
-        val currentTimeMillis = System.currentTimeMillis()
-        val adReEnableTimeMillis = 3 * 60 * 60 * 1000
-        val sharedPreferences = this.getSharedPreferences("AdClickSIBanner", Context.MODE_PRIVATE)
-
-        val lastAdClickTimeMillis = sharedPreferences.getLong("lastAdClickTimeMillisSI", 0)
-        if (currentTimeMillis - lastAdClickTimeMillis < adReEnableTimeMillis) {
-            return false
-        }
-        return true
     }
 
     private fun changePrevious(currentDay: Double, previousDay: Double): Double {
