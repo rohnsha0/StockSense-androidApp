@@ -52,6 +52,10 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="iconColor" parent="Widget.Material3.Button.Icon">
+        <item name="iconTint">@color/alwaysWhite</item>
+    </style>
+
     <style name="predTitle">
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginStart">32dp</item>

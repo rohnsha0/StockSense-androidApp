@@ -10,7 +10,7 @@
 
     <item android:state_checked="false">
         <shape android:shape="rectangle">
-            <stroke android:color="@color/viewsDash" android:width="2dp"/>
+            <stroke android:color="@color/alwaysWhite" android:width="2dp"/>
             <corners android:radius="16dp"/>
         </shape>
     </item>

@@ -1,7 +1,9 @@
 package com.rohnsha.stocksense
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.telephony.ims.RcsUceAdapter
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.rohnsha.stocksense.docs.data_docs
 
@@ -77,6 +80,36 @@ class moreFragment : Fragment() {
         val emailImgTv= view.findViewById<TextView>(R.id.emailVerifyTv)
         val changeMail= view.findViewById<TextView>(R.id.changeMail)
         val accountDelete= view.findViewById<ConstraintLayout>(R.id.accountDelete)
+        val srcBtn= view.findViewById<ImageView>(R.id.srcBtn)
+        val srcBtnApp= view.findViewById<ImageView>(R.id.srcBtnApp)
+        val rateAppp= view.findViewById<ImageView>(R.id.rateApp)
+
+        rateAppp.setOnClickListener {
+            val reviewManager= ReviewManagerFactory.create(requireContext().applicationContext)
+            reviewManager.requestReviewFlow().addOnCompleteListener {
+                if (it.isSuccessful){
+                    reviewManager.launchReviewFlow(requireContext() as Activity, it.result)
+                }
+            }
+        }
+
+        view.findViewById<ImageView>(R.id.downloadMedbuddy).setOnClickListener {
+            customToast.makeText(requireContext(), "App under development!", 2).show()
+        }
+
+        srcBtn.setOnClickListener {
+            val githubUrl = "https://github.com/rohnsha0/medbuddyAI"
+
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
+            startActivity(intent)
+        }
+
+        srcBtnApp.setOnClickListener {
+            val githubUrl = "https://github.com/rohnsha0/stocksense"
+
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
+            startActivity(intent)
+        }
 
         view.findViewById<ConstraintLayout>(R.id.viewHelp).setOnClickListener {
             startActivity(Intent(requireContext(), help_support::class.java))

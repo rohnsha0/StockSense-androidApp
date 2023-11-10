@@ -5,7 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -438,6 +441,7 @@ class home : Fragment() {
         val green_custom= ContextCompat.getColor(requireContext(), R.color.green_custom)
         val red_custom= ContextCompat.getColor(requireContext(), R.color.red_custom)
         val change= ltp-prediction
+
         if (change>0){
             trend?.text= "UPTREND"
             trend?.setTextColor(green_custom)

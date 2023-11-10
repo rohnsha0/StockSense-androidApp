@@ -110,6 +110,7 @@
             android:layout_height="46dp"
             android:text="Let's  Get Started"
             android:layout_marginTop="117dp"
+            android:textColor="@color/alwaysWhite"
             android:layout_marginBottom="47dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

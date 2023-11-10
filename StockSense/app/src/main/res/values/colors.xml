@@ -12,4 +12,6 @@
     <color name="red_custom">#DF5060</color>
     <color name="viewDashLowOpac">#F1F5FB</color>
     <color name="deactiveText">#78839C</color>
+    <color name="alwaysWhite">#FFFFFFFF</color>
+    <color name="alwaysViewDash">@color/viewsDash</color>
 </resources>

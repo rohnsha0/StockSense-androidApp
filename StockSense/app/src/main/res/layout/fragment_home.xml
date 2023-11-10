@@ -182,7 +182,7 @@
                         android:layout_marginTop="13dp"
                         android:layout_marginStart="13dp"
                         android:layout_height="34dp"
-                        app:tint="@color/white" />
+                        app:tint="@color/alwaysWhite" />
 
                     <TextView
                         android:id="@+id/glanceName"

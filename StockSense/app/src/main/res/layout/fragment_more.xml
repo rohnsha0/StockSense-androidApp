@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/baseline_person_24"
         android:elevation="2dp"
-        app:tint="@color/viewsDash" />
+        app:tint="@color/alwaysViewDash" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerMore"
@@ -294,19 +294,107 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <TextView
+                    android:id="@+id/tvAboutApp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="23dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:text="Miscellaneous"
+                    app:layout_constraintStart_toStartOf="@id/viewHelp"
+                    app:layout_constraintTop_toBottomOf="@id/viewHelp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/appInfoOther"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/dash_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAboutApp">
+
+                <TextView
+                    android:id="@+id/appNameHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="13dp"
+                    android:elevation="2dp"
+                    android:fontFamily="@font/titilliumweb_semi_bold"
+                    android:maxLength="24"
+                    android:text="Suggested App: "
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/appNameInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MedBuddy AI"
+                    app:layout_constraintBottom_toBottomOf="@id/appNameHead"
+                    app:layout_constraintStart_toEndOf="@id/appNameHead"
+                    app:layout_constraintTop_toTopOf="@id/appNameHead" />
+
+                <ImageView
+                    android:id="@+id/srcBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/github_svgrepo_com"
+                    android:background="@drawable/dash_btn"
+                    android:layout_marginTop="7dp"
+                    android:padding="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/appNameHead"
+                    app:layout_constraintStart_toStartOf="@id/appNameHead"
+                    android:layout_marginBottom="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:backgroundTint="@color/white"
+                    app:tint="@color/black" />
+
+                <ImageView
+                    android:id="@+id/downloadMedbuddy"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/play_store_svgrepo_com"
+                    android:background="@drawable/dash_btn"
+                    android:layout_marginTop="7dp"
+                    app:tint="@color/black"
+                    android:padding="4dp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/appNameHead"
+                    app:layout_constraintStart_toEndOf="@id/srcBtn"
+                    android:layout_marginBottom="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:backgroundTint="@color/white"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/logo_whitebg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.3"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/appInfo"
                     android:layout_width="0dp"
                     android:layout_height="125dp"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/dash_btn"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewHelp">
+                    app:layout_constraintTop_toBottomOf="@id/appInfoOther">
 
                     <TextView
                         android:id="@+id/versionHead"
@@ -326,7 +414,7 @@
                         android:id="@+id/versionInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3.5 Rose Blossoms"
+                        android:text="3.5 Rose Blooms"
                         app:layout_constraintBottom_toBottomOf="@id/versionHead"
                         app:layout_constraintStart_toEndOf="@id/versionHead"
                         app:layout_constraintTop_toTopOf="@id/versionHead" />
@@ -345,10 +433,37 @@
                         android:id="@+id/buildInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2024.3.9.244"
+                        android:text="2024.3.12.93"
                         app:layout_constraintBottom_toBottomOf="@id/buildHead"
                         app:layout_constraintStart_toEndOf="@id/buildHead"
                         app:layout_constraintTop_toTopOf="@id/buildHead" />
+
+                    <ImageView
+                        android:id="@+id/srcBtnApp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:tint="@color/black"
+                        android:background="@drawable/dash_btn"
+                        android:backgroundTint="@color/white"
+                        android:padding="4dp"
+                        android:src="@drawable/github_svgrepo_com"
+                        app:layout_constraintBottom_toTopOf="@id/learnMore"
+                        app:layout_constraintStart_toStartOf="@id/buildHead"
+                        app:layout_constraintTop_toBottomOf="@id/buildHead" />
+
+                    <ImageView
+                        android:id="@+id/rateApp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:tint="@color/black"
+                        android:src="@drawable/rating_svgrepo_com"
+                        android:background="@drawable/dash_btn"
+                        android:padding="4dp"
+                        android:layout_marginStart="4dp"
+                        app:layout_constraintTop_toTopOf="@id/srcBtnApp"
+                        app:layout_constraintStart_toEndOf="@id/srcBtnApp"
+                        android:layout_marginBottom="13dp"
+                        android:backgroundTint="@color/white"/>
 
                     <TextView
                         android:id="@+id/learnMore"

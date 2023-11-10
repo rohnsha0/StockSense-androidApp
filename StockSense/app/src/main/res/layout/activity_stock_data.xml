@@ -176,7 +176,7 @@
         app:layout_constraintEnd_toEndOf="@+id/blueCircle"
         app:layout_constraintStart_toStartOf="@id/blueCircle"
         app:layout_constraintTop_toTopOf="@id/blueCircle"
-        app:tint="@color/white" />
+        app:tint="@color/alwaysWhite" />
 
     <LinearLayout
         android:id="@+id/titleBlock"
@@ -558,6 +558,8 @@
                     android:fontFamily="@font/titilliumweb_semi_bold"
                     android:text="Back to Homepage"
                     android:textSize="19sp"
+                    android:backgroundTint="@color/dash_bg"
+                    android:textColor="@color/alwaysWhite"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/BBLowerVal" />
@@ -581,7 +583,7 @@
         android:layout_marginTop="9dp"
         android:fontFamily="@font/titilliumweb_semi_bold"
         android:text="Statistics"
-        android:textColor="@color/dash_bg"
+        android:textColor="@color/black"
         android:textSize="19sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

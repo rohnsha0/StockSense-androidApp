@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="This is Toast Message"
-        android:textColor="@color/white"
+        android:textColor="@color/alwaysWhite"
         android:layout_marginStart="12sp"
         android:fontFamily="@font/titilliumweb_semi_bold"
         app:layout_constraintStart_toEndOf="@id/toastLogo"
@@ -48,6 +48,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/toastMSG"
         app:layout_constraintTop_toTopOf="@id/toastLogo"
-        app:tint="@color/white" />
+        app:tint="@color/alwaysWhite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

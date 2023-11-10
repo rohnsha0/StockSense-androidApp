@@ -2,7 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.StockSense" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">#5C6BC0</item>
+        <item name="android:fontFamily">@font/titilliumweb_regular</item>
+        <item name="android:statusBarColor">@color/bg_main</item>
+        <item name="buttonStyle">@style/predButton</item>
+        <item name="floatingActionButtonStyle">@style/FABCustom</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:colorAccent">@color/black</item>
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>

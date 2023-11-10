@@ -1,11 +1,18 @@
 package com.rohnsha.stocksense.watchlist_db
 
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rohnsha.stocksense.R
 import com.rohnsha.stocksense.stocksInfo

@@ -139,7 +139,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/white" />
+                            app:tint="@color/alwaysWhite" />
 
                         <TextView
                             android:id="@+id/dashTitle"
@@ -150,7 +150,7 @@
                             android:maxLength="24"
                             android:text="LTP"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/alwaysWhite"
                             android:textSize="26sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -212,11 +212,11 @@
                 android:layout_height="165dp"
                 android:layout_marginTop="124dp"
                 android:paddingTop="10dp"
-                android:visibility="gone"
                 android:paddingBottom="10dp"
+                android:visibility="gone"
                 app:chart_axis="none"
                 app:chart_gridEffect="dotted"
-                app:chart_lineColor="@color/white"
+                app:chart_lineColor="#FFFFFF"
                 app:chart_lineThickness="3dp"
                 app:chart_smoothLine="true"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -243,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/titillium_web_bold"
                         android:text="LTP"
-                        android:textColor="@color/white"
+                        android:textColor="@color/alwaysWhite"
                         android:textSize="32sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -256,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="15dp"
                         android:text="change"
-                        android:textColor="@color/white"
+                        android:textColor="@color/alwaysWhite"
                         android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="@+id/stockPrice"
                         app:layout_constraintStart_toStartOf="@+id/stockPrice"
@@ -284,7 +284,7 @@
                             android:paddingEnd="9dp"
                             android:paddingBottom="3dp"
                             android:text="Last Updated: "
-                            android:textColor="@color/white"
+                            android:textColor="@color/alwaysWhite"
                             android:textSize="14sp" />
 
                         <TextView
@@ -299,7 +299,7 @@
                             android:paddingEnd="9dp"
                             android:paddingBottom="3dp"
                             android:text="7D trendline"
-                            android:textColor="@color/white"
+                            android:textColor="@color/alwaysWhite"
                             android:textSize="14sp" />
 
                         <ImageView
@@ -496,7 +496,7 @@
                                 android:src="@drawable/baseline_dataset_linked_24"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:tint="@color/white" />
+                                app:tint="@color/alwaysWhite" />
 
                             <TextView
                                 android:id="@+id/symbolTvStockInfo"
@@ -703,7 +703,7 @@
                             android:src="@drawable/baseline_add_24"
                             app:layout_constraintStart_toStartOf="@+id/recentClosure1"
                             app:layout_constraintTop_toTopOf="@+id/recentClosure1"
-                            app:tint="@color/white" />
+                            app:tint="@color/alwaysWhite" />
 
                         <TextView
                             android:id="@+id/trendPrice1"
@@ -766,7 +766,7 @@
                             android:src="@drawable/baseline_add_24"
                             app:layout_constraintStart_toStartOf="@+id/recentClosure2"
                             app:layout_constraintTop_toTopOf="@+id/recentClosure2"
-                            app:tint="@color/white" />
+                            app:tint="@color/alwaysWhite" />
 
                         <TextView
                             android:id="@+id/trendPrice2"
@@ -829,7 +829,7 @@
                             android:src="@drawable/baseline_trending_down_24"
                             app:layout_constraintStart_toStartOf="@+id/recentClosure3"
                             app:layout_constraintTop_toTopOf="@+id/recentClosure3"
-                            app:tint="@color/white" />
+                            app:tint="@color/alwaysWhite" />
 
                         <TextView
                             android:id="@+id/trendPrice3"
@@ -892,7 +892,7 @@
                             android:src="@drawable/baseline_add_24"
                             app:layout_constraintStart_toStartOf="@+id/recentClosure4"
                             app:layout_constraintTop_toTopOf="@+id/recentClosure4"
-                            app:tint="@color/white" />
+                            app:tint="@color/alwaysWhite" />
 
                         <TextView
                             android:id="@+id/trendPrice4"
@@ -955,7 +955,7 @@
                             android:src="@drawable/baseline_trending_down_24"
                             app:layout_constraintStart_toStartOf="@+id/recentClosure5"
                             app:layout_constraintTop_toTopOf="@+id/recentClosure5"
-                            app:tint="@color/white" />
+                            app:tint="@color/alwaysWhite" />
 
                         <TextView
                             android:id="@+id/trendPrice5"
@@ -1006,7 +1006,7 @@
                             android:layout_marginBottom="20dp"
                             android:fontFamily="@font/titilliumweb_semi_bold"
                             android:text="See All Informations"
-                            android:textColor="@color/dash_bg"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

@@ -177,7 +177,7 @@
         app:layout_constraintEnd_toEndOf="@+id/blueCircle"
         app:layout_constraintStart_toStartOf="@id/blueCircle"
         app:layout_constraintTop_toTopOf="@id/blueCircle"
-        app:tint="@color/white" />
+        app:tint="@color/alwaysWhite" />
 
     <LinearLayout
         android:id="@+id/titleBlock"
@@ -575,14 +575,17 @@
 
                     <Button
                         android:id="@+id/predIntentBTN"
-                        style="@style/Widget.Material3.Button.Icon"
+                        style="@style/iconColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/titilliumweb_semi_bold"
                         android:lineHeight="24dp"
+                        android:textColor="@color/alwaysWhite"
                         android:text="Dashboard"
+                        android:backgroundTint="@color/dash_bg"
                         android:textSize="19sp"
-                        app:icon="@drawable/baseline_space_dashboard_24" />
+                        app:icon="@drawable/baseline_space_dashboard_24"
+                        app:tint="@color/alwaysWhite"/>
 
                 </LinearLayout>
 
@@ -605,7 +608,7 @@
         android:layout_marginTop="9dp"
         android:fontFamily="@font/titilliumweb_semi_bold"
         android:text="Day Predictions"
-        android:textColor="@color/dash_bg"
+        android:textColor="@color/black"
         android:textSize="19sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
