@@ -51,15 +51,11 @@ We welcome contributions! Join us on GitHub to enhance and shape the future of S
 
 ## Screenshots
 
-![Screenshot 1](docs/screenshots/image1.png)
-![Screenshot 2](docs/screenshots/image2.png)
-![Screenshot 3](docs/screenshots/image3.png)
-![Screenshot 4](docs/screenshots/image4.png)
-![Screenshot 5](docs/screenshots/image5.png)
+![Screenshot 1](https://i.postimg.cc/GmKJ89NL/image1.png)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GNU GPLv3](LICENSE).
 
 Download StockSense today, contribute, and elevate your stock market insights!
 
