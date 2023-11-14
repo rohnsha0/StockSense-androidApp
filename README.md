@@ -22,20 +22,39 @@ Get StockSense on the Play Store: [Download StockSense](https://play.google.com/
 
 ## Getting Started
 
+To run StockSense on your local machine, follow these steps:
+
 1. Clone the repository:
-   ```bash
-   git clone [https://github.com/rohnsha0/stocksense]
-   ```
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+    ```bash
+    git clone https://github.com/rohnsha0/stocksense
+    ```
 
-3. Run the app:
-   ```bash
-   python app.py
-   ```
+2. Open the project in Android Studio:
+
+   - Launch Android Studio.
+   - Click on "Open an existing Android Studio project."
+   - Navigate to the cloned `stocksense` directory and select it.
+
+3. Build the project:
+
+   - Android Studio will automatically download the necessary dependencies.
+   - Once the build is complete, you can run the app on an emulator or a connected Android device.
+
+4. Run the app:
+
+   - Click the "Run" button in Android Studio, or use the command line:
+     ```bash
+     ./gradlew installDebug
+     ```
+
+   This will install the app on the connected device or emulator.
+
+5. Explore StockSense:
+
+   - Once the app is installed, open it on your device and explore the stock price predictions, technical indicators, and fundamental analysis features.
+
+
 
 ## Contributing
 
