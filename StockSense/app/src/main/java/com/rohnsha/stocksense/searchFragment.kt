@@ -110,9 +110,9 @@ class searchFragment : Fragment() {
         val adapterSearch= searchHistoryAdapter(Application())
         recyclerViewSearch.adapter= adapterSearch
         recyclerViewSearch.layoutManager= LinearLayoutManager(requireContext())
-        mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner, Observer { history ->
+        mSearchHistoryModel.readSearchHistory.observe(viewLifecycleOwner) { history ->
             adapterSearch.setSearchHistory(history)
-        })
+        }
 
         qManual.setOnClickListener {
             startActivity(Intent(requireContext(), searchbar_docs::class.java))

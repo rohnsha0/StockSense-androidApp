@@ -335,7 +335,7 @@
                     android:id="@+id/appNameInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MedBuddy AI"
+                    android:text="SwasthAI"
                     app:layout_constraintBottom_toBottomOf="@id/appNameHead"
                     app:layout_constraintStart_toEndOf="@id/appNameHead"
                     app:layout_constraintTop_toTopOf="@id/appNameHead" />
@@ -356,10 +356,10 @@
                     app:tint="@color/black" />
 
                 <ImageView
-                    android:id="@+id/downloadMedbuddy"
+                    android:id="@+id/webBtn"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/play_store_svgrepo_com"
+                    android:src="@drawable/baseline_public_24"
                     android:background="@drawable/dash_btn"
                     android:layout_marginTop="7dp"
                     app:tint="@color/black"
@@ -372,9 +372,25 @@
                     android:backgroundTint="@color/white"/>
 
                 <ImageView
+                    android:id="@+id/downloadMedbuddy"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/play_store_svgrepo_com"
+                    android:background="@drawable/dash_btn"
+                    android:layout_marginTop="7dp"
+                    app:tint="@color/black"
+                    android:padding="4dp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/appNameHead"
+                    app:layout_constraintStart_toEndOf="@id/webBtn"
+                    android:layout_marginBottom="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:backgroundTint="@color/white"/>
+
+                <ImageView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:src="@drawable/logo_whitebg"
+                    android:src="@drawable/swasthai_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -433,7 +449,7 @@
                         android:id="@+id/buildInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2024.3.12.93"
+                        android:text="2024.3.12.99"
                         app:layout_constraintBottom_toBottomOf="@id/buildHead"
                         app:layout_constraintStart_toEndOf="@id/buildHead"
                         app:layout_constraintTop_toTopOf="@id/buildHead" />

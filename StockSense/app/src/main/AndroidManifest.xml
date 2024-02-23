@@ -78,10 +78,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9534797608454346~3682984043" />
     </application>
 
 </manifest>

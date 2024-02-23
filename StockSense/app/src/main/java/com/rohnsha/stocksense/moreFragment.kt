@@ -83,6 +83,14 @@ class moreFragment : Fragment() {
         val srcBtn= view.findViewById<ImageView>(R.id.srcBtn)
         val srcBtnApp= view.findViewById<ImageView>(R.id.srcBtnApp)
         val rateAppp= view.findViewById<ImageView>(R.id.rateApp)
+        val webBtn= view.findViewById<ImageView>(R.id.webBtn)
+
+        webBtn.setOnClickListener {
+            val webURL = "https://rohanshaw.me/swasthai"
+
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webURL))
+            startActivity(intent)
+        }
 
         rateAppp.setOnClickListener {
             val reviewManager= ReviewManagerFactory.create(requireContext().applicationContext)
