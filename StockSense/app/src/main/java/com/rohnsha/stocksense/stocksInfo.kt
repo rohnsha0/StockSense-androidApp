@@ -17,10 +17,10 @@ import androidx.lifecycle.lifecycleScope
 import com.db.williamchart.view.LineChartView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.gson.Gson
-import com.rohnsha.stocksense.stock_infoAPI.dataclass_stocksInfo
-import com.rohnsha.stocksense.stock_infoAPI.object_stockInfo.stocksInfoAPIservice
-import com.rohnsha.stocksense.watchlist_db.watchlists
-import com.rohnsha.stocksense.watchlist_db.watchlistsVM
+import com.rohnsha.stocksense.api.stock_infoAPI.dataclass_stocksInfo
+import com.rohnsha.stocksense.api.stock_infoAPI.object_stockInfo.stocksInfoAPIservice
+import com.rohnsha.stocksense.database.watchlist_db.watchlists
+import com.rohnsha.stocksense.database.watchlist_db.watchlistsVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

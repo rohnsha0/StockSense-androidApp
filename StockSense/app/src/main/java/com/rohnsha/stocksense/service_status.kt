@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.rohnsha.stocksense.databinding.ActivityServiceStatusBinding
-import com.rohnsha.stocksense.serviceAPI.obj_service.serviceStatusAPI
+import com.rohnsha.stocksense.api.serviceAPI.obj_service.serviceStatusAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

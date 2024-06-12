@@ -17,7 +17,7 @@ import com.rohnsha.stocksense.database.search_history.bottomSheetSearchDelete
 import com.rohnsha.stocksense.database.search_history.search_history
 import com.rohnsha.stocksense.database.search_history.search_history_model
 import com.rohnsha.stocksense.stocksInfo
-import com.rohnsha.stocksense.watchlist_db.watchlistsVM
+import com.rohnsha.stocksense.database.watchlist_db.watchlistsVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ class stocksSearchAdapter(private val application: Application): RecyclerView.Ad
         .create(
         search_history_model::class.java
     )
-    private val mWatchlistViewModel: watchlistsVM= ViewModelProvider.AndroidViewModelFactory
+    private val mWatchlistViewModel: watchlistsVM = ViewModelProvider.AndroidViewModelFactory
         .getInstance(application)
         .create(
             watchlistsVM::class.java

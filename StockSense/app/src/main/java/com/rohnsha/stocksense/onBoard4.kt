@@ -9,10 +9,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.rohnsha.stocksense.indices_db.indices
-import com.rohnsha.stocksense.indices_db.indicesViewModel
+import com.rohnsha.stocksense.database.indices_db.indices
+import com.rohnsha.stocksense.database.indices_db.indicesViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class onBoard4 : AppCompatActivity() {

@@ -23,9 +23,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.rohnsha.stocksense.watchlist_db.watchlistAdapterFive
-import com.rohnsha.stocksense.watchlist_db.watchlistsAdapter
-import com.rohnsha.stocksense.watchlist_db.watchlistsVM
+import com.rohnsha.stocksense.database.watchlist_db.watchlistAdapterFive
+import com.rohnsha.stocksense.database.watchlist_db.watchlistsAdapter
+import com.rohnsha.stocksense.database.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancelAndJoin

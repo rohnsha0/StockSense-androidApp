@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rohnsha.stocksense.R
-import com.rohnsha.stocksense.watchlist_db.watchlists
-import com.rohnsha.stocksense.watchlist_db.watchlistsVM
+import com.rohnsha.stocksense.database.watchlist_db.watchlists
+import com.rohnsha.stocksense.database.watchlist_db.watchlistsVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

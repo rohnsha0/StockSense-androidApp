@@ -18,9 +18,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.appbar.AppBarLayout
-import com.rohnsha.stocksense.pred_glance_db.glance_view_model
-import com.rohnsha.stocksense.pred_glance_db.pred_glance
-import com.rohnsha.stocksense.prediction_api.pred_object.predAPIservice
+import com.rohnsha.stocksense.database.pred_glance_db.glance_view_model
+import com.rohnsha.stocksense.database.pred_glance_db.pred_glance
+import com.rohnsha.stocksense.api.prediction_api.pred_object.predAPIservice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

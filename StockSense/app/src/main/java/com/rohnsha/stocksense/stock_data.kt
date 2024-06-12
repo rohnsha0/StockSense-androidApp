@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.rohnsha.stocksense.databinding.ActivityStockDataBinding
-import com.rohnsha.stocksense.technical_api.object_technical.technicalAPIservice
+import com.rohnsha.stocksense.api.technical_api.object_technical.technicalAPIservice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
