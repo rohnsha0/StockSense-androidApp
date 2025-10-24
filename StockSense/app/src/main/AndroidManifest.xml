@@ -17,7 +17,6 @@
         <activity
             android:name=".MainActivity2"
             android:exported="true"
-            android:label="@string/title_activity_main2"
             android:theme="@style/Theme.StockSense">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,13 +71,7 @@
             android:exported="false" />
         <activity
             android:name=".homepage"
-            android:exported="true"
-            android:theme="@style/Theme.StockSense">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
         <activity
             android:name=".prediction"

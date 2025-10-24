@@ -4,11 +4,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ShowChart
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
@@ -56,10 +58,10 @@ sealed class bottomNavItems(
     )
 
     object StockList: bottomNavItems(
-        title = "StockList",
-        route = "stockList",
-        unselectedIcon = Icons.Outlined.ShowChart,
-        selectedIcon = Icons.Filled.ShowChart
+        title = "Search",
+        route = "search",
+        unselectedIcon = Icons.Outlined.Search,
+        selectedIcon = Icons.Filled.Search
     )
 
     object Watchlist: bottomNavItems(

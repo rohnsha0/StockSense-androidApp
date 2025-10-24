@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Lock
@@ -105,7 +106,7 @@ fun StockSenseHomePage(
 
     Scaffold(
         topBar = {
-            HomeTopBar()
+            HomeTopBar(navController)
         },
         floatingActionButton = {
             ChatbotFAB(padding = padding, navController= navController)
@@ -171,7 +172,7 @@ fun StockSenseHomePage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar() {
+fun HomeTopBar(navController: NavHostController) {
     TopAppBar(
         title = {
             Column {
@@ -188,12 +189,6 @@ fun HomeTopBar() {
             }
         },
         actions = {
-            IconButton(onClick = { /* Search */ }) {
-                Icon(
-                    imageVector = Icons.Outlined.Search,
-                    contentDescription = "Search"
-                )
-            }
             IconButton(onClick = { /* Notifications */ }) {
                 Badge(
                     containerColor = MaterialTheme.colorScheme.error,
@@ -204,6 +199,12 @@ fun HomeTopBar() {
                 Icon(
                     imageVector = Icons.Outlined.Notifications,
                     contentDescription = "Notifications"
+                )
+            }
+            IconButton(onClick = { navController.navigate(bottomNavItems.Profile.route) }) {
+                Icon(
+                    imageVector = Icons.Outlined.AccountCircle,
+                    contentDescription = "Profile"
                 )
             }
         },

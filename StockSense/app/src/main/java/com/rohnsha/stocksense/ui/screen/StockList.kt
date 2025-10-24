@@ -74,6 +74,7 @@ fun StockListScreen(
     var selectedSector by remember { mutableStateOf(FilterSector.ALL) }
     var showFilterSheet by remember { mutableStateOf(false) }
     var showSortSheet by remember { mutableStateOf(false) }
+    var isSearching by remember { mutableStateOf(false) }
 
     val mockStocks = remember {
         listOf(
@@ -88,37 +89,60 @@ fun StockListScreen(
             StockItem("BHARTIARTL", "Bharti Airtel", "IT", "₹1,234.50", 2.1f, 2.5f, 93, "15.2M", listOf(0.4f, 0.7f, 1.0f, 1.4f, 1.8f, 2.2f)),
             StockItem("SUNPHARMA", "Sun Pharmaceutical", "PHARMA", "₹1,567.80", 1.8f, 2.0f, 90, "9.8M", listOf(0.7f, 0.9f, 1.2f, 1.5f, 1.7f, 1.9f)),
             StockItem("TATAMOTORS", "Tata Motors", "AUTO", "₹789.30", 3.2f, 3.5f, 86, "42.1M", listOf(0.5f, 1.0f, 1.5f, 2.0f, 2.8f, 3.3f)),
-            StockItem("TATASTEEL", "Tata Steel", "METALS", "₹145.60", -1.5f, -1.0f, 84, "67.4M", listOf(2.0f, 1.7f, 1.5f, 1.3f, 1.1f, 0.9f))
+            StockItem("TATASTEEL", "Tata Steel", "METALS", "₹145.60", -1.5f, -1.0f, 84, "67.4M", listOf(2.0f, 1.7f, 1.5f, 1.3f, 1.1f, 0.9f)),
+            StockItem("WIPRO", "Wipro Limited", "IT", "₹456.20", 0.7f, 1.1f, 86, "19.3M", listOf(0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 1.1f)),
+            StockItem("AXISBANK", "Axis Bank", "BANKING", "₹987.65", -0.9f, 0.3f, 85, "28.4M", listOf(1.2f, 1.0f, 0.9f, 0.8f, 0.9f, 1.0f)),
+            StockItem("MARUTI", "Maruti Suzuki", "AUTO", "₹9,876.50", 1.4f, 1.9f, 91, "5.2M", listOf(0.9f, 1.1f, 1.3f, 1.5f, 1.7f, 1.9f)),
+            StockItem("BAJFINANCE", "Bajaj Finance", "BANKING", "₹7,234.80", -2.1f, -1.5f, 87, "12.8M", listOf(2.5f, 2.2f, 2.0f, 1.7f, 1.5f, 1.3f)),
+            StockItem("ADANIENT", "Adani Enterprises", "ENERGY", "₹2,567.40", 4.2f, 3.8f, 89, "34.6M", listOf(0.3f, 0.8f, 1.5f, 2.3f, 3.2f, 4.0f)),
+            StockItem("ONGC", "Oil & Natural Gas Corporation", "ENERGY", "₹178.90", 0.5f, 0.8f, 84, "89.2M", listOf(0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)),
+            StockItem("KOTAKBANK", "Kotak Mahindra Bank", "BANKING", "₹1,845.30", 1.1f, 1.6f, 90, "21.7M", listOf(0.7f, 0.9f, 1.1f, 1.3f, 1.5f, 1.6f)),
+            StockItem("LT", "Larsen & Toubro", "METALS", "₹3,456.70", 1.3f, 1.7f, 88, "14.9M", listOf(0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.7f))
         )
     }
 
-    val filteredStocks = remember(searchQuery, selectedSector, selectedSortOption, mockStocks) {
-        var filtered = mockStocks
-
-        // Apply search filter
+    // Simulate search delay
+    LaunchedEffect(searchQuery) {
         if (searchQuery.isNotEmpty()) {
-            filtered = filtered.filter {
-                it.symbol.contains(searchQuery, ignoreCase = true) ||
-                        it.name.contains(searchQuery, ignoreCase = true)
-            }
+            isSearching = true
+            kotlinx.coroutines.delay(300) // Simulate API delay
+            isSearching = false
+        } else {
+            isSearching = false
         }
+    }
 
-        // Apply sector filter
-        if (selectedSector != FilterSector.ALL) {
-            filtered = filtered.filter { it.sector == selectedSector.name }
-        }
+    val filteredStocks = remember(searchQuery, selectedSector, selectedSortOption, mockStocks, isSearching) {
+        if (isSearching) {
+            emptyList()
+        } else {
+            var filtered = mockStocks
 
-        // Apply sorting
-        when (selectedSortOption) {
-            SortOption.ALPHABETICAL -> filtered.sortedBy { it.symbol }
-            SortOption.PRICE_HIGH_TO_LOW -> filtered.sortedByDescending {
-                it.currentPrice.replace("₹", "").replace(",", "").toFloatOrNull() ?: 0f
+            // Apply search filter
+            if (searchQuery.isNotEmpty()) {
+                filtered = filtered.filter {
+                    it.symbol.contains(searchQuery, ignoreCase = true) ||
+                            it.name.contains(searchQuery, ignoreCase = true)
+                }
             }
-            SortOption.PRICE_LOW_TO_HIGH -> filtered.sortedBy {
-                it.currentPrice.replace("₹", "").replace(",", "").toFloatOrNull() ?: 0f
+
+            // Apply sector filter
+            if (selectedSector != FilterSector.ALL) {
+                filtered = filtered.filter { it.sector == selectedSector.name }
             }
-            SortOption.PREDICTED_CHANGE -> filtered.sortedByDescending { it.predictedChange }
-            SortOption.CONFIDENCE -> filtered.sortedByDescending { it.confidence }
+
+            // Apply sorting
+            when (selectedSortOption) {
+                SortOption.ALPHABETICAL -> filtered.sortedBy { it.symbol }
+                SortOption.PRICE_HIGH_TO_LOW -> filtered.sortedByDescending {
+                    it.currentPrice.replace("₹", "").replace(",", "").toFloatOrNull() ?: 0f
+                }
+                SortOption.PRICE_LOW_TO_HIGH -> filtered.sortedBy {
+                    it.currentPrice.replace("₹", "").replace(",", "").toFloatOrNull() ?: 0f
+                }
+                SortOption.PREDICTED_CHANGE -> filtered.sortedByDescending { it.predictedChange }
+                SortOption.CONFIDENCE -> filtered.sortedByDescending { it.confidence }
+            }
         }
     }
 
@@ -167,8 +191,8 @@ fun StockListScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
+                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding())
+                .fillMaxSize(),
             ) {
             // Active filters chip row
             ActiveFiltersRow(
@@ -190,11 +214,36 @@ fun StockListScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "${filteredStocks.size} Stocks",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    AnimatedContent(
+                        targetState = isSearching,
+                        transitionSpec = {
+                            fadeIn() togetherWith fadeOut()
+                        },
+                        label = "stock_count"
+                    ) { searching ->
+                        if (searching) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(20.dp),
+                                    strokeWidth = 2.dp
+                                )
+                                Text(
+                                    text = "Searching...",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        } else {
+                            Text(
+                                text = "${filteredStocks.size} Stocks",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -216,7 +265,26 @@ fun StockListScreen(
             }
 
             // Stock List
-            if (filteredStocks.isEmpty()) {
+            if (isSearching) {
+                // Show loading state
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(48.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Searching stocks...",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            } else if (filteredStocks.isEmpty()) {
                 EmptyState(searchQuery = searchQuery)
             } else {
                 LazyColumn(
@@ -642,7 +710,7 @@ fun StockListItem(
                     )
                 }
 
-                MiniSparklineee(
+                MiniSparklinee(
                     data = stock.sparklineData,
                     isPositive = isPredictionPositive,
                     modifier = Modifier.size(70.dp, 40.dp)
@@ -837,7 +905,7 @@ fun FilterOption(
 }
 
 @Composable
-fun MiniSparklineee(
+fun MiniSparklinee(
     data: List<Float>,
     isPositive: Boolean,
     modifier: Modifier,
