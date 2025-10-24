@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
 // Data Models
 data class StockItem(
@@ -63,7 +64,9 @@ enum class FilterSector {
 fun StockListScreen(
     onBackClick: () -> Unit = {},
     onStockClick: (StockItem) -> Unit = {},
-    onChatbotClick: () -> Unit = {}
+    onChatbotClick: () -> Unit = {},
+    padding: PaddingValues,
+    navController: NavHostController
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var isSearchActive by remember { mutableStateOf(false) }
@@ -161,12 +164,12 @@ fun StockListScreen(
                 }
             }
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
+            ) {
             // Active filters chip row
             ActiveFiltersRow(
                 selectedSector = selectedSector,

@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import androidx.navigation.NavHostController
+import com.rohnsha.stocksense.navigation.bottombar.bottomNavItems
 
 // Data Models
 data class MarketOverview(
@@ -70,7 +72,10 @@ data class TopMover(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StockSenseHomePage() {
+fun StockSenseHomePage(
+    padding: PaddingValues,
+    navController: NavHostController
+) {
     // Mock Data
     val marketOverview = MarketOverview(
         indexValue = "22,147.50",
@@ -103,16 +108,13 @@ fun StockSenseHomePage() {
             HomeTopBar()
         },
         floatingActionButton = {
-            ChatbotFAB()
-        },
-        bottomBar = {
-            BottomNavigationBar()
+            ChatbotFAB(padding = padding, navController= navController)
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             item {
@@ -151,7 +153,7 @@ fun StockSenseHomePage() {
             }
 
             items(featuredPredictions) { prediction ->
-                PredictionCard(prediction)
+                PredictionCard(prediction = prediction, navController = navController)
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
@@ -161,7 +163,7 @@ fun StockSenseHomePage() {
 
             // View All Button
             item {
-                ViewAllButton()
+                ViewAllButton(navController = navController)
             }
         }
     }
@@ -498,14 +500,14 @@ fun SectionHeader(title: String, subtitle: String, icon: ImageVector) {
 }
 
 @Composable
-fun PredictionCard(prediction: StockPrediction) {
+fun PredictionCard(prediction: StockPrediction, navController: NavHostController) {
     val isPositive = prediction.predictedChange > 0
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clickable { /* Navigate to detail */ },
+            .clickable { navController.navigate(bottomNavItems.Details.route) },
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -651,9 +653,9 @@ fun MiniSparkline(
 }
 
 @Composable
-fun ViewAllButton() {
+fun ViewAllButton(navController: NavHostController) {
     OutlinedButton(
-        onClick = { /* Navigate to stock list */ },
+        onClick = { navController.navigate(bottomNavItems.StockList.route) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
@@ -670,51 +672,16 @@ fun ViewAllButton() {
 }
 
 @Composable
-fun ChatbotFAB() {
+fun ChatbotFAB(padding: PaddingValues, navController: NavHostController) {
     FloatingActionButton(
-        onClick = { /* Open chatbot */ },
+        onClick = { navController.navigate(bottomNavItems.Chatbot.route) },
+        modifier = Modifier.padding(bottom = padding.calculateBottomPadding()),
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer
     ) {
         Icon(
             imageVector = Icons.Filled.ChatBubble,
             contentDescription = "AI Assistant"
-        )
-    }
-}
-
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar {
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-            label = { Text("Home") },
-            selected = true,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
-            label = { Text("Predictions") },
-            selected = false,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
-            label = { Text("Chatbot") },
-            selected = false,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
-            label = { Text("Portfolio") },
-            selected = false,
-            onClick = { }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Outlined.Person, contentDescription = null) },
-            label = { Text("Profile") },
-            selected = false,
-            onClick = { }
         )
     }
 }

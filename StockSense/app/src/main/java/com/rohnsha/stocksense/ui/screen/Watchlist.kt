@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
 // Data Models
 data class WatchlistStock(
@@ -54,7 +55,10 @@ data class PortfolioSummary(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PortfolioWatchlistScreen() {
+fun PortfolioWatchlistScreen(
+    padding: PaddingValues,
+    navController: NavHostController
+) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("Watchlist", "Portfolio")
 
@@ -108,12 +112,12 @@ fun PortfolioWatchlistScreen() {
         floatingActionButton = {
             AddStockFAB()
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
+            ) {
             // Tab Row
             TabRow(
                 selectedTabIndex = selectedTab,

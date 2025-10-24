@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -69,7 +70,10 @@ data class ModelAccuracy(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnalysisInsightsScreen() {
+fun AnalysisInsightsScreen(
+    padding: PaddingValues,
+    navController: NavHostController
+) {
     // Mock Data
     val marketSentiment = MarketSentiment(
         sentiment = "Bullish",
@@ -110,12 +114,12 @@ fun AnalysisInsightsScreen() {
         topBar = {
             InsightsTopBar()
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
+            ) {
             // Tab Row
             TabRow(
                 selectedTabIndex = selectedTab,
