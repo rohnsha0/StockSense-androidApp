@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.rohnsha.stocksense.ui.screen.StockSenseHomePage
 import com.rohnsha.stocksense.ui.theme.StockSenseTheme
 
 class MainActivity2 : ComponentActivity() {
@@ -19,12 +20,13 @@ class MainActivity2 : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StockSenseTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    Greeting(
+//                        name = "Android",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+//                }
+                StockSenseHomePage()
             }
         }
     }
