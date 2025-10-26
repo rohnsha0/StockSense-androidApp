@@ -1,72 +1,80 @@
 package com.rohnsha.stocksense.ui.screen
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.FiberManualRecord
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.outlined.Analytics
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Lightbulb
+import androidx.compose.material.icons.outlined.PieChart
+import androidx.compose.material.icons.outlined.School
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import kotlin.math.cos
-import kotlin.math.sin
-
-// Data Models
-data class MarketSentiment(
-    val sentiment: String,
-    val score: Float, // -1.0 to 1.0
-    val description: String,
-    val indicators: List<SentimentIndicator>
-)
-
-data class SentimentIndicator(
-    val name: String,
-    val value: Float,
-    val trend: String
-)
-
-data class SectorPerformance(
-    val sectorName: String,
-    val changePercent: Float,
-    val marketCap: String,
-    val topStocks: List<String>,
-    val volume: String
-)
-
-data class TopPerformer(
-    val symbol: String,
-    val name: String,
-    val predictedChange: Float,
-    val confidence: Int,
-    val timeframe: String
-)
-
-data class ModelAccuracy(
-    val period: String,
-    val accuracy: Float,
-    val totalPredictions: Int,
-    val correctPredictions: Int
-)
+import com.rohnsha.stocksense.utils.dataclass.MarketSentiment
+import com.rohnsha.stocksense.utils.dataclass.ModelAccuracy
+import com.rohnsha.stocksense.utils.dataclass.SectorPerformance
+import com.rohnsha.stocksense.utils.dataclass.SentimentIndicator
+import com.rohnsha.stocksense.utils.dataclass.TopPerformer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,11 +95,41 @@ fun AnalysisInsightsScreen(
     )
 
     val sectorPerformances = listOf(
-        SectorPerformance("Technology", 2.4f, "₹8.2L Cr", listOf("TCS", "INFY", "TECHM"), "₹12,450 Cr"),
-        SectorPerformance("Banking", 1.8f, "₹12.5L Cr", listOf("HDFCBANK", "ICICIBANK", "AXISBANK"), "₹18,230 Cr"),
-        SectorPerformance("Energy", -0.5f, "₹6.8L Cr", listOf("RELIANCE", "ONGC", "BPCL"), "₹9,870 Cr"),
-        SectorPerformance("Pharma", 1.2f, "₹4.3L Cr", listOf("SUNPHARMA", "DRREDDY", "CIPLA"), "₹5,120 Cr"),
-        SectorPerformance("Automotive", 3.1f, "₹5.6L Cr", listOf("TATAMOTORS", "M&M", "MARUTI"), "₹8,650 Cr")
+        SectorPerformance(
+            "Technology",
+            2.4f,
+            "₹8.2L Cr",
+            listOf("TCS", "INFY", "TECHM"),
+            "₹12,450 Cr"
+        ),
+        SectorPerformance(
+            "Banking",
+            1.8f,
+            "₹12.5L Cr",
+            listOf("HDFCBANK", "ICICIBANK", "AXISBANK"),
+            "₹18,230 Cr"
+        ),
+        SectorPerformance(
+            "Energy",
+            -0.5f,
+            "₹6.8L Cr",
+            listOf("RELIANCE", "ONGC", "BPCL"),
+            "₹9,870 Cr"
+        ),
+        SectorPerformance(
+            "Pharma",
+            1.2f,
+            "₹4.3L Cr",
+            listOf("SUNPHARMA", "DRREDDY", "CIPLA"),
+            "₹5,120 Cr"
+        ),
+        SectorPerformance(
+            "Automotive",
+            3.1f,
+            "₹5.6L Cr",
+            listOf("TATAMOTORS", "M&M", "MARUTI"),
+            "₹8,650 Cr"
+        )
     )
 
     val topPerformers = listOf(
@@ -118,7 +156,10 @@ fun AnalysisInsightsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding()
+                ),
             ) {
             // Tab Row
             TabRow(

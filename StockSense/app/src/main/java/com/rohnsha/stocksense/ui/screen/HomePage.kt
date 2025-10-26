@@ -76,34 +76,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavHostController
 import com.rohnsha.stocksense.navigation.bottombar.bottomNavItems
-
-// Data Models
-data class MarketOverview(
-    val id: String,
-    val name: String,  // e.g., "NIFTY 50", "SENSEX", "BANKNIFTY"
-    val indexValue: String,
-    val changePercent: Float,
-    val volume: String,
-    val timestamp: String
-)
-
-data class StockPrediction(
-    val symbol: String,
-    val name: String,
-    val currentPrice: String,
-    val predictedChange: Float,
-    val confidence: Int,
-    val trend: TrendDirection,
-    val sparklineData: List<Float>
-)
-
-enum class TrendDirection { UP, DOWN, NEUTRAL }
-
-data class TopMover(
-    val symbol: String,
-    val name: String,
-    val changePercent: Float
-)
+import com.rohnsha.stocksense.utils.dataclass.MarketOverview
+import com.rohnsha.stocksense.utils.dataclass.StockPrediction
+import com.rohnsha.stocksense.utils.dataclass.TopMover
+import com.rohnsha.stocksense.utils.enums.TrendDirection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,10 +113,42 @@ fun StockSenseHomePage(
 
 
     val featuredPredictions = listOf(
-        StockPrediction("RELIANCE", "Reliance Industries", "₹2,845.30", 2.3f, 92, TrendDirection.UP, listOf(1f, 1.2f, 0.9f, 1.5f, 1.8f, 2.1f)),
-        StockPrediction("TCS", "Tata Consultancy Services", "₹3,542.15", -0.8f, 87, TrendDirection.DOWN, listOf(2f, 1.8f, 1.9f, 1.5f, 1.3f, 1.0f)),
-        StockPrediction("HDFCBANK", "HDFC Bank", "₹1,645.80", 1.5f, 90, TrendDirection.UP, listOf(0.5f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f)),
-        StockPrediction("INFY", "Infosys", "₹1,489.25", 0.9f, 85, TrendDirection.UP, listOf(0.3f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f))
+        StockPrediction(
+            "RELIANCE",
+            "Reliance Industries",
+            "₹2,845.30",
+            2.3f,
+            92,
+            TrendDirection.UP,
+            listOf(1f, 1.2f, 0.9f, 1.5f, 1.8f, 2.1f)
+        ),
+        StockPrediction(
+            "TCS",
+            "Tata Consultancy Services",
+            "₹3,542.15",
+            -0.8f,
+            87,
+            TrendDirection.DOWN,
+            listOf(2f, 1.8f, 1.9f, 1.5f, 1.3f, 1.0f)
+        ),
+        StockPrediction(
+            "HDFCBANK",
+            "HDFC Bank",
+            "₹1,645.80",
+            1.5f,
+            90,
+            TrendDirection.UP,
+            listOf(0.5f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f)
+        ),
+        StockPrediction(
+            "INFY",
+            "Infosys",
+            "₹1,489.25",
+            0.9f,
+            85,
+            TrendDirection.UP,
+            listOf(0.3f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f)
+        )
     )
 
     val topGainers = listOf(

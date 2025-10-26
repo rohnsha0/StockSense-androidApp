@@ -65,40 +65,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rohnsha.stocksense.ui.StockShareImageGenerator
-
-// Data Models
-data class StockDetail(
-    val symbol: String,
-    val name: String,
-    val currentPrice: String,
-    val changePercent: Float,
-    val changeAmount: String,
-    val dayHigh: String,
-    val dayLow: String,
-    val open: String,
-    val previousClose: String,
-    val volume: String,
-    val marketCap: String,
-    val peRatio: String,
-    val week52High: String,
-    val week52Low: String
-)
-
-data class PredictionDetail(
-    val nextDayPrediction: String,
-    val predictedChange: Float,
-    val confidence: Int,
-    val targetPrice: String,
-    val predictionDate: String,
-    val modelAccuracy: Int
-)
-
-data class ChartTimeframe(
-    val label: String,
-    val isSelected: Boolean
-)
-
-enum class TabSection { OVERVIEW, PREDICTION, FUNDAMENTALS }
+import com.rohnsha.stocksense.utils.dataclass.PredictionDetail
+import com.rohnsha.stocksense.utils.dataclass.StockDetail
+import com.rohnsha.stocksense.utils.enums.TabSection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

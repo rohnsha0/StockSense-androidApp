@@ -1,10 +1,27 @@
 package com.rohnsha.stocksense.ui.screen
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,43 +38,41 @@ import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Sort
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-
-// Data Models
-data class StockItem(
-    val symbol: String,
-    val name: String,
-    val sector: String,
-    val currentPrice: String,
-    val priceChange: Float,
-    val predictedChange: Float,
-    val confidence: Int,
-    val volume: String,
-    val sparklineData: List<Float>,
-    val isInWatchlist: Boolean = false
-)
-
-enum class SortOption {
-    ALPHABETICAL, PRICE_HIGH_TO_LOW, PRICE_LOW_TO_HIGH,
-    PREDICTED_CHANGE, CONFIDENCE
-}
-
-enum class FilterSector {
-    ALL, IT, BANKING, ENERGY, PHARMA, AUTO, FMCG, METALS
-}
+import com.rohnsha.stocksense.utils.dataclass.StockItem
+import com.rohnsha.stocksense.utils.enums.FilterSector
+import com.rohnsha.stocksense.utils.enums.SortOption
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,26 +93,226 @@ fun StockListScreen(
 
     val mockStocks = remember {
         listOf(
-            StockItem("RELIANCE", "Reliance Industries", "ENERGY", "₹2,845.30", 1.2f, 2.3f, 92, "23.4M", listOf(1f, 1.2f, 0.9f, 1.5f, 1.8f, 2.1f)),
-            StockItem("TCS", "Tata Consultancy Services", "IT", "₹3,542.15", -0.5f, -0.8f, 87, "12.1M", listOf(2f, 1.8f, 1.9f, 1.5f, 1.3f, 1.0f)),
-            StockItem("HDFCBANK", "HDFC Bank", "BANKING", "₹1,645.80", 0.8f, 1.5f, 90, "45.2M", listOf(0.5f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f)),
-            StockItem("INFY", "Infosys", "IT", "₹1,489.25", 0.6f, 0.9f, 85, "18.7M", listOf(0.3f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f)),
-            StockItem("ICICIBANK", "ICICI Bank", "BANKING", "₹1,123.45", -0.3f, 0.5f, 88, "32.1M", listOf(1.5f, 1.3f, 1.4f, 1.2f, 1.3f, 1.4f)),
-            StockItem("HINDUNILVR", "Hindustan Unilever", "FMCG", "₹2,456.70", 1.5f, 1.8f, 91, "8.5M", listOf(0.8f, 1.0f, 1.1f, 1.3f, 1.5f, 1.7f)),
-            StockItem("ITC", "ITC Limited", "FMCG", "₹445.60", 0.9f, 1.2f, 89, "28.9M", listOf(0.6f, 0.8f, 0.9f, 1.0f, 1.1f, 1.2f)),
-            StockItem("SBIN", "State Bank of India", "BANKING", "₹623.40", -1.2f, -0.5f, 83, "56.3M", listOf(1.8f, 1.5f, 1.4f, 1.2f, 1.0f, 0.9f)),
-            StockItem("BHARTIARTL", "Bharti Airtel", "IT", "₹1,234.50", 2.1f, 2.5f, 93, "15.2M", listOf(0.4f, 0.7f, 1.0f, 1.4f, 1.8f, 2.2f)),
-            StockItem("SUNPHARMA", "Sun Pharmaceutical", "PHARMA", "₹1,567.80", 1.8f, 2.0f, 90, "9.8M", listOf(0.7f, 0.9f, 1.2f, 1.5f, 1.7f, 1.9f)),
-            StockItem("TATAMOTORS", "Tata Motors", "AUTO", "₹789.30", 3.2f, 3.5f, 86, "42.1M", listOf(0.5f, 1.0f, 1.5f, 2.0f, 2.8f, 3.3f)),
-            StockItem("TATASTEEL", "Tata Steel", "METALS", "₹145.60", -1.5f, -1.0f, 84, "67.4M", listOf(2.0f, 1.7f, 1.5f, 1.3f, 1.1f, 0.9f)),
-            StockItem("WIPRO", "Wipro Limited", "IT", "₹456.20", 0.7f, 1.1f, 86, "19.3M", listOf(0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 1.1f)),
-            StockItem("AXISBANK", "Axis Bank", "BANKING", "₹987.65", -0.9f, 0.3f, 85, "28.4M", listOf(1.2f, 1.0f, 0.9f, 0.8f, 0.9f, 1.0f)),
-            StockItem("MARUTI", "Maruti Suzuki", "AUTO", "₹9,876.50", 1.4f, 1.9f, 91, "5.2M", listOf(0.9f, 1.1f, 1.3f, 1.5f, 1.7f, 1.9f)),
-            StockItem("BAJFINANCE", "Bajaj Finance", "BANKING", "₹7,234.80", -2.1f, -1.5f, 87, "12.8M", listOf(2.5f, 2.2f, 2.0f, 1.7f, 1.5f, 1.3f)),
-            StockItem("ADANIENT", "Adani Enterprises", "ENERGY", "₹2,567.40", 4.2f, 3.8f, 89, "34.6M", listOf(0.3f, 0.8f, 1.5f, 2.3f, 3.2f, 4.0f)),
-            StockItem("ONGC", "Oil & Natural Gas Corporation", "ENERGY", "₹178.90", 0.5f, 0.8f, 84, "89.2M", listOf(0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)),
-            StockItem("KOTAKBANK", "Kotak Mahindra Bank", "BANKING", "₹1,845.30", 1.1f, 1.6f, 90, "21.7M", listOf(0.7f, 0.9f, 1.1f, 1.3f, 1.5f, 1.6f)),
-            StockItem("LT", "Larsen & Toubro", "METALS", "₹3,456.70", 1.3f, 1.7f, 88, "14.9M", listOf(0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.7f))
+            StockItem(
+                "RELIANCE",
+                "Reliance Industries",
+                "ENERGY",
+                "₹2,845.30",
+                1.2f,
+                2.3f,
+                92,
+                "23.4M",
+                listOf(1f, 1.2f, 0.9f, 1.5f, 1.8f, 2.1f)
+            ),
+            StockItem(
+                "TCS",
+                "Tata Consultancy Services",
+                "IT",
+                "₹3,542.15",
+                -0.5f,
+                -0.8f,
+                87,
+                "12.1M",
+                listOf(2f, 1.8f, 1.9f, 1.5f, 1.3f, 1.0f)
+            ),
+            StockItem(
+                "HDFCBANK",
+                "HDFC Bank",
+                "BANKING",
+                "₹1,645.80",
+                0.8f,
+                1.5f,
+                90,
+                "45.2M",
+                listOf(0.5f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f)
+            ),
+            StockItem(
+                "INFY",
+                "Infosys",
+                "IT",
+                "₹1,489.25",
+                0.6f,
+                0.9f,
+                85,
+                "18.7M",
+                listOf(0.3f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f)
+            ),
+            StockItem(
+                "ICICIBANK",
+                "ICICI Bank",
+                "BANKING",
+                "₹1,123.45",
+                -0.3f,
+                0.5f,
+                88,
+                "32.1M",
+                listOf(1.5f, 1.3f, 1.4f, 1.2f, 1.3f, 1.4f)
+            ),
+            StockItem(
+                "HINDUNILVR",
+                "Hindustan Unilever",
+                "FMCG",
+                "₹2,456.70",
+                1.5f,
+                1.8f,
+                91,
+                "8.5M",
+                listOf(0.8f, 1.0f, 1.1f, 1.3f, 1.5f, 1.7f)
+            ),
+            StockItem(
+                "ITC",
+                "ITC Limited",
+                "FMCG",
+                "₹445.60",
+                0.9f,
+                1.2f,
+                89,
+                "28.9M",
+                listOf(0.6f, 0.8f, 0.9f, 1.0f, 1.1f, 1.2f)
+            ),
+            StockItem(
+                "SBIN",
+                "State Bank of India",
+                "BANKING",
+                "₹623.40",
+                -1.2f,
+                -0.5f,
+                83,
+                "56.3M",
+                listOf(1.8f, 1.5f, 1.4f, 1.2f, 1.0f, 0.9f)
+            ),
+            StockItem(
+                "BHARTIARTL",
+                "Bharti Airtel",
+                "IT",
+                "₹1,234.50",
+                2.1f,
+                2.5f,
+                93,
+                "15.2M",
+                listOf(0.4f, 0.7f, 1.0f, 1.4f, 1.8f, 2.2f)
+            ),
+            StockItem(
+                "SUNPHARMA",
+                "Sun Pharmaceutical",
+                "PHARMA",
+                "₹1,567.80",
+                1.8f,
+                2.0f,
+                90,
+                "9.8M",
+                listOf(0.7f, 0.9f, 1.2f, 1.5f, 1.7f, 1.9f)
+            ),
+            StockItem(
+                "TATAMOTORS",
+                "Tata Motors",
+                "AUTO",
+                "₹789.30",
+                3.2f,
+                3.5f,
+                86,
+                "42.1M",
+                listOf(0.5f, 1.0f, 1.5f, 2.0f, 2.8f, 3.3f)
+            ),
+            StockItem(
+                "TATASTEEL",
+                "Tata Steel",
+                "METALS",
+                "₹145.60",
+                -1.5f,
+                -1.0f,
+                84,
+                "67.4M",
+                listOf(2.0f, 1.7f, 1.5f, 1.3f, 1.1f, 0.9f)
+            ),
+            StockItem(
+                "WIPRO",
+                "Wipro Limited",
+                "IT",
+                "₹456.20",
+                0.7f,
+                1.1f,
+                86,
+                "19.3M",
+                listOf(0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 1.1f)
+            ),
+            StockItem(
+                "AXISBANK",
+                "Axis Bank",
+                "BANKING",
+                "₹987.65",
+                -0.9f,
+                0.3f,
+                85,
+                "28.4M",
+                listOf(1.2f, 1.0f, 0.9f, 0.8f, 0.9f, 1.0f)
+            ),
+            StockItem(
+                "MARUTI",
+                "Maruti Suzuki",
+                "AUTO",
+                "₹9,876.50",
+                1.4f,
+                1.9f,
+                91,
+                "5.2M",
+                listOf(0.9f, 1.1f, 1.3f, 1.5f, 1.7f, 1.9f)
+            ),
+            StockItem(
+                "BAJFINANCE",
+                "Bajaj Finance",
+                "BANKING",
+                "₹7,234.80",
+                -2.1f,
+                -1.5f,
+                87,
+                "12.8M",
+                listOf(2.5f, 2.2f, 2.0f, 1.7f, 1.5f, 1.3f)
+            ),
+            StockItem(
+                "ADANIENT",
+                "Adani Enterprises",
+                "ENERGY",
+                "₹2,567.40",
+                4.2f,
+                3.8f,
+                89,
+                "34.6M",
+                listOf(0.3f, 0.8f, 1.5f, 2.3f, 3.2f, 4.0f)
+            ),
+            StockItem(
+                "ONGC",
+                "Oil & Natural Gas Corporation",
+                "ENERGY",
+                "₹178.90",
+                0.5f,
+                0.8f,
+                84,
+                "89.2M",
+                listOf(0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f)
+            ),
+            StockItem(
+                "KOTAKBANK",
+                "Kotak Mahindra Bank",
+                "BANKING",
+                "₹1,845.30",
+                1.1f,
+                1.6f,
+                90,
+                "21.7M",
+                listOf(0.7f, 0.9f, 1.1f, 1.3f, 1.5f, 1.6f)
+            ),
+            StockItem(
+                "LT",
+                "Larsen & Toubro",
+                "METALS",
+                "₹3,456.70",
+                1.3f,
+                1.7f,
+                88,
+                "14.9M",
+                listOf(0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.7f)
+            )
         )
     }
 
@@ -191,7 +406,10 @@ fun StockListScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding())
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding()
+                )
                 .fillMaxSize(),
             ) {
             // Active filters chip row

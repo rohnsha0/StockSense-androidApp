@@ -46,9 +46,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.rohnsha.stocksense.utils.dataclass.LoadingStep
 import kotlinx.coroutines.delay
 
 @Composable
@@ -311,7 +311,3 @@ private fun AnimatedProgressIndicator(progress: Float) {
     }
 }
 
-data class LoadingStep(
-    val title: String,
-    val icon: ImageVector
-)
