@@ -1,52 +1,87 @@
 package com.rohnsha.stocksense.ui.screen
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.ChatBubble
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ShowChart
 import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Badge
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavHostController
 import com.rohnsha.stocksense.navigation.bottombar.bottomNavItems
 
 // Data Models
 data class MarketOverview(
+    val id: String,
+    val name: String,  // e.g., "NIFTY 50", "SENSEX", "BANKNIFTY"
     val indexValue: String,
     val changePercent: Float,
     val volume: String,
@@ -78,12 +113,29 @@ fun StockSenseHomePage(
     navController: NavHostController
 ) {
     // Mock Data
-    val marketOverview = MarketOverview(
-        indexValue = "22,147.50",
-        changePercent = 1.24f,
-        volume = "₹45,231 Cr",
-        timestamp = "15:30 IST"
-    )
+    val availableIndices = remember {
+        listOf(
+            MarketOverview("nifty50", "NIFTY 50", "22,147.50", 1.24f, "₹45,231 Cr", "15:30 IST"),
+            MarketOverview("sensex", "SENSEX", "73,158.24", 0.87f, "₹52,145 Cr", "15:30 IST"),
+            MarketOverview(
+                "banknifty",
+                "BANKNIFTY",
+                "48,234.80",
+                -0.45f,
+                "₹28,456 Cr",
+                "15:30 IST"
+            ),
+            MarketOverview("niftyit", "NIFTY IT", "34,567.20", 2.15f, "₹15,234 Cr", "15:30 IST")
+        )
+    }
+
+    // This will be managed by the Manage button later
+    var selectedIndices by remember { mutableStateOf(availableIndices.take(2)) }
+
+    val pagerState = rememberPagerState(pageCount = { selectedIndices.size })
+
+    var showManageSheet by remember { mutableStateOf(false) }
+
 
     val featuredPredictions = listOf(
         StockPrediction("RELIANCE", "Reliance Industries", "₹2,845.30", 2.3f, 92, TrendDirection.UP, listOf(1f, 1.2f, 0.9f, 1.5f, 1.8f, 2.1f)),
@@ -115,16 +167,22 @@ fun StockSenseHomePage(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding(), bottom = padding.calculateBottomPadding()),
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding()
+                ),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             item {
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            // Market Overview Card
             item {
-                MarketOverviewCard(marketOverview)
+                MarketOverviewPagerSection(
+                    indices = selectedIndices,
+                    pagerState = pagerState,
+                    onManageClick = { showManageSheet = true }
+                )
             }
 
             item {
@@ -167,6 +225,17 @@ fun StockSenseHomePage(
                 ViewAllButton(navController = navController)
             }
         }
+
+        if (showManageSheet) {
+            ManageIndicesBottomSheet(
+                availableIndices = availableIndices,
+                selectedIndices = selectedIndices,
+                onIndicesSelected = { newSelection ->
+                    selectedIndices = newSelection
+                },
+                onDismiss = { showManageSheet = false }
+            )
+        }
     }
 }
 
@@ -182,7 +251,7 @@ fun HomeTopBar(navController: NavHostController) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "NIFTY50 Intelligence",
+                    text = "Stock Intelligence",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -271,7 +340,7 @@ fun MarketOverviewCard(overview: MarketOverview) {
                 ) {
                     Column {
                         Text(
-                            text = "NIFTY 50",
+                            text = overview.name,
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -684,5 +753,199 @@ fun ChatbotFAB(padding: PaddingValues, navController: NavHostController) {
             imageVector = Icons.Filled.ChatBubble,
             contentDescription = "AI Assistant"
         )
+    }
+}
+
+@Composable
+fun MarketOverviewPagerSection(
+    indices: List<MarketOverview>,
+    pagerState: PagerState,
+    onManageClick: () -> Unit
+) {
+    Column {
+        // Header with Manage button
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Market Indices",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            TextButton(onClick = onManageClick) {
+                Icon(
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text("Manage")
+            }
+        }
+
+        // Horizontal Pager
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxWidth()
+        ) { page ->
+            MarketOverviewCard(overview = indices[page])
+        }
+
+        // Page Indicator
+        if (indices.size > 1) {
+            Spacer(modifier = Modifier.height(12.dp))
+            // Page Indicator
+            if (indices.size > 1) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    repeat(indices.size) { index ->
+                        Box(
+                            modifier = Modifier
+                                .size(
+                                    width = if (pagerState.currentPage == index) 24.dp else 8.dp,
+                                    height = 8.dp
+                                )
+                                .clip(CircleShape)
+                                .background(
+                                    if (pagerState.currentPage == index)
+                                        MaterialTheme.colorScheme.primary
+                                    else
+                                        MaterialTheme.colorScheme.surfaceVariant
+                                )
+                                .animateContentSize()
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ManageIndicesBottomSheet(
+    availableIndices: List<MarketOverview>,
+    selectedIndices: List<MarketOverview>,
+    onIndicesSelected: (List<MarketOverview>) -> Unit,
+    onDismiss: () -> Unit
+) {
+    var tempSelection by remember { mutableStateOf(selectedIndices) }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+        ) {
+            Text(
+                text = "Manage Market Indices",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                text = "Select up to 4 indices to display",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            availableIndices.forEach { index ->
+                val isSelected = tempSelection.any { it.id == index.id }
+
+                IndexOption(
+                    index = index,
+                    isSelected = isSelected,
+                    onClick = {
+                        tempSelection = if (isSelected) {
+                            tempSelection.filter { it.id != index.id }
+                        } else {
+                            if (tempSelection.size < 4) {
+                                tempSelection + index
+                            } else {
+                                tempSelection
+                            }
+                        }
+                    }
+                )
+
+                if (index != availableIndices.last()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = {
+                    if (tempSelection.isNotEmpty()) {
+                        onIndicesSelected(tempSelection)
+                        onDismiss()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = tempSelection.isNotEmpty()
+            ) {
+                Text("Apply Selection")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+fun IndexOption(
+    index: MarketOverview,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        color = if (isSelected)
+            MaterialTheme.colorScheme.primaryContainer
+        else
+            MaterialTheme.colorScheme.surfaceVariant,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = index.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = index.indexValue,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            RadioButton(
+                selected = isSelected,
+                onClick = onClick
+            )
+        }
     }
 }
