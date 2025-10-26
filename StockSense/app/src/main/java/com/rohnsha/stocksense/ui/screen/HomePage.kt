@@ -9,6 +9,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,7 +40,6 @@ import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ShowChart
 import androidx.compose.material.icons.outlined.TrendingUp
 import androidx.compose.material3.Badge
@@ -57,7 +57,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -284,7 +283,11 @@ fun HomeTopBar(navController: NavHostController) {
 }
 
 @Composable
-fun MarketOverviewCard(overview: MarketOverview) {
+fun MarketOverviewCard(
+    overview: MarketOverview,
+    onLongPressed: () -> Unit,
+    onClick: () -> Unit
+) {
     val isPositive = overview.changePercent > 0
     val infiniteTransition = rememberInfiniteTransition(label = "shimmer")
     val shimmer by infiniteTransition.animateFloat(
@@ -300,7 +303,11 @@ fun MarketOverviewCard(overview: MarketOverview) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongPressed
+            ),
         colors = CardDefaults.cardColors(
             containerColor = if (isPositive)
                 MaterialTheme.colorScheme.primaryContainer
@@ -763,38 +770,16 @@ fun MarketOverviewPagerSection(
     onManageClick: () -> Unit
 ) {
     Column {
-        // Header with Manage button
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Market Indices",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            TextButton(onClick = onManageClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Settings,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text("Manage")
-            }
-        }
-
         // Horizontal Pager
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxWidth()
         ) { page ->
-            MarketOverviewCard(overview = indices[page])
+            MarketOverviewCard(
+                overview = indices[page],
+                onClick = {},
+                onLongPressed = onManageClick
+            )
         }
 
         // Page Indicator
